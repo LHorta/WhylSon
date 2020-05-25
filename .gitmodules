@@ -1,0 +1,6 @@
+[submodule "WhyML"]
+	path = WhyML
+	url = https://gitlab.com/releaselab/fresco/axiomatic-michelson.git
+[submodule "parser"]
+	path = parser
+	url = https://gitlab.com/releaselab/fresco/michelson.git

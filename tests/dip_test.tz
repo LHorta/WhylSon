@@ -1,0 +1,5 @@
+parameter nat;
+storage nat;
+code { UNPAIR; UNIT; 
+      DIP { ADD }; DROP;
+      NIL operation; PAIR }

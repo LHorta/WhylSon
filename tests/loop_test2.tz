@@ -1,0 +1,7 @@
+parameter bool;
+storage nat;
+code { CAR; DIP { PUSH nat 0 };
+       LOOP { PUSH nat 1; ADD; DUP;
+              PUSH nat 10; 
+              COMPARE; GT }; 
+       NIL operation; PAIR }

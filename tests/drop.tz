@@ -1,0 +1,3 @@
+parameter string;
+storage (map string int);
+code { DROP };
