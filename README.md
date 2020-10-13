@@ -12,12 +12,14 @@ Use the [opam](https://opam.ocaml.org/doc/Install.html) package manager to insta
 
 - [Why3](http://why3.lri.fr/) version 1.3.1
 
+- [GtkSourceView2](https://wiki.gnome.org/Projects/GtkSourceView) version >= 2.0
+
 ## Installation
 
 ```bash
 dune build @install 
 dune install
-why3 config --install-plugin ~/.opam/ocaml-base-compiler.4.10.0/lib/why3michelson/plugins/plugin_why3michelson.cmxs
+why3 config --install-plugin $OPAM_SWITCH_PREFIX/lib/why3michelson/plugins/plugin_why3michelson.cmxs
 ```
 For some reason if the `dune build @install` command fails, just run it again
 
