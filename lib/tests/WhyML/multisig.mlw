@@ -1,0 +1,550 @@
+module Multisig
+
+  use natural.Natural, util.Util
+  use dataTypes.DataTypes
+  use axiomatic.AxiomaticSem  
+  use int.Int, option.Option
+  use int.Abs, int.EuclideanDivision
+  use seq.Seq
+
+  lemma subseq_type:
+    forall s_1 s_2: stack_t, i: int.
+      0 < i < length s_1 ->
+        s_2 = s_1[1..] -> typ_infer s_1[i].d = typ_infer s_2[i-1].d
+
+  lemma cons_eq: forall d: well_formed_data, s: stack_t, i: int.
+      0 <= i < length s -> (d :: s)[i+1] = s[i]
+
+  lemma cons_type: forall d: well_formed_data, s: stack_t, i: int.
+      0 <= i < length s -> typ_infer (d :: s)[i+1].d = typ_infer s[i].d
+
+  lemma cons_length: forall d: well_formed_data, s: stack_t.
+      length s + 1 = length (d :: s)
+
+  lemma subseq_length: forall s: stack_t, i: int.
+      0 <= i < length s -> length s[i..] = length s - i
+
+  lemma type_eq:
+      forall d_1 d_2: data. d_1 = d_2 -> typ_infer d_1 = typ_infer d_2
+
+  let iter_body (s: stack_t) (fuel: int) : stack_t
+      raises   { Failing }
+      requires { length s = 6 }
+      requires { fuel > 0 }
+      requires { typ_infer s[0].d = Key_t }
+      requires { typ_infer s[1].d = Comparable_t Nat_t }
+      requires { typ_infer s[2].d = List_t (Option_t Signature_t) }
+      requires { typ_infer s[3].d = Comparable_t Bytes_t }      
+      requires { typ_infer s[4].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) }
+      requires { typ_infer s[5].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t)) }
+      ensures  { typ_infer result[0].d = Comparable_t Nat_t }
+      ensures  { typ_infer result[1].d = List_t (Option_t Signature_t) }
+      ensures  { typ_infer result[2].d = Comparable_t Bytes_t }
+      ensures  { typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) }
+      ensures  { typ_infer result[4].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t)) }      
+      ensures  { length result = 5 }
+    =
+      let s =
+        let top = peek s in
+        let s = drop s fuel in
+        let s = swap s fuel in
+        push s fuel top in      
+      let s = swap s fuel 
+        ensures { 
+            typ_infer result[0].d = List_t (Option_t Signature_t) /\
+            typ_infer result[1].d = Key_t /\
+            typ_infer result[2].d = Comparable_t Nat_t /\ (* @valid *)
+            typ_infer result[3].d = Comparable_t Bytes_t /\
+            typ_infer result[4].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[5].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t)) 
+        } in
+      let s = match s[0].d with
+      | List Nil _ -> raise Failing
+      | List (Cons hd' tl') t ->
+        let s = drop s fuel
+          ensures {             
+            typ_infer result[0].d = Key_t /\
+            typ_infer result[1].d = Comparable_t Nat_t /\ (* @valid *)
+            typ_infer result[2].d = Comparable_t Bytes_t /\
+            typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[4].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+          } in        
+        let hd = mk_wf_data hd' in       
+        let tl = mk_wf_data (List tl' t) in
+        let s = push (push s fuel tl) fuel hd 
+          ensures {
+            typ_infer result[0].d = Option_t Signature_t /\
+            typ_infer result[1].d = List_t (Option_t Signature_t) /\
+            typ_infer result[2].d = Key_t /\
+            typ_infer result[3].d = Comparable_t Nat_t /\ (* @valid *)
+            typ_infer result[4].d = Comparable_t Bytes_t /\
+            typ_infer result[5].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[6].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+          } in
+        match s[0].d with 
+        | None_data _ ->
+              let s = drop s fuel in
+              let s = swap s fuel in
+              let s = drop s fuel in              
+              s
+        | Some_data a ->
+            let s = drop s fuel in
+            let s = push s fuel (mk_wf_data a) in (* *)
+            let s = swap s fuel 
+              ensures {                               
+                  typ_infer result[0].d = List_t (Option_t Signature_t) /\
+                  typ_infer result[1].d = Signature_t /\ 
+                  typ_infer result[2].d = Key_t /\
+                  typ_infer result[3].d = Comparable_t Nat_t /\ (* @valid *)
+                  typ_infer result[4].d = Comparable_t Bytes_t /\
+                  typ_infer result[5].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                  typ_infer result[6].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))                  
+              } in  
+            let s =
+              let top = peek s in
+              let s = drop s fuel in
+              let s = swap s fuel 
+                ensures {                                                 
+                  typ_infer result[0].d = Key_t /\
+                  typ_infer result[1].d = Signature_t /\ 
+                  typ_infer result[2].d = Comparable_t Nat_t /\ (* @valid *)
+                  typ_infer result[3].d = Comparable_t Bytes_t /\
+                  typ_infer result[4].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                  typ_infer result[5].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+                } in
+              let s = (* DIIP *)
+                let top = s[0..2] 
+                  ensures {                                                 
+                    typ_infer result[0].d = Key_t /\
+                    typ_infer result[1].d = Signature_t
+                  } in
+                let s = s[2..]
+                  ensures {
+                    typ_infer result[0].d = Comparable_t Nat_t /\ (* @valid *)
+                    typ_infer result[1].d = Comparable_t Bytes_t /\
+                    typ_infer result[2].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                    typ_infer result[3].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+                  } in
+                let s = (* DIP {DUP} *)
+                  let top = peek s in
+                  let s = drop s fuel in
+                  let s = dup s fuel 
+                    ensures {                                                 
+                      typ_infer result[0].d = Comparable_t Bytes_t /\
+                      typ_infer result[1].d = Comparable_t Bytes_t /\                      
+                      typ_infer result[2].d =Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                      typ_infer result[3].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+                    } in
+                  push s fuel top in
+                let s = swap s fuel in
+                top ++ s 
+                  ensures {                                                 
+                    typ_infer result[0].d = Key_t /\
+                    typ_infer result[1].d = Signature_t /\ 
+                    typ_infer result[2].d = Comparable_t Bytes_t /\
+                    typ_infer result[3].d = Comparable_t Nat_t /\ (* @valid *)
+                    typ_infer result[4].d = Comparable_t Bytes_t /\
+                    typ_infer result[5].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                    typ_infer result[6].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+                  } in
+              let s = s[3..]  
+                ensures {                                                                     
+                    typ_infer result[0].d = Comparable_t Nat_t /\ (* @valid *)
+                    typ_infer result[1].d = Comparable_t Bytes_t /\
+                    typ_infer result[2].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                    typ_infer result[3].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+                } in               
+              let v = mk_wf_data (Comparable(Bool(any_bool))) in (* check signature *)
+              let s = push s fuel v in              
+              let s = assert_op s fuel 
+                ensures {                               
+                  typ_infer result[0].d = Comparable_t Nat_t /\ (* @valid *)
+                  typ_infer result[1].d = Comparable_t Bytes_t /\
+                  typ_infer result[2].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                  typ_infer result[3].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+                } in 
+              let s = push s fuel (mk_wf_data (Comparable(Nat(to_nat 1)))) 
+                ensures {                               
+                  typ_infer result[0].d = Comparable_t Nat_t /\ 
+                  typ_infer result[1].d = Comparable_t Nat_t /\ (* @valid *)
+                  typ_infer result[2].d = Comparable_t Bytes_t /\
+                  typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                  typ_infer result[4].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+                } in
+              let s = add s fuel 
+                ensures {                               
+                  typ_infer result[0].d = Comparable_t Nat_t /\ (* @valid *)
+                  typ_infer result[1].d = Comparable_t Bytes_t /\
+                  typ_infer result[2].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                  typ_infer result[3].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  
+                } in
+              push s fuel top in            
+            s
+        | _ -> absurd
+        end
+      | _ -> absurd
+      end in
+      swap s fuel
+
+
+  (* l --> list of keys *)
+  let iter_multisig (s: stack_t) (fuel: int) : stack_t 
+    raises   { Failing }
+    requires { length s = 6 }
+    requires { fuel > 0 }    
+    requires { typ_infer s[0].d = List_t Key_t }
+    requires { typ_infer s[1].d = Comparable_t Nat_t }
+    requires { typ_infer s[2].d = List_t (Option_t Signature_t) }
+    requires { typ_infer s[3].d = Comparable_t Bytes_t }
+    requires { typ_infer s[4].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) }    
+    requires { typ_infer s[5].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  } 
+    ensures  { typ_infer result[0].d = Comparable_t Nat_t }
+    ensures  { typ_infer result[1].d = List_t (Option_t Signature_t) }
+    ensures  { typ_infer result[2].d = Comparable_t Bytes_t }
+    ensures  { typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) }
+    ensures  { typ_infer result[4].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  }   
+    ensures  { length result = 5 }    
+  =     
+    let rec iter_aux (l: list data) (s: stack_t) (fuel: int) : stack_t
+      raises   { Failing }
+      requires { length s = 5 }
+      requires { well_formed_data_list l Key_t }
+      requires { fuel > 0 }      
+      requires { typ_infer s[0].d = Comparable_t Nat_t }
+      requires { typ_infer s[1].d = List_t (Option_t Signature_t) }
+      requires { typ_infer s[2].d = Comparable_t Bytes_t }
+      requires { typ_infer s[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) }    
+      requires { typ_infer s[4].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  }      
+      ensures  { typ_infer result[0].d = Comparable_t Nat_t }
+      ensures  { typ_infer result[1].d = List_t (Option_t Signature_t) }
+      ensures  { typ_infer result[2].d = Comparable_t Bytes_t }
+      ensures  { typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) }
+      ensures  { typ_infer result[4].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  }      
+      ensures  { length result = 5 }
+      variant  { length l }
+    =
+    match l with 
+    | Nil -> s
+    | Cons hd tl ->
+        let s = push s fuel (mk_wf_data hd) in
+        let s = iter_body s fuel in
+        iter_aux tl s fuel
+      | _ -> absurd
+      end in
+  match s[0].d with
+    | List l _ ->
+      let s = drop s fuel in
+      iter_aux l s fuel
+    | _ -> absurd
+  end
+
+  let inner_if_left (in_stack: stack_t) (fuel: int) : stack_t
+    requires { fuel > 0 }
+    requires { length in_stack = 3 }
+    requires { typ_infer in_stack[0].d = Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t)) }    
+    requires { typ_infer in_stack[1].d = List_t Operation_t }
+    requires { typ_infer in_stack[2].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  }
+    ensures  { length result = 2 }
+    ensures  { typ_infer result[0].d = List_t Operation_t }
+    ensures  { typ_infer result[1].d = Pair_t (Comparable_t Nat_t)  (Pair_t  (Comparable_t Nat_t) (List_t Key_t)) }
+    =
+    match in_stack[0].d with
+      | Left _ _-> (* we discard the top *)
+        let s = drop in_stack fuel in
+        let d = mk_wf_data ((Set_Delegate_OP)) in
+        let s = push s fuel d in
+        cons_op s fuel
+      | Right dt _ ->
+        let s = drop in_stack fuel in
+        let s = push s fuel (mk_wf_data dt) in (* putting the "data" on top of the stack *)
+        let s =
+          let top = peek s in
+          let s = drop s fuel in
+          let s = swap s fuel in
+          let s = car s fuel in
+          push s fuel top in
+        let s = swap s fuel in
+        let s = pair s fuel in
+        swap s fuel
+      | _ -> absurd 
+    end
+
+let outer_if_left (in_stack: stack_t) (fuel: int) : stack_t
+    requires { fuel > 0 }
+    requires { typ_infer in_stack[0].d = 
+      Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) 
+            (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) }
+    requires { typ_infer in_stack[1].d = List_t Operation_t }
+    requires { typ_infer in_stack[2].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))  }
+    requires { length in_stack = 3 }
+    ensures  { length result = 2 }
+    ensures  { typ_infer result[0].d = List_t Operation_t }
+    ensures  { typ_infer result[1].d = Pair_t (Comparable_t Nat_t)  (Pair_t  (Comparable_t Nat_t) (List_t Key_t)) }
+    =
+    match in_stack[0].d with
+      | Left dt _  -> 
+            let s = push in_stack[1..] fuel (mk_wf_data dt)  in (* putting the "data" on top of the stack *)
+            let s = unpair s fuel in
+            let s = unit_op s fuel in
+            let s = push s[3..] fuel (mk_wf_data (((Transfer_Tokens_OP))))  in
+            let s = cons_op s fuel in
+            s
+      | Right dt _ ->
+        let s =  push in_stack[1..] fuel (mk_wf_data dt)  in
+        inner_if_left s fuel
+      | _ -> absurd
+  end
+
+  (* Pair (parameter, storage) *)
+  (* storage = (stored_counter, threshold, list keys) *)
+
+  let constant parameter =
+    Pair_t 
+      (Pair_t 
+          (Comparable_t Nat_t)
+          (Or_t 
+              (Pair_t 
+                  (Comparable_t Mutez_t)
+                  (Contract_t Unit_t))
+              (Or_t 
+                  (Option_t (Comparable_t Key_hash_t))
+                  (Pair_t 
+                      (Comparable_t Nat_t)
+                      (List_t Key_t)))))      
+      (List_t (Option_t Signature_t))
+  
+
+  let constant storage =
+    Pair_t
+      (Comparable_t Nat_t)
+      (Pair_t 
+          (Comparable_t Nat_t)
+          (List_t Key_t))
+  
+
+  let multisig_contract (in_stack: stack_t) (fuel: int) : stack_t  
+    requires { fuel > 0 }
+    requires { length in_stack = 1 }
+    requires { typ_infer in_stack[0].d = Pair_t parameter storage }    
+    ensures  { length result = 1 }
+    ensures  { typ_infer result[0].d = Pair_t (List_t Operation_t) storage }
+    raises { Failing }
+  =    
+    let s = unpair in_stack fuel in    
+    let s = swap s fuel in    
+    let s = dup s fuel in
+    let s = (* DIP *)
+      let top = peek s in
+      let s = drop s fuel in
+      let s = swap s fuel in
+      push s fuel top in    
+    let s = (* DIP *)
+      let top = peek s in
+      let s = drop s fuel in          
+      let s = unpair s fuel
+        ensures { 
+            typ_infer result[0].d = Pair_t (Comparable_t Nat_t) (Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t)))) /\
+            typ_infer result[0].d = Pair_t (Comparable_t Nat_t) (Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t)))) /\
+            typ_infer result[1].d = List_t (Option_t Signature_t) /\
+            typ_infer result[2].d = storage 
+            } in
+      let s = dup s fuel in         
+      let s = push s fuel (mk_wf_data ((Contract_Const Unit_t))) in
+      let s = drop s fuel in 
+      let s = push s fuel (mk_wf_data ((Address_Const))) in
+      let s = push s fuel (mk_wf_data ((Chain_ID_Const)))
+        ensures {
+            typ_infer result[0].d = Chain_id_t /\
+            typ_infer result[1].d = Comparable_t Address_t /\
+            typ_infer result[2].d = Pair_t (Comparable_t Nat_t) (Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t)))) /\
+            typ_infer result[3].d = Pair_t (Comparable_t Nat_t) (Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t)))) /\
+            typ_infer result[4].d = List_t (Option_t Signature_t) /\
+            typ_infer result[5].d = storage 
+        } in
+      let s = pair s fuel in      
+      let s = pair s fuel in
+      let s = drop s fuel in      
+      let s = push s fuel (mk_wf_data PACK_Const) 
+        ensures { 
+            typ_infer result[0].d = Comparable_t Bytes_t /\
+            typ_infer result[1].d = Pair_t (Comparable_t Nat_t) (Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t)))) /\
+            typ_infer result[2].d = List_t (Option_t Signature_t) /\            
+            typ_infer result[3].d = storage 
+        } in     
+      let s =
+        let top = peek s in
+        let s = drop s fuel in
+        let s = unpair s fuel 
+            ensures { 
+                typ_infer result[0].d = Comparable_t Nat_t /\ (* @counter *)
+                typ_infer result[1].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                typ_infer result[2].d = List_t (Option_t Signature_t) /\            
+                typ_infer result[3].d = storage 
+            }  in (* COUNTER *)        
+        let s =
+          let top = peek s in
+          let s = drop s fuel in
+          let s = swap s fuel in          
+          push s fuel top in
+        push s fuel top
+            ensures { 
+                typ_infer result[0].d = Comparable_t Bytes_t /\
+                typ_infer result[1].d = Comparable_t Nat_t /\ (* @counter *) 
+                typ_infer result[2].d = List_t (Option_t Signature_t) /\            
+                typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+                typ_infer result[4].d = storage 
+            } in 
+      let s = swap s fuel in
+      push s fuel top in
+      (* check that counters match *)
+    let s = unpair s fuel 
+        ensures { 
+            typ_infer result[0].d = Comparable_t Nat_t /\ (* @stored_counter *)
+            typ_infer result[1].d = Pair_t (Comparable_t Nat_t) (List_t Key_t) /\
+            typ_infer result[2].d = Comparable_t Nat_t /\ (* @counter *)
+            typ_infer result[3].d = Comparable_t Bytes_t /\
+            typ_infer result[4].d = List_t (Option_t Signature_t) /\
+            typ_infer result[5].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[6].d = storage 
+        } in (* stored_counter *)    
+    let s =
+      let top = peek s in
+      let s = drop s fuel in
+      let s = swap s fuel in
+      push s fuel top 
+        ensures { 
+            typ_infer result[0].d = Comparable_t Nat_t /\ (* @stored_counter *)
+            typ_infer result[1].d = Comparable_t Nat_t /\ (* @counter *)
+            typ_infer result[2].d = Pair_t (Comparable_t Nat_t) (List_t Key_t) /\
+            typ_infer result[3].d = Comparable_t Bytes_t /\
+            typ_infer result[4].d = List_t (Option_t Signature_t) /\            
+            typ_infer result[5].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[6].d = storage 
+        } in    
+    let s = compare_op s fuel in
+    let s = eq s fuel in
+    let s = assert_op s fuel 
+        ensures { 
+            typ_infer result[0].d = Pair_t (Comparable_t Nat_t) (List_t Key_t) /\
+            typ_infer result[1].d = Comparable_t Bytes_t /\
+            typ_infer result[2].d = List_t (Option_t Signature_t) /\            
+            typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[4].d = storage 
+        } in 
+    let s =
+      let top = peek s in
+      let s = drop s fuel in
+      let s = swap s fuel in
+      push s fuel top
+        ensures { 
+            typ_infer result[0].d = Pair_t (Comparable_t Nat_t) (List_t Key_t) /\
+            typ_infer result[1].d = List_t (Option_t Signature_t) /\            
+            typ_infer result[2].d = Comparable_t Bytes_t /\
+            typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[4].d = storage 
+        } in      
+    let s = unpair s fuel
+        ensures { 
+            typ_infer result[0].d = Comparable_t Nat_t /\ (* @threshold *)
+            typ_infer result[1].d = List_t Key_t /\
+            typ_infer result[2].d = List_t (Option_t Signature_t) /\
+            typ_infer result[3].d = Comparable_t Bytes_t /\
+            typ_infer result[4].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\            
+            typ_infer result[5].d = storage 
+        } in
+    let s =
+      let top = peek s in
+      let s = drop s fuel in
+      let s = push s fuel (mk_wf_data (Comparable (Nat (to_nat 0))))
+        ensures { 
+            typ_infer result[0].d = Comparable_t Nat_t /\ (* @valid *)
+            typ_infer result[1].d = List_t Key_t /\
+            typ_infer result[2].d = List_t (Option_t Signature_t) /\
+            typ_infer result[3].d = Comparable_t Bytes_t /\
+            typ_infer result[4].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[5].d = storage 
+        } in      
+      let s = swap s fuel 
+       ensures { 
+            typ_infer result[0].d = List_t Key_t /\
+            typ_infer result[1].d = Comparable_t Nat_t /\ (* @valid *)
+            typ_infer result[2].d = List_t (Option_t Signature_t) /\
+            typ_infer result[3].d = Comparable_t Bytes_t /\
+            typ_infer result[4].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[5].d = storage 
+        } in
+      (* compute the number of valid signatures *)    
+      let s = iter_multisig s fuel 
+        ensures {             
+            typ_infer result[0].d = Comparable_t Nat_t /\ (* @ valid *)
+            typ_infer result[1].d = List_t (Option_t Signature_t) /\
+            typ_infer result[2].d = Comparable_t Bytes_t /\
+            typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[4].d = storage 
+        } in
+      (*  Assert that the threshold is less than or equal to the
+          number of valid signatures *)
+      push s fuel top
+        ensures { 
+            typ_infer result[0].d = Comparable_t Nat_t /\ (* @threshold *)
+            typ_infer result[1].d = Comparable_t Nat_t /\ (* @valid *)
+            typ_infer result[2].d = List_t (Option_t Signature_t) /\
+            typ_infer result[3].d = Comparable_t Bytes_t /\
+            typ_infer result[4].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[5].d = storage 
+        } in
+    let s = compare_op s fuel 
+      ensures { 
+            typ_infer result[0].d = Comparable_t Int_t /\ (* @threshold *)            
+            typ_infer result[1].d = List_t (Option_t Signature_t) /\
+            typ_infer result[2].d = Comparable_t Bytes_t /\
+            typ_infer result[3].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[4].d = storage 
+        } in
+    let s = le s fuel in
+    let s = assert_op s fuel 
+      ensures {             
+            typ_infer result[0].d = List_t (Option_t Signature_t) /\
+            typ_infer result[1].d = Comparable_t Bytes_t /\
+            typ_infer result[2].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[3].d = storage 
+        } in  
+    let s = drop s fuel in
+    let s = drop s fuel 
+      ensures {                         
+            typ_infer result[0].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[1].d = storage 
+        } in
+    (* Increment counter and place in storage *)
+    let s = 
+      let top = peek s in
+      let s = drop s fuel in 
+      let s = unpair s fuel
+        ensures { 
+            typ_infer result[0].d = Comparable_t Nat_t /\
+            typ_infer result[1].d = Pair_t (Comparable_t Nat_t) (List_t Key_t) 
+        } in
+      let s = push s fuel (mk_wf_data (Comparable(Nat (to_nat 1)))) 
+        ensures { 
+            typ_infer result[0].d = Comparable_t Nat_t /\
+            typ_infer result[1].d = Comparable_t Nat_t /\
+            typ_infer result[2].d = Pair_t (Comparable_t Nat_t) (List_t Key_t) 
+        } in
+      let s = add s fuel in (* new counter *)
+      let s = pair s fuel in
+      push s fuel top
+        ensures { 
+            typ_infer result[0].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\            
+            typ_infer result[1].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))            
+        } in
+    let s = push s fuel (mk_wf_data (List Nil Operation_t)) in (* Empty List of Operations *)
+    let s = swap s fuel 
+      ensures { 
+            typ_infer result[0].d = Or_t (Pair_t (Comparable_t Mutez_t) (Contract_t Unit_t)) (Or_t (Option_t (Comparable_t Key_hash_t)) (Pair_t (Comparable_t Nat_t) (List_t Key_t))) /\
+            typ_infer result[1].d = List_t Operation_t /\
+            typ_infer result[2].d = Pair_t (Comparable_t Nat_t) (Pair_t (Comparable_t Nat_t) (List_t Key_t))
+        } in    
+    let s = outer_if_left s fuel in
+    pair s fuel
+
+end

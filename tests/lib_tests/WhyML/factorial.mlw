@@ -1,0 +1,314 @@
+module FactorialTest
+
+use natural.Natural, util.Util
+use dataTypes.DataTypes
+use axiomatic.AxiomaticSem
+use int.Int, option.Option
+use int.Abs, int.EuclideanDivision
+use seq.Seq
+use int.Fact
+
+predicate stack_i_eq_n (s:stack_t) (i:int) (n:int) =
+  match s[i].d with
+    | Comparable(Nat x) -> (eval_nat x) = n
+    | _ -> false 
+  end
+
+predicate stack_i_eq_nat (s:stack_t) (i:int) (n:well_formed_data) =
+  match s[i].d, n.d with
+    | Comparable(Nat x), Comparable(Nat y) -> x.value = y.value
+    | _ -> false 
+  end
+
+lemma succ_fact:
+  forall n:int. n >= 0 -> fact (n + 1) = (n + 1) * (fact n)
+
+lemma pred_fact:
+  forall n:int. n > 0 -> fact n = n * fact (n-1)
+
+let loop_body (s: stack_t) (fuel: int) : stack_t
+  requires { fuel > 0 }
+  requires { length s = 3 }
+  requires { typ_infer s[0].d = Comparable_t Nat_t }
+  requires { typ_infer s[1].d = Comparable_t Nat_t }
+  requires { typ_infer s[2].d = Comparable_t Nat_t }
+  requires { match s[1].d with
+              | Comparable(Nat x) -> x.value > 0
+              | _ -> false end }
+  requires { match s[0].d,s[1].d with
+            | Comparable(Nat res),Comparable(Nat n) -> fact (n.value - 1) = res.value
+            | _ -> false end }  
+  ensures  { typ_infer result[0].d = Comparable_t Bool_t }
+  ensures  { typ_infer result[1].d = Comparable_t Nat_t }
+  ensures  { typ_infer result[2].d = Comparable_t Nat_t }
+  ensures  { match s[1].d, result[2].d with
+              | Comparable (Nat n), Comparable (Nat n_plus_one) -> n_plus_one.value = n.value + 1
+              | _ -> false
+             end } 
+  ensures  { match s[0].d,s[1].d with
+              | Comparable (Nat res_old), Comparable (Nat n_old)-> fact n_old.value = n_old.value  * res_old.value
+              | _ -> false
+             end }  
+  ensures  { match s[1].d, result[1].d with
+              | Comparable (Nat n_old), Comparable (Nat res) ->  fact n_old.value =  res.value
+              | _ -> false
+             end }   
+  ensures  { typ_infer result[3].d = Comparable_t Nat_t }
+  ensures  { match s[2].d, result[3].d with (* param stays the same *)
+              | Comparable (Nat a), Comparable (Nat b) -> a.value = b.value
+              | _ -> false
+             end } 
+  ensures  { match result[0].d, result[2].d, result[3].d with
+              | Comparable(Bool b), Comparable (Nat i), Comparable (Nat par) -> b <-> i.value <= par.value
+              | _ -> false
+             end }             
+  ensures  { length result = 4 }
+=  
+  let s =
+    let top = peek s in (* DIP *)
+    let s = drop s fuel in (* DIP *)
+    let s = dup s fuel in    
+    let s = 
+      let top = peek s in
+      let s = drop s fuel in
+      let s = push s fuel (mk_wf_data (Comparable (Nat (to_nat 1)))) in      
+      let s = add s fuel 
+        (* ensures { 
+          match s[0].d, s[1].d with
+          | Comparable (Nat x), Comparable (Nat y) -> let res = x.value + y.value in
+          stack_i_eq_n result 0 res 
+          | _ -> false end }       *)
+      in
+    push s fuel top
+      ensures {
+      (*  match (s at L)[0].d, (s at L)[1].d with
+          | Comparable (Nat x), Comparable (Nat y) -> let res = x.value + y.value in
+          stack_i_eq_n result 1 res 
+          | _ -> false end /\ *)
+        typ_infer result[0].d = Comparable_t Nat_t /\
+        typ_infer result[1].d = Comparable_t Nat_t /\
+        typ_infer result[2].d = Comparable_t Nat_t /\ (* @parameter *)
+        length result = 3
+      } in 
+  push s fuel top
+    ensures {
+      (* match (s at L)[0].d, (s at L)[1].d with
+          | Comparable (Nat x), Comparable (Nat y) -> let res = x.value + y.value in
+          stack_i_eq_n result 2 res 
+          | _ -> false end /\ *)
+      typ_infer result[0].d = Comparable_t Nat_t /\
+      typ_infer result[1].d = Comparable_t Nat_t /\
+      typ_infer result[2].d = Comparable_t Nat_t /\
+      typ_infer result[3].d = Comparable_t Nat_t /\ (* @parameter *)
+      length result = 4
+    } in  
+  let s = mul s fuel
+    ensures {
+      typ_infer result[0].d = Comparable_t Nat_t /\
+      typ_infer result[1].d = Comparable_t Nat_t /\
+      typ_infer result[2].d = Comparable_t Nat_t /\ (* @parameter *)
+      length result = 3
+    } in
+  let s =
+    let top = peek s in
+    let s = drop s fuel
+      ensures {
+        typ_infer result[0].d = Comparable_t Nat_t /\
+        typ_infer result[1].d = Comparable_t Nat_t /\ (* @parameter *)
+        length result = 2
+      } in
+    let s =
+      let top = peek s in
+      let s = drop s fuel
+        ensures {
+          typ_infer result[0].d = Comparable_t Nat_t /\ (* @parameter *)
+          length result = 1
+        } in
+      let s = dup s fuel
+        ensures {
+          typ_infer result[0].d = Comparable_t Nat_t /\ (* @parameter *)
+          typ_infer result[1].d = Comparable_t Nat_t /\ (* @parameter *)
+          length result = 2
+        } in
+    push s fuel top
+      ensures {
+        typ_infer result[0].d = Comparable_t Nat_t /\
+        typ_infer result[1].d = Comparable_t Nat_t /\ (* @parameter *)
+        typ_infer result[2].d = Comparable_t Nat_t /\ (* @parameter *)
+        length result = 3
+      } in
+    let s = dup s fuel
+       ensures {
+        typ_infer result[0].d = Comparable_t Nat_t /\
+        typ_infer result[1].d = Comparable_t Nat_t /\
+        typ_infer result[2].d = Comparable_t Nat_t /\ (* @parameter *)
+        typ_infer result[3].d = Comparable_t Nat_t /\ (* @parameter *)
+        length result = 4
+      } in
+    let s =
+      let top = peek s in
+      let s = drop s fuel
+        ensures {
+          typ_infer result[0].d = Comparable_t Nat_t /\
+          typ_infer result[1].d = Comparable_t Nat_t /\ (* @parameter *)
+          typ_infer result[2].d = Comparable_t Nat_t /\ (* @parameter *)
+          length result = 3
+        } in
+      let s = swap s fuel
+        ensures {
+          typ_infer result[0].d = Comparable_t Nat_t /\ (* @parameter *)
+          typ_infer result[1].d = Comparable_t Nat_t /\
+          typ_infer result[2].d = Comparable_t Nat_t /\ (* @parameter *)
+          length result = 3
+        } in
+    push s fuel top
+      ensures {
+        typ_infer result[0].d = Comparable_t Nat_t /\
+        typ_infer result[1].d = Comparable_t Nat_t /\ (* @parameter *)
+        typ_infer result[2].d = Comparable_t Nat_t /\
+        typ_infer result[3].d = Comparable_t Nat_t /\ (* @parameter *)
+        length result = 4
+      } in
+    label CMP in 
+    let s = compare_op s fuel
+      ensures {
+        typ_infer result[0].d = Comparable_t Int_t /\
+        typ_infer result[1].d = Comparable_t Nat_t /\
+        typ_infer result[2].d = Comparable_t Nat_t /\ (* @parameter *)
+        length result = 3 /\
+        match s[0].d, s[1].d, result[0].d with
+        | Comparable (Nat n), Comparable (Nat par), Comparable(Int r) -> r < 0 <-> par.value > n.value
+        | _ -> false end } in
+    let s = le s fuel
+      ensures {
+        typ_infer result[0].d = Comparable_t Bool_t /\
+        typ_infer result[1].d = Comparable_t Nat_t  /\
+        typ_infer result[2].d = Comparable_t Nat_t  /\ (* @parameter *)
+        length result = 3 (*/\
+         match result[0].d, (s at CMP)[1].d, (s at CMP)[2].d with
+          | Comparable(Bool b), Comparable (Nat n), Comparable (Nat par) -> par.value - n.value >= 0 <-> b 
+          | _ -> false
+        end *)
+      } in
+  push s fuel top in
+  swap s fuel
+
+let rec f_loop (s: stack_t) (fuel: int) : stack_t
+  requires { fuel > 0 }
+  requires { length s = 4 }
+  requires { match s[0].d with
+              | Comparable(Bool _) -> true
+              | _ -> false
+             end
+            }
+  requires { match s[3].d with
+              | Comparable(Nat x) -> x.value > 0
+              | _ -> false end }
+  requires { match s[2].d with
+              | Comparable(Nat x) -> x.value > 0
+              | _ -> false end }  
+  requires { match s[0].d with
+              | Comparable(Bool bl) ->
+                  match s[2].d, s[3].d with
+                    | Comparable (Nat i), Comparable(Nat par) -> bl <-> 0 <= (par.value - i.value)
+                    | _ -> false
+                    end
+              | _ -> false
+             end }
+  requires { match s[2].d, s[1].d with
+              | Comparable (Nat i), Comparable(Nat res) -> fact (i.value - 1) = res.value
+              | _ -> false end } 
+  requires { typ_infer s[0].d = Comparable_t Bool_t }
+  requires { typ_infer s[1].d = Comparable_t Nat_t }
+  requires { typ_infer s[2].d = Comparable_t Nat_t }
+  requires { typ_infer s[3].d = Comparable_t Nat_t }
+  ensures  { typ_infer result[0].d = Comparable_t Nat_t }
+  ensures  { typ_infer result[1].d = Comparable_t Nat_t }
+  ensures  { typ_infer result[2].d = Comparable_t Nat_t }
+  ensures  loop_post { match result[0].d,result[1].d with
+              | Comparable(Nat res),Comparable(Nat par) -> fact (par.value - 1) = res.value (* change to -1*)
+              | _ -> false end }
+  ensures  { length result = 3 }
+  variant  { match s[2].d, s[3].d with
+              | Comparable (Nat i), Comparable(Nat par) -> par.value - i.value
+              | _ -> 42
+             end
+           }
+=
+  match s[0].d with
+  | Comparable (Bool b) ->
+    if b then
+      f_loop (loop_body s[1..] fuel) fuel
+    else s[1..]
+  | _ -> absurd
+  end
+
+
+let fact_f (s: stack_t) (fuel: int) : stack_t
+  requires { fuel > 0 }
+  requires { length s = 1 }
+  requires { typ_infer s[0].d = Pair_t (Comparable_t Nat_t) (Comparable_t Nat_t) }
+  ensures  { length result = 1 }
+  ensures  { typ_infer result[0].d = Pair_t (List_t Operation_t) (Comparable_t Nat_t) }
+  ensures  { match s[0].d, result[0].d with
+              | Pair (Comparable (Nat n)) _, Pair _ (Comparable (Nat r)) -> fact n.value = r.value
+              | _ -> false end }
+=
+  let s = car s fuel
+    ensures {
+      typ_infer result[0].d = Comparable_t Nat_t (* @paramenter *)
+    } in
+  let s = push s fuel (mk_wf_data (Comparable (Nat (to_nat 1))))
+    ensures {
+      stack_i_eq_n result 0 1 /\
+      typ_infer result[0].d = Comparable_t Nat_t /\
+      typ_infer result[1].d = Comparable_t Nat_t (* @parameter *)
+    } in  
+  let s = dup s fuel
+    ensures {
+      stack_i_eq_n result 0 1 /\
+      stack_i_eq_n result 1 1 /\
+      typ_infer result[0].d = Comparable_t Nat_t /\
+      typ_infer result[1].d = Comparable_t Nat_t /\
+      typ_infer result[2].d = Comparable_t Nat_t  (* @parameter *)
+    } in  
+  let s = 
+    let top = s[0..2] in
+    let s = s[2..] in
+    let s = dup s fuel in
+    let s =  push s fuel (mk_wf_data (Comparable (Nat (to_nat 0)))) in
+    let s = compare_op s fuel in
+    let s = neq s fuel in
+    top ++ s in
+  let s = dig_n s fuel 2 
+  (* push s fuel (mk_wf_data (Comparable (Bool true))) *)
+    ensures {
+      stack_i_eq_n result 1 1 /\
+      stack_i_eq_n result 2 1 /\
+      typ_infer result[0].d = Comparable_t Bool_t /\
+      typ_infer result[1].d = Comparable_t Nat_t  /\
+      typ_infer result[2].d = Comparable_t Nat_t  /\
+      typ_infer result[3].d = Comparable_t Nat_t  /\(* @parameter *)
+      match result[0].d with
+        | Comparable(Bool _) -> true
+        | _ -> false end 
+    } in  
+  let s = f_loop s fuel
+     ensures {
+      typ_infer result[0].d = Comparable_t Nat_t  /\
+      typ_infer result[1].d = Comparable_t Nat_t  /\
+      typ_infer result[2].d = Comparable_t Nat_t  (* @parameter *)
+    } in  
+  let s =
+    let top = peek s in (* DIP *)    
+    let s = drop s fuel in (* DIP *)    
+    let s = drop s fuel in    
+    let s = drop s fuel in    
+    push s fuel top
+      ensures {
+        typ_infer result[0].d = Comparable_t Nat_t
+      } in
+  let s = push s fuel (mk_wf_data (List Nil Operation_t)) in
+	pair s fuel
+
+end

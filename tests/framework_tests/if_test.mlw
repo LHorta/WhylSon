@@ -1,0 +1,100 @@
+use axiomatic.AxiomaticSem
+use dataTypes.DataTypes
+use seq.Seq
+use int.Int
+use natural.Natural
+let test (__stack__: stack_t) (__fuel__: int) : stack_t
+  requires { (length __stack__) = 1 }
+  requires { __fuel__ > 0 }
+  requires { (typ_infer (d (__stack__[0])))
+               = (Pair_t (Comparable_t Bool_t ) (Comparable_t Int_t )) }
+  ensures { (length result) = 1 }
+  ensures { (typ_infer (d (result[0])))
+              = (Pair_t (List_t Operation_t ) (Comparable_t Int_t )) } =
+  let __stack__ =
+    [@expl:13]
+    [@vc:white_box]
+    fun ensures { ((length result) = 1) /\
+                  ((typ_infer (d (result[0])))        = (Pair_t (List_t Operation_t ) (Comparable_t Int_t ))) } ->
+      let __stack__ =
+        [@expl:12]
+        [@vc:white_box]
+        fun ensures { ( ((length result) = 2) /\
+                        ((typ_infer (d (result[0]))) = (Comparable_t Bool_t ))) /\
+                        ((typ_infer (d (result[1]))) = (Comparable_t Int_t )) } -> unpair __stack__ __fuel__ in
+      ([@expl:11]
+       [@vc:white_box]
+       fun ensures { ((length result) = 1) /\
+                     ((typ_infer (d (result[0]))) = (Pair_t (List_t Operation_t ) (Comparable_t Int_t ))) } ->
+         let __stack__ =
+           [@expl:10]
+           [@vc:white_box]
+           fun ensures { ((length result) = 1) /\
+                         ((typ_infer (d (result[0]))) = (Comparable_t Int_t )) } ->
+             match d (peek __stack__)  with
+               | (Comparable (Bool b)) ->
+                   (if b then ([@expl:6]
+                          [@vc:white_box]
+                          fun  ensures { ((length result) = 1) /\
+                                          ((typ_infer (d (result[0]))) = (Comparable_t Int_t )) } ->
+                            let __stack__ =
+                              [@expl:5]
+                              [@vc:white_box]
+                              fun ensures { ( ((length result) = 2) /\
+                                              ((typ_infer (d (result[0]))) = (Comparable_t Int_t ))) /\
+                                              ((typ_infer (d (result[1]))) = (Comparable_t Int_t )) } ->
+                                push  __stack__  __fuel__  (mk_wf_data (Comparable (Int 42))) in
+                            ([@expl:4]
+                             [@vc:white_box]
+                             fun ensures { ((length result) = 1) /\
+                                           ((typ_infer (d (result[0])))  = (Comparable_t Int_t )) } ->
+                               add __stack__ __fuel__))
+                    else ([@expl:9]
+                          [@vc:white_box]
+                          fun ensures { ((length result) = 1) /\
+                                        ((typ_infer (d (result[0]))) = (Comparable_t Int_t )) } ->
+                            let __stack__ =
+                              [@expl:8]
+                              [@vc:white_box]
+                              fun ensures { (((length result) = 2) /\
+                                             ((typ_infer (d (result[0])))
+                                                = (Comparable_t Int_t ))) /\
+                                            ((typ_infer (d (result[1])))
+                                               = (Comparable_t Int_t )) } ->
+                                push __stack__  __fuel__  (mk_wf_data (Comparable (Int 666))) in
+                            ([@expl:7]
+                             [@vc:white_box]
+                             fun 
+                               ensures { ((length result) = 1) /\
+                                           ((typ_infer (d (result[0])))
+                                              = (Comparable_t Int_t )) } ->
+                               sub __stack__ __fuel__)))
+             end in
+         ([@expl:3]
+          [@vc:white_box]
+          fun 
+            ensures { ((length result) = 1) /\
+                        ((typ_infer (d (result[0])))
+                           = (Pair_t
+                                (List_t Operation_t )
+                                (Comparable_t Int_t ))) } ->
+            let __stack__ =
+              [@expl:2]
+              [@vc:white_box]
+              fun 
+                ensures { (((length result) = 2) /\
+                             ((typ_infer (d (result[0])))
+                                = (List_t Operation_t ))) /\
+                            ((typ_infer (d (result[1])))
+                               = (Comparable_t Int_t )) } ->
+                nil_op __stack__ __fuel__ Operation_t  in
+            ([@expl:1]
+             [@vc:white_box]
+             fun 
+               ensures { ((length result) = 1) /\
+                           ((typ_infer (d (result[0])))
+                              = (Pair_t
+                                   (List_t Operation_t )
+                                   (Comparable_t Int_t ))) } ->
+               pair __stack__ __fuel__))) in
+  __stack__

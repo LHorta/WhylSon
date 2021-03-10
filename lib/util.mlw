@@ -1,0 +1,213 @@
+(* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *
+*                                                                                         *
+*   MIT License                                                                           *
+*                                                                                         *
+*   Copyright 2020 Luís Pedro Arrojado Horta                                              *
+*                                                                                         *
+*                                                                                         *
+*   Permission is hereby granted, free of charge, to any person obtaining a copy of       *
+*   this software and associated documentation files (the "Software"), to deal in         *
+*   the Software without restriction, including without limitation the rights to use,     *
+*   copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the       *
+*   Software, and to permit persons to whom the Software is furnished to do so, subject   *
+*   to the following conditions:                                                          *  
+*                                                                                         *
+*   The above copyright notice and this permission notice shall be included in all        *
+*   copies or substantial portions of the Software.                                       *
+*                                                                                         *
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
+*   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
+*   PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
+*   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
+*   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
+*   OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
+*                                                                                         *
+*   End of Lincese                                                                        *
+*                                                                                         *
+*   Research Supported by the Tezos Foundation through project:                           *
+*   FRESCO - FoRmal vErification of Smart COntracts.                                      *
+*                                                                                         *
+*  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *)
+
+module Util
+use dataTypes.DataTypes
+use int.Int
+use seq.Seq
+(* use string.Char *)
+use string.String
+use option.Option
+use export list.List
+use list.Length
+use import bv.BV8 as Bytes
+use set.Fset
+(* -------------------------------------------------------------------------------------- *)
+(* ---------------------------- Generic Dummy Functions --------------------------------- *)
+(* -------------------------------------------------------------------------------------- *) 
+
+val function any_bool : bool
+
+val function some_bytes : seq Bytes.t
+
+val function some_string : string
+
+(* -------------------------------------------------------------------------------------- *)
+(* ----------------------------  Comparison  Functions  --------------------------------- *)
+(* -------------------------------------------------------------------------------------- *) 
+
+let function compare_int (a b: int) : int = 
+    let r = a - b in
+    if r < 0 then -1 
+    else if r > 0 then 1
+    else 0
+
+let function compare_bool (a b: bool) : int =
+    match a, b with 
+    | False,True -> (-1)
+    | True,False -> 1
+    | _,_ -> 0
+    end
+
+let function  compare_bytes (a b: seq Bytes.t) : int =
+    let s1,s2 = length a, length b in
+    let rLength = compare_int s1 s2 in
+    if rLength <> 0 then rLength else
+    let rec aux i r 
+    variant { s1 - i }
+    =    
+        if r <> 0 then r else
+        if i = s1 then r else
+        let x,y = to_int(get a i), to_int(get b i) in 
+        aux (i+1) (compare_int x y) 
+    in aux 0 0 
+
+(* -------------------------------------------------------------------------------------- *)
+(* ----------------------------    String  Operations   --------------------------------- *)
+(* -------------------------------------------------------------------------------------- *) 
+
+val function string_concat (s1 s2: string) : string 
+    ensures { result = String.concat s1 s2 }
+
+val function string_size (str: string) : int (*FIXME: ensusure res is natural *)
+   ensures { result = String.length str }
+
+val function string_slice (i x: int) (str: string) : string    (*FIXME: ensusure i and x are natural *)
+    ensures { result = String.substring str i x }    
+
+val function compare_string (a b: string) : int 
+    ensures {
+        if String.lt a b then result = -1
+        else if String.lt b a then result = 1
+        else result = 0 
+    }
+
+(* -------------------------------------------------------------------------------------- *)
+(* ----------------------------  End  String  Operations   ------------------------------ *)
+(* -------------------------------------------------------------------------------------- *) 
+
+(* predicate only_compare_same_comparable (c1 c2: comparable) =
+    match c1,c2 with
+    | Int _, Int _
+    | Nat _, Nat _
+    | String _, String _
+    | Bytes _, Bytes _
+    | Mutez _, Mutez _
+    | Bool _, Bool _
+    | Key_hash _, Key_hash _ 
+    | Address _, Address _ 
+    | Timestamp _, Timestamp _ -> true
+    | _ -> false
+    end
+
+let function compare_comparable (a b: comparable) : int 
+    requires { only_compare_same_comparable a b } =
+    match a,b with 
+    | Int x, Int y 
+    | Mutez x, Mutez y -> compare_int x y
+    | Nat x, Nat y -> compare_int (eval_nat x) (eval_nat y)
+    | Bytes x, Bytes y -> compare_bytes x y
+    | Bool x ,Bool y -> compare_bool x y
+    | String x, String y 
+    | Key_hash x, Key_hash y
+    | Address x, Address y
+    | Timestamp x, Timestamp y -> compare_string x y
+    | _ -> absurd
+    end *)
+
+(*FIXME: new version val function compare_string (a b: seq char) : int  *)
+
+
+
+(* -------------------------------------------------------------------------------------- *)
+(* -------------------------------    Set  Operations   --------------------------------- *)
+(* -------------------------------------------------------------------------------------- *) 
+
+
+(* -------------------------------------------------------------------------------------- *)
+(* --------------------------------   Map Operations     -------------------------------- *)
+(* -------------------------------------------------------------------------------------- *) 
+
+(* -------------------------------------------------------------------------------------- *)
+(* ----------------------------    List  Operations    ---------------------------------- *)
+(* -------------------------------------------------------------------------------------- *) 
+
+(* FIXME:  do for new type system *)
+(* val function list_size (lst: list data) : int 
+   ensures { result =  Length.length lst  } *)
+
+ (* =
+    if String.lt a b then (-1)
+    else if String.lt b a then 1
+    else 0  *)
+
+(*FIXME: new version  =
+    let rec aux (a b: seq char) (i: int) : int 
+    variant { length a - i  }
+    =  
+    if i < length a && i < length b then
+        let x,y = (code a[i]),(code b[i]) in 
+        if x = y then aux a b (i+1) else x-y
+    else 0
+    in aux a b 0 
+
+
+let function string_slice (a b: nat) (s : seq char) : option (seq char) =
+    let off,len = eval_nat a,eval_nat b in
+    if off > Seq.length s || off + len > Seq.length s then None
+    else Some (s[off..off+len]) *)
+
+
+
+(* TODO: let constant empty : my_map 'a =         
+    let f = fun _ -> None in    
+   {
+        map = f;
+        dom = empty;
+        size = 0;
+    } ensures  { well_formed_map result }
+
+let function update (m: my_map 'a) (k: comparable) (v: 'a) : my_map 'a =
+    requires { well_formed_map m }
+    ensures  { well_formed_map result}
+    let f = fun x -> if compare_comparable x k = 0 then Some v else m.map k in
+    {   map = f; 
+        dom = add k m.dom; 
+        size = match m.map k with 
+            | None -> m.size 
+            | _ -> m.size + 1
+            end;
+    }
+
+let function get (m: my_map 'a) (k: comparable) : option 'a 
+    requires { well_formed_map m }
+    = m.map k
+
+let function mem (m: my_map 'a) (k: comparable) : bool 
+    requires { well_formed_map m }
+    = 
+    match get m k with
+    | None -> false
+    | Some _ -> true  
+    end *)
+
+end
+

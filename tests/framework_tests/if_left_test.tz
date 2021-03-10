@@ -4,5 +4,5 @@ code { CAR;
        IF_LEFT 
         { PUSH int 42; ADD }
         { PUSH int 666; SUB };
-      NIL operation; PAIR 
-}
+       NIL operation; PAIR 
+     }

@@ -1,0 +1,115 @@
+use axiomatic.AxiomaticSem
+use dataTypes.DataTypes
+use seq.Seq
+use int.Int
+use natural.Natural
+let test (__stack__: stack_t) (__fuel__: int) : stack_t
+  requires { (length __stack__) = 1 }
+  requires { __fuel__ > 0 }
+  requires { (typ_infer (d (__stack__[0])))
+               = (Pair_t
+                    (Or_t (Comparable_t Int_t ) (Comparable_t Int_t ))
+                    (Comparable_t Int_t )) }
+  ensures { (length result) = 1 }
+  ensures { (typ_infer (d (result[0]))) = (Pair_t (List_t Operation_t ) (Comparable_t Int_t )) } =
+  let __stack__ =
+    [@expl:Intermidate PostCondition 13]
+    [@vc:white_box]
+    fun ensures { ((length result) = 1) /\ ((typ_infer (d (result[0]))) = (Pair_t (List_t Operation_t ) (Comparable_t Int_t ))) } ->
+      let __stack__ =
+        [@expl:Intermidate PostCondition 12]
+        [@vc:white_box]
+        fun ensures { ((length result) = 1) /\
+                      ((typ_infer (d (result[0])))             = (Or_t (Comparable_t Int_t ) (Comparable_t Int_t ))) } ->
+          car __stack__ __fuel__ in
+      ([@expl:Intermidate PostCondition 11]
+       [@vc:white_box]
+       fun ensures { ((length result) = 1) /\
+                     ((typ_infer (d (result[0])))
+                        = (Pair_t (List_t Operation_t ) (Comparable_t Int_t ))) } ->
+         let __stack__ =
+           [@expl:Intermidate PostCondition 10]
+           [@vc:white_box]
+           fun ensures { ((length result) = 1) /\
+                         ((typ_infer (d (result[0]))) = (Comparable_t Int_t )) } ->
+             match d (peek __stack__) with
+               | (Left dt _) ->
+                   (let __stack__ =
+                      let __stack__ = __stack__[1 ..] in  ((mk_wf_data dt) :: __stack__) in
+                      ([@expl:Intermidate PostCondition 6]
+                     [@vc:white_box]
+                     fun ensures { ((length result) = 1) /\
+                                   ((typ_infer (d (result[0])))
+                                      = (Comparable_t Int_t )) } ->
+                       let __stack__ =
+                         [@expl:Intermidate PostCondition 5]
+                         [@vc:white_box]
+                         fun ensures { (((length result) = 2) /\
+                                        ((typ_infer (d (result[0]))) = (Comparable_t Int_t ))) /\
+                                       ((typ_infer (d (result[1])))  = (Comparable_t Int_t )) } ->
+                           push  __stack__  __fuel__  (mk_wf_data (Comparable (Int 42))) in
+                       ([@expl:Intermidate PostCondition 4]
+                        [@vc:white_box]
+                        fun ensures { ((length result) = 1) /\   
+                                      ((typ_infer (d (result[0]))) = (Comparable_t Int_t )) } -> 
+                                       add __stack__ __fuel__)))
+               | (Right dt _) ->
+                   (let __stack__ =
+                      let __stack__ = __stack__[1 ..] in
+                      ((mk_wf_data dt) :: __stack__) in
+                    ([@expl:Intermidate PostCondition 9]
+                     [@vc:white_box]
+                     fun 
+                       ensures { ((length result) = 1) /\
+                                   ((typ_infer (d (result[0])))
+                                      = (Comparable_t Int_t )) } ->
+                       let __stack__ =
+                         [@expl:Intermidate PostCondition 8]
+                         [@vc:white_box]
+                         fun 
+                           ensures { (((length result) = 2) /\
+                                        ((typ_infer (d (result[0])))
+                                           = (Comparable_t Int_t ))) /\
+                                       ((typ_infer (d (result[1])))
+                                          = (Comparable_t Int_t )) } ->
+                           push
+                             __stack__
+                             __fuel__
+                             (mk_wf_data (Comparable (Int 666))) in
+                       ([@expl:Intermidate PostCondition 7]
+                        [@vc:white_box]
+                        fun 
+                          ensures { ((length result) = 1) /\
+                                      ((typ_infer (d (result[0])))
+                                         = (Comparable_t Int_t )) } ->
+                          sub __stack__ __fuel__)))
+               | _ -> absurd
+             end in
+         ([@expl:Intermidate PostCondition 3]
+          [@vc:white_box]
+          fun 
+            ensures { ((length result) = 1) /\
+                        ((typ_infer (d (result[0])))
+                           = (Pair_t
+                                (List_t Operation_t )
+                                (Comparable_t Int_t ))) } ->
+            let __stack__ =
+              [@expl:Intermidate PostCondition 2]
+              [@vc:white_box]
+              fun 
+                ensures { (((length result) = 2) /\
+                             ((typ_infer (d (result[0])))
+                                = (List_t Operation_t ))) /\
+                            ((typ_infer (d (result[1])))
+                               = (Comparable_t Int_t )) } ->
+                nil_op __stack__ __fuel__ Operation_t  in
+            ([@expl:Intermidate PostCondition 1]
+             [@vc:white_box]
+             fun 
+               ensures { ((length result) = 1) /\
+                           ((typ_infer (d (result[0])))
+                              = (Pair_t
+                                   (List_t Operation_t )
+                                   (Comparable_t Int_t ))) } ->
+               pair __stack__ __fuel__))) in
+  __stack__

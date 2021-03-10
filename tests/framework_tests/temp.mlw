@@ -1,0 +1,53 @@
+use axiomatic.AxiomaticSem
+use dataTypes.DataTypes
+use seq.Seq
+use int.Int
+use natural.Natural
+let contract (__stack__: stack_t) (__fuel__: int) : stack_t
+  requires { (length __stack__) = 1 }
+  requires { __fuel__ > 0 }
+  requires { (typ_infer (d (__stack__[0])))
+               = (Pair_t (Comparable_t Nat_t ) (Comparable_t Nat_t )) }
+  ensures { (length result) = 1 }
+  ensures { (typ_infer (d (result[0])))
+              = (Pair_t (List_t Operation_t ) (Comparable_t Nat_t )) } =
+  let __stack__ =
+    [@expl:Intermidate PostCondition 7]
+    [@vc:white_box]
+    fun  ensures { ((length result) = 1) /\
+                    ((typ_infer (d (result[0]))) = (Pair_t (List_t Operation_t ) (Comparable_t Nat_t ))) } ->
+      let __stack__ =  [@expl:Intermidate PostCondition 6]
+        [@vc:white_box]
+        fun ensures {   (((length result) = 2) /\
+                        ((typ_infer (d (result[0]))) = (Comparable_t Nat_t ))) /\
+                        ((typ_infer (d (result[1]))) = (Comparable_t Nat_t )) } ->
+                            unpair __stack__ __fuel__ in
+      ([@expl:Intermidate PostCondition 5]
+       [@vc:white_box]
+       fun ensures { ((length result) = 1) /\
+                     ((typ_infer (d (result[0]))) = (Pair_t (List_t Operation_t ) (Comparable_t Nat_t ))) } ->
+         let __stack__ =
+           [@expl:Intermidate PostCondition 4]
+           [@vc:white_box]
+           fun ensures { ((length result) = 1) /\
+                         ((typ_infer (d (result[0]))) = (Comparable_t Nat_t )) } ->
+                              add __stack__ __fuel__ in
+         ([@expl:Intermidate PostCondition 3]
+          [@vc:white_box]
+          fun  ensures { ((length result) = 1) /\
+                        ((typ_infer (d (result[0])))
+                           = (Pair_t (List_t Operation_t )  (Comparable_t Nat_t ))) } ->
+            let __stack__ =
+              [@expl:Intermidate PostCondition 2]
+              [@vc:white_box]
+              fun ensures { (((length result) = 2) /\
+                             ((typ_infer (d (result[0]))) = (List_t Operation_t ))) /\
+                            ((typ_infer (d (result[1])))  = (Comparable_t Nat_t )) } ->
+                                nil_op __stack__ __fuel__ Operation_t  in
+            ([@expl:Intermidate PostCondition 1]
+             [@vc:white_box]
+             fun  ensures { ((length result) = 1) /\
+                           ((typ_infer (d (result[0])))
+                              = (Pair_t (List_t Operation_t ) (Comparable_t Nat_t ))) } ->
+               pair __stack__ __fuel__))) in
+  __stack__

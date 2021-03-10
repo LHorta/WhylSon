@@ -1,0 +1,59 @@
+use axiomatic.AxiomaticSem
+use dataTypes.DataTypes
+use seq.Seq
+use int.Int
+use natural.Natural
+let test (__stack__: stack_t) (__fuel__: int) : stack_t
+  requires { (length __stack__) = 1 }
+  requires { __fuel__ > 0 }
+  requires { (typ_infer (d (__stack__[0])))
+               = (Pair_t (Comparable_t Nat_t ) (Comparable_t Nat_t )) }
+  ensures { (length result) = 1 }
+  ensures { (typ_infer (d (result[0])))
+              = (Pair_t (List_t Operation_t ) (Comparable_t Nat_t )) } =
+  let __stack__ =
+    [@vc:white_box]
+    fun   ensures { true /\      ((typ_infer (d (result[0])))   = (Pair_t (List_t Operation_t ) (Comparable_t Nat_t ))) } ->
+      let __stack__ =
+        [@vc:white_box]
+        fun 
+          ensures { (true /\
+                       ((typ_infer (d (result[0]))) = (Comparable_t Nat_t ))) /\
+                      ((typ_infer (d (result[1]))) = (Comparable_t Nat_t )) } ->
+          unpair __stack__ __fuel__ in
+      ([@vc:white_box]
+       fun 
+         ensures { true /\
+                     ((typ_infer (d (result[0])))
+                        = (Pair_t (List_t Operation_t ) (Comparable_t Nat_t ))) } ->
+         let __stack__ =
+           [@vc:white_box]
+           fun 
+             ensures { true /\
+                         ((typ_infer (d (result[0]))) = (Comparable_t Nat_t )) } ->
+             add __stack__ __fuel__ in
+         ([@vc:white_box]
+          fun 
+            ensures { true /\
+                        ((typ_infer (d (result[0])))
+                           = (Pair_t
+                                (List_t Operation_t )
+                                (Comparable_t Nat_t ))) } ->
+            let __stack__ =
+              [@vc:white_box]
+              fun 
+                ensures { (true /\
+                             ((typ_infer (d (result[0])))
+                                = (List_t Operation_t ))) /\
+                            ((typ_infer (d (result[1])))
+                               = (Comparable_t Nat_t )) } ->
+                nil_op __stack__ __fuel__ Operation_t  in
+            ([@vc:white_box]
+             fun 
+               ensures { true /\
+                           ((typ_infer (d (result[0])))
+                              = (Pair_t
+                                   (List_t Operation_t )
+                                   (Comparable_t Nat_t ))) } ->
+               pair __stack__ __fuel__))) in
+  __stack__

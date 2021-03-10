@@ -1,0 +1,241 @@
+(* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *
+*                                                                                         *
+*   MIT License                                                                           *
+*                                                                                         *
+*   Copyright 2021 Luís Pedro Arrojado Horta                                              *
+*                                                                                         *
+*                                                                                         *
+*   Permission is hereby granted, free of charge, to any person obtaining a copy of       *
+*   this software and associated documentation files (the "Software"), to deal in         *
+*   the Software without restriction, including without limitation the rights to use,     *
+*   copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the       *
+*   Software, and to permit persons to whom the Software is furnished to do so, subject   *
+*   to the following conditions:                                                          *
+*                                                                                         *
+*   The above copyright notice and this permission notice shall be included in all        *
+*   copies or substantial portions of the Software.                                       *
+*                                                                                         *
+*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
+*   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
+*   PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
+*   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
+*   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
+*   OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
+*                                                                                         *
+*   End of Lincese                                                                        *
+*                                                                                         *
+*   Research Supported by the Tezos Foundation through project:                           *
+*   FRESCO - FoRmal vErification of Smart COntracts.                                      *
+*                                                                                         *
+*  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *)
+
+module DataTypes
+
+use int.Int
+use import bv.BV8 as Bytes
+use seq.Seq
+use string.String
+use export list.List
+use set.Fset
+use option.Option
+
+type typ_t =
+  | T_key
+  | T_unit
+  | T_signature
+  | T_option typ_t
+  | T_list typ_t
+  | T_set typ_t
+  | T_operation
+  | T_contract typ_t
+  | T_pair typ_t typ_t
+  | T_or typ_t typ_t
+  | T_lambda typ_t typ_t
+  | T_map typ_t typ_t
+  | T_big_map typ_t typ_t
+  | T_chain_id
+  | T_int
+  | T_nat
+  | T_string
+  | T_bytes
+  | T_mutez
+  | T_bool
+  | T_key_hash
+  | T_timestamp
+  | T_address
+  | T_never
+  | T_ticket typ_t
+  | T_bls12_381_g1
+  | T_bls12_381_g2
+  | T_bls12_381_fr
+  | T_sapling_transaction int (* int in ms *)
+  | T_sapling_state int
+with inst = 
+  | I_noop
+  | I_failwith
+  | I_seq (list inst)
+  | I_if inst inst
+  | I_loop inst
+  | I_loop_left inst
+  | I_dip  inst
+  | I_dip_n int inst
+  | I_exec
+  | I_apply
+  | I_drop
+  | I_drop_n int
+  | I_dup
+  | I_dup_n int
+  | I_swap
+  | I_dig int
+  | I_dug int
+  | I_push typ_t data_t
+  | I_unit
+  | I_lambda typ_t typ_t inst
+  | I_eq
+  | I_neq
+  | I_lt
+  | I_gt
+  | I_le
+  | I_ge
+  | I_or
+  | I_and
+  | I_xor
+  | I_not
+  | I_neg
+  | I_abs
+  | I_isnat
+  | I_int
+  | I_add
+  | I_sub
+  | I_mul
+  | I_ediv
+  | I_lsl
+  | I_lsr
+  | I_compare
+  | I_concat
+  | I_size
+  | I_slice
+  | I_pair
+  | I_car
+  | I_cdr
+  | I_empty_set typ_t
+  | I_mem
+  | I_update
+  | I_iter inst
+  | I_empty_map typ_t typ_t
+  | I_get
+  | I_map inst
+  | I_empty_big_map typ_t typ_t
+  | I_some
+  | I_none typ_t
+  | I_if_none inst inst
+  | I_left typ_t
+  | I_right typ_t
+  | I_if_left inst inst
+  | I_cons
+  | I_nil typ_t
+  | I_if_cons inst inst
+  | I_create_contract program
+  | I_transfer_tokens
+  | I_set_delegate
+  | I_balance
+  | I_address
+  | I_contract typ_t
+  | I_source
+  | I_sender
+  | I_self
+  | I_amount
+  | I_implicit_account
+  | I_voting_power
+  | I_now
+  | I_chain_id
+  | I_pack
+  | I_unpack typ_t
+  | I_hash_key
+  | I_blake2b
+  | I_keccak
+  | I_sha3
+  | I_sha256
+  | I_sha512
+  | I_check_signature
+  | I_cast typ_t
+  | I_unpair
+  | I_rename
+  | I_total_voting_power
+  | I_pairing_check
+  | I_sapling_empty_state int
+  | I_sapling_verify_update
+  | I_ticket
+  | I_read_ticket
+  | I_split_ticket
+  | I_join_tickets
+  | I_never
+  | I_self_address
+  | I_level
+  | I_pair_n int
+  | I_unpair_n int
+  | I_get_n int
+  | I_update_n int
+with data_t =
+  | D_int int typ_t
+  | D_string string typ_t
+  | D_bytes (seq Bytes.t) typ_t
+  | D_unit typ_t
+  | D_bool bool typ_t
+  | D_pair data_t data_t typ_t
+  | D_left data_t typ_t
+  | D_right data_t typ_t
+  | D_some data_t typ_t
+  | D_none typ_t
+  | D_elt (list (data_t, data_t)) typ_t
+  | D_list (list data_t) typ_t
+  | D_instruction inst typ_t
+with program =
+{ 
+  param: typ_t ;
+  storage: typ_t;
+  code: inst;
+}
+
+(* Predicate that returns true if a given type is comparable *)
+predicate is_comparable (t: typ_t) =
+    match t with
+    | T_unit
+    | T_never
+    | T_bool
+    | T_int
+    | T_nat
+    | T_string
+    | T_chain_id
+    | T_bytes
+    | T_mutez
+    | T_key_hash
+    | T_key
+    | T_signature
+    | T_timestamp
+    | T_address -> true 
+    | T_option t' -> is_comparable t'    
+    | T_or t1 t2 -> is_comparable t1 /\ is_comparable t2    
+    | T_pair t1 t2 -> is_comparable t1 /\ is_comparable t2
+    | _ -> false
+    end
+
+
+let function get_type (d: data_t) : typ_t =
+    match d with
+    | D_int _ t 
+    | D_string _ t
+    | D_bytes _ t
+    | D_unit t
+    | D_bool _  t 
+    | D_pair _ _ t 
+    | D_left _ t 
+    | D_right _ t 
+    | D_none t
+    | D_some _ t
+    | D_elt _ t
+    | D_list _ t
+    | D_instruction _ t -> t
+    end
+
+end

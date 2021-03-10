@@ -19,7 +19,7 @@ Use the [opam](https://opam.ocaml.org/doc/Install.html) package manager to insta
 ```bash
 dune build @install 
 dune install
-why3 config --install-plugin $OPAM_SWITCH_PREFIX/lib/why3michelson/plugins/plugin_why3michelson.cmxs
+why3 config --install-plugin $OPAM_SWITCH_PREFIX/lib/why3michelson/plugins/plugin_whylson.cmxs
 ```
 For some reason if the `dune build @install` command fails, just run it again
 

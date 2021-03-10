@@ -1,0 +1,3496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="Alt-Ergo" version="2.3.2" timelimit="5" steplimit="0" memlimit="1000"/>
+<prover id="1" name="Z3" version="4.8.6" timelimit="5" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="WhyML"/><path name="tests"/><path name="WhyML"/>
+<path name="multisig.mlw"/>
+<theory name="Multisig" proved="true">
+ <goal name="subseq_type" proved="true">
+ <proof prover="0"><result status="valid" time="0.19" steps="496"/></proof>
+ </goal>
+ <goal name="cons_eq" proved="true">
+ <proof prover="0"><result status="valid" time="0.21" steps="494"/></proof>
+ </goal>
+ <goal name="cons_type" proved="true">
+ <proof prover="0"><result status="valid" time="0.24" steps="494"/></proof>
+ </goal>
+ <goal name="cons_length" proved="true">
+ <proof prover="0"><result status="valid" time="0.18" steps="490"/></proof>
+ </goal>
+ <goal name="subseq_length" proved="true">
+ <proof prover="0"><result status="valid" time="0.34" steps="1506"/></proof>
+ </goal>
+ <goal name="type_eq" proved="true">
+ <proof prover="0"><result status="valid" time="0.11" steps="490"/></proof>
+ </goal>
+ <goal name="iter_body&#39;vc" expl="VC for iter_body" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_body&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="504"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="504"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="504"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.11" steps="508"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="508"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="520"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="527"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.10" steps="527"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.8" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.8.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.28" steps="541"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.8.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="539"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.8.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.28" steps="541"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.8.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.65" steps="1771"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.8.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.66" steps="1771"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.8.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.69" steps="1771"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.9" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.9.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="552"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.10" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.10.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="552"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.11" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.11.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="558"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.11.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.28" steps="558"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.11.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.25" steps="558"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.11.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="558"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.11.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.25" steps="558"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.12.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="4.28" steps="8582"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="4.18" steps="8602"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.16" steps="571"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="576"/></proof>
+  </goal>
+  <goal name="iter_body&#39;vc.16" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.16.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="3.08" steps="8731"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.16.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.33" steps="585"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.16.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.33" steps="585"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.16.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.34" steps="585"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.16.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.33" steps="585"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.16.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.34" steps="585"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.16.6" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.31" steps="585"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.17" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.17.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="599"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.18" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.18.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="599"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.19" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.19.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="603"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.20" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.20.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="603"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.21" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.21.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="615"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.22" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.22.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="615"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.23" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.23.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="619"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.24" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.24.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="619"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.25" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.25.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.08" steps="2236"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.26" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.26.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.36" steps="635"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.27" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.27.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.32" steps="2252"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.28" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.28.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.34" steps="2266"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.29" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.29.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.48" steps="2280"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.30" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.30.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="641"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.31" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.31.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="599"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.32" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.32.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="599"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.33" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.33.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.37" steps="605"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.34" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.34.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="606"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.35" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.35.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="613"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.36" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.36.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="613"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.37" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.37.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.38" steps="627"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.37.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.10" steps="2171"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.37.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.12" steps="2183"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.37.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.17" steps="2183"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.37.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.12" steps="2183"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.37.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.13" steps="2183"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.37.6" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.08" steps="2187"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.38" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.38.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="639"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.39" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.39.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="639"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.40" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.40.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="639"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.41" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.41.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="643"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.42" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.42.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="643"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.43" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.43.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.37" steps="657"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.43.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.34" steps="657"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.43.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.44" steps="657"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.43.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.42" steps="657"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.43.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.41" steps="657"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.43.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.45" steps="657"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.44" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.44.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="667"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.44.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="667"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.44.2" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.21" steps="667"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.45" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.45.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.43" steps="671"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.45.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.41" steps="671"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.46" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.46.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="673"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.46.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="673"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.47" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.47.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.38" steps="675"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.47.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.36" steps="675"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.47.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.35" steps="675"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.47.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.35" steps="675"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.48" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.48.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.36" steps="683"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.49" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.49.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="681"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.50" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.50.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.39" steps="683"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.51" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.51.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="685"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.52" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.52.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.41" steps="687"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.53" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.53.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.39" steps="697"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.53.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.39" steps="697"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.53.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.49" steps="2486"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.53.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.48" steps="2482"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.54" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.54.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="702"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.55" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.55.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="709"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.56" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.56.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.30" steps="711"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.57" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.57.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.39" steps="725"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.57.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.39" steps="725"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.57.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.57" steps="2543"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.57.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.54" steps="2465"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.57.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.80" steps="2649"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.57.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.71" steps="2649"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.57.6" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.76" steps="2653"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.58" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.58.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="737"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.58.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.37" steps="739"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.59" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.59.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.63" steps="2653"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.59.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.64" steps="2635"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.59.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.67" steps="2653"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.59.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.65" steps="2653"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.60" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.60.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="745"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.61" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.61.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="748"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.62" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.62.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="755"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.63" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.63.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.39" steps="757"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.64" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.64.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="757"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.65" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.65.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.73" steps="2767"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.65.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.70" steps="2765"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.65.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.73" steps="2759"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.65.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.73" steps="2790"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.66" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.66.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="767"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.67" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.67.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.40" steps="769"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.68" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.68.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="770"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.69" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.69.0" expl="postcondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.15" steps="1003443"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.69.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.62" steps="2606"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.69.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.63" steps="2610"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.69.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.70" steps="2784"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.69.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.63" steps="2610"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.70" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.70.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="787"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.71" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.71.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.63" steps="2643"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.72" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.72.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.45" steps="794"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.72.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.49" steps="792"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.72.2" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.92" steps="1894"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.72.3" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="iter_body&#39;vc.72.3.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.35" steps="791"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.37" steps="791"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.36" steps="791"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.38" steps="791"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.47" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.43" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.41" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.42" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.3.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.32" steps="791"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="iter_body&#39;vc.72.4" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="1894"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.72.5" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="iter_body&#39;vc.72.5.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.33" steps="791"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.37" steps="791"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.38" steps="791"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.45" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.47" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.37" steps="791"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.41" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.40" steps="793"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.72.5.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.34" steps="791"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.73" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.73.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="879"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.73.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.69" steps="2791"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.73.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.67" steps="2795"/></proof>
+   </goal>
+   <goal name="iter_body&#39;vc.73.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.72" steps="2970"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.74" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.74.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="885"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.75" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.75.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="892"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.76" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.76.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.65" steps="2837"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.77" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.77.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.68" steps="2868"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.78" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.78.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="906"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.79" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.79.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.78" steps="3198"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.80" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.80.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.85" steps="3303"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.81" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.81.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.77" steps="3234"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.82" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.82.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.68" steps="2879"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.83" expl="unreachable point" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.83.0" expl="unreachable point" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="iter_body&#39;vc.83.0.0" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.77" steps="2062"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.1" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.27" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.2" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.3" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.81" steps="2062"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.4" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.81" steps="2068"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.5" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.82" steps="2065"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.6" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.85" steps="2065"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.7" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.92" steps="2064"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.8" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="2067"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.9" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="2067"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.10" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.35" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.11" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.35" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.12" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.13" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.30" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.14" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.35" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.15" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.36" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.16" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.36" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.17" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.77" steps="2062"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.18" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.37" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.19" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.35" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.20" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.21" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.34" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.22" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.27" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.23" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.27" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.24" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.24" steps="599"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.83.0.25" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.23" steps="599"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_body&#39;vc.84" expl="unreachable point" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_body&#39;vc.84.0" expl="unreachable point" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="iter_body&#39;vc.84.0.0" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.59" steps="1828"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.1" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.23" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.2" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.25" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.3" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.60" steps="1826"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.4" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.64" steps="1828"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.5" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.68" steps="1834"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.6" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.65" steps="1831"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.7" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.69" steps="1831"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.8" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.72" steps="1830"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.9" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.70" steps="1833"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.10" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.67" steps="1833"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.11" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.31" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.12" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.33" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.13" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.14" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.28" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.15" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.33" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.16" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.33" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.17" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.33" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.18" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.65" steps="1828"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.19" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.32" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.20" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.34" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.21" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.28" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.22" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.31" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.23" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.24" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.24" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.24" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.25" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.24" steps="552"/></proof>
+    </goal>
+    <goal name="iter_body&#39;vc.84.0.26" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.20" steps="552"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="iter_multisig&#39;vc" expl="VC for iter_multisig" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="iter_multisig&#39;vc.0" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.1" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.2" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.3" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.4" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.10" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.5" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.6" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.22" steps="524"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.16" steps="525"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="532"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="533"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.24" steps="535"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.20" steps="537"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.23" steps="539"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.21" steps="541"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.20" steps="543"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.22" steps="545"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.16" expl="variant decrease" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_multisig&#39;vc.16.0" expl="variant decrease" proved="true">
+   <proof prover="0"><result status="valid" time="0.23" steps="546"/></proof>
+   </goal>
+   <goal name="iter_multisig&#39;vc.16.1" expl="variant decrease" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="546"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="iter_multisig&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="544"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.21" steps="546"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="546"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="546"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="546"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="546"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.23" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="546"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.24" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="546"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.25" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="556"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.26" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="556"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.27" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="556"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.28" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="556"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.29" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="556"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.30" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="556"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.31" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="506"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.32" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="506"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.33" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="510"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.34" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.60" steps="1631"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.35" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="513"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.36" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.21" steps="515"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.37" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.20" steps="517"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.38" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.23" steps="519"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.39" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.25" steps="521"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.40" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.23" steps="523"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.41" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.42" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.43" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.44" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.45" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.46" expl="postcondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="522"/></proof>
+  </goal>
+  <goal name="iter_multisig&#39;vc.47" expl="unreachable point" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="iter_multisig&#39;vc.47.0" expl="unreachable point" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="iter_multisig&#39;vc.47.0.0" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="1596"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.1" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.21" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.2" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.22" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.3" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="1594"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.4" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.50" steps="1596"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.5" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.50" steps="1602"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.6" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.51" steps="1599"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.7" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="1599"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.8" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.57" steps="1598"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.9" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.54" steps="1601"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.10" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.53" steps="1601"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.11" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.28" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.12" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.30" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.13" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.24" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.14" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.25" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.15" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.27" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.16" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.17" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.26" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.18" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="1596"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.19" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.25" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.20" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.26" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.21" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.23" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.22" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.23" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.21" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.24" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.21" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.25" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.23" steps="506"/></proof>
+    </goal>
+    <goal name="iter_multisig&#39;vc.47.0.26" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.17" steps="506"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="inner_if_left&#39;vc" expl="VC for inner_if_left" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="inner_if_left&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="500"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="500"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="504"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="507"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="514"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.5" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="514"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.6" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="inner_if_left&#39;vc.6.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.25" steps="519"/></proof>
+   </goal>
+   <goal name="inner_if_left&#39;vc.6.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="3.38" steps="35458"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="inner_if_left&#39;vc.7" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="500"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.8" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="500"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.9" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.24" steps="506"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.10" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="507"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.11" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="514"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.12" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="514"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.13" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="514"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="518"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.15" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="518"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="530"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.13" steps="530"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.18" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="inner_if_left&#39;vc.18.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="4.14" steps="47427"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="inner_if_left&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="532"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="539"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="539"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.22" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.16" steps="551"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.23" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="551"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.24" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="557"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.25" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.15" steps="557"/></proof>
+  </goal>
+  <goal name="inner_if_left&#39;vc.26" expl="unreachable point" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="inner_if_left&#39;vc.26.0" expl="unreachable point" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="inner_if_left&#39;vc.26.0.0" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.47" steps="1560"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.1" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.22" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.2" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.21" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.3" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.50" steps="1558"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.4" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.49" steps="1560"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.5" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.50" steps="1560"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.6" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="1566"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.7" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.53" steps="1562"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.8" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.54" steps="1565"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.9" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.51" steps="1565"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.10" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.11" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.30" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.12" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.25" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.13" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.25" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.14" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.27" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.15" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.28" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.16" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.27" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.17" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="1560"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.18" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.26" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.19" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.28" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.20" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.22" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.21" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.26" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.22" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.20" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.23" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.22" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.24" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.18" steps="500"/></proof>
+    </goal>
+    <goal name="inner_if_left&#39;vc.26.0.25" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.18" steps="500"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="inner_if_left&#39;vc.27" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="inner_if_left&#39;vc.27.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="554"/></proof>
+   </goal>
+   <goal name="inner_if_left&#39;vc.27.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="569"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="inner_if_left&#39;vc.28" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="inner_if_left&#39;vc.28.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="555"/></proof>
+   </goal>
+   <goal name="inner_if_left&#39;vc.28.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.77" steps="1856"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="inner_if_left&#39;vc.29" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="inner_if_left&#39;vc.29.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.50" steps="1673"/></proof>
+   </goal>
+   <goal name="inner_if_left&#39;vc.29.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.67" steps="1858"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="outer_if_left&#39;vc" expl="VC for outer_if_left" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="outer_if_left&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.25" steps="502"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.1.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="503"/></proof>
+   </goal>
+   <goal name="outer_if_left&#39;vc.1.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="503"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.2" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="503"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.3" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.11" steps="510"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.4" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.19" steps="512"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.5.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="4.14" steps="46159"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.6" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.6.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.12" steps="546"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.7" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.7.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.23" steps="548"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.8.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="552"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.9" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.9.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="555"/></proof>
+   </goal>
+   <goal name="outer_if_left&#39;vc.9.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="557"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.10" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.10.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="555"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.11" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.11.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.13" steps="562"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.12.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.34" steps="1692"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.13" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.13.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.06" steps="7848"/></proof>
+   </goal>
+   <goal name="outer_if_left&#39;vc.13.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.25" steps="7848"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.14" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.29" steps="502"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.15" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.15.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="503"/></proof>
+   </goal>
+   <goal name="outer_if_left&#39;vc.15.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="503"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.16" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.17" steps="503"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.17" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.19" steps="510"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.18" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.23" steps="512"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.19" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.52" steps="1609"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.20" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.51" steps="1623"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.21" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.52" steps="1635"/></proof>
+  </goal>
+  <goal name="outer_if_left&#39;vc.22" expl="unreachable point" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.22.0" expl="unreachable point" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="outer_if_left&#39;vc.22.0.0" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="1576"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.1" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.21" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.2" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.22" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.3" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.49" steps="1574"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.4" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.50" steps="1576"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.5" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="1576"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.6" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.55" steps="1582"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.7" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="1578"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.8" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.58" steps="1581"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.9" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.54" steps="1581"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.10" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.28" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.11" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.12" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.25" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.13" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.24" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.14" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.25" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.15" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.23" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.16" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.24" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.17" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.45" steps="1576"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.18" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.25" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.19" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.23" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.20" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.23" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.21" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.29" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.22" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.21" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.23" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.22" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.24" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.20" steps="500"/></proof>
+    </goal>
+    <goal name="outer_if_left&#39;vc.22.0.25" expl="unreachable point" proved="true">
+    <proof prover="0"><result status="valid" time="0.18" steps="500"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.23" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.23.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.38" steps="1776"/></proof>
+   </goal>
+   <goal name="outer_if_left&#39;vc.23.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="524"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.24" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.24.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="622"/></proof>
+   </goal>
+   <goal name="outer_if_left&#39;vc.24.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="524"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="outer_if_left&#39;vc.25" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="outer_if_left&#39;vc.25.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.92" steps="8005"/></proof>
+   </goal>
+   <goal name="outer_if_left&#39;vc.25.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="524"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+ <goal name="multisig_contract&#39;vc" expl="VC for multisig_contract" proved="true">
+ <transf name="split_vc" proved="true" >
+  <goal name="multisig_contract&#39;vc.0" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.14" steps="494"/></proof>
+  </goal>
+  <goal name="multisig_contract&#39;vc.1" expl="precondition" proved="true">
+  <proof prover="0"><result status="valid" time="0.12" steps="494"/></proof>
+  </goal>
+  <goal name="multisig_contract&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.2.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="3.22" steps="35102"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.3" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.3.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="530"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.4.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.12" steps="530"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.5.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="542"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.6" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.6.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.13" steps="542"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.7" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.7.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.13" steps="552"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.8.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.13" steps="552"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.9" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.9.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="552"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.10" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.10.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="556"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.11" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.11.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="556"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.12" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.12.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.12" steps="568"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.13" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.13.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="575"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.14" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.14.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.14" steps="575"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.15" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.15.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="575"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.16" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.16.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.13" steps="579"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.17" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.17.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="579"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.18" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.18.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="4.24" steps="37598"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.19" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.19.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="617"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.19.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.32" steps="617"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.19.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.33" steps="617"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.19.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.68" steps="1887"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.20" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.20.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="621"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.21" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.21.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="621"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.22" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.22.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.28" steps="633"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.23" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.23.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="634"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.24" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.24.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="641"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.25" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.25.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="641"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.26" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.26.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="645"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.27" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.27.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="648"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.28" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.28.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.15" steps="655"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.29" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.29.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="658"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.30" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.30.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="665"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.30.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.30" steps="667"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.30.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.91" steps="2039"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.30.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.86" steps="2038"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.30.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="4.16" steps="15124"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.30.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="3.66" steps="11898"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.31" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.31.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="676"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.32" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.32.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="676"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.33" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.33.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="682"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.34" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.34.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="682"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.35" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.35.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="688"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.36" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.36.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="688"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.37" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.37.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="692"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.38" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.38.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="695"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.39" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.39.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="702"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.39.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.15" steps="2278"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.39.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.15" steps="2283"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.39.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.18" steps="2283"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.40" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.40.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="709"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.41" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.41.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="709"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.42" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.42.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="709"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.43" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.43.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="713"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.44" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.44.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="713"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.45" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.45.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.45.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.35" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.34" steps="716"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.38" steps="716"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.34" steps="716"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.35" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.38" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.37" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.37" steps="716"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.40" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.39" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.38" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.39" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.33" steps="718"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.45.0.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.32" steps="716"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.46" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.46.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.44" steps="751"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.46.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.44" steps="751"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.46.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.43" steps="751"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.46.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.45" steps="751"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.47" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.47.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="757"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.48" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.48.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="757"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.49" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.49.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="757"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.50" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.50.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.17" steps="761"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.51" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.51.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="761"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.52" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.52.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="773"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.53" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.53.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="780"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.54" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.54.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.21" steps="787"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.54.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.36" steps="789"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.54.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.42" steps="789"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.54.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.48" steps="789"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.54.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.77" steps="2589"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.55" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.55.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="796"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.56" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.56.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="796"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.57" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.57.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.21" steps="808"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.58" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.58.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.16" steps="815"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.59" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.59.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.18" steps="815"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.60" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.60.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.60.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.50" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="818"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="818"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.45" steps="818"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.45" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.43" steps="818"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.43" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.37" steps="820"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.60.0.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.35" steps="818"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.61" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.61.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.51" steps="853"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.61.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.49" steps="853"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.61.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.48" steps="853"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.61.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.47" steps="853"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.61.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.75" steps="2794"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.61.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.76" steps="2797"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.61.6" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.76" steps="2797"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.62" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.62.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="865"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.63" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.63.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.23" steps="865"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.64" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.64.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.21" steps="865"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.65" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.65.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.23" steps="869"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.66" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.66.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.21" steps="869"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.67" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.67.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.19" steps="881"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.68" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.68.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.20" steps="888"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.68.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.51" steps="890"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.68.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.53" steps="890"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.68.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.18" steps="3024"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.68.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.15" steps="3018"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.68.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.12" steps="3021"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.68.6" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.09" steps="3022"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.69" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.69.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.21" steps="901"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.70" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.70.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="901"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.71" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.71.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.71.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.33" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.40" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.39" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.47" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.43" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.46" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.45" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="908"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.0.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.36" steps="906"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="multisig_contract&#39;vc.71.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.71.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.37" steps="904"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.36" steps="904"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.38" steps="904"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.50" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.51" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.51" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.44" steps="904"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.50" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.45" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.39" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.38" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.43" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.43" steps="906"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.71.1.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.34" steps="904"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.72" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.72.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.21" steps="939"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.73" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.73.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="939"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.74" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.74.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.25" steps="940"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.75" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.75.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="977"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.76" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.76.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="977"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.77" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.77.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="978"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.78" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.78.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.64" steps="3289"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.78.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.61" steps="3289"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.78.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.63" steps="3293"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.78.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.64" steps="3294"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.78.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="2.71" steps="3288"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.79" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.79.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="991"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.80" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.80.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="991"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.81" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.81.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="991"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.82" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.82.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="995"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.83" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.83.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="995"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.84" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.84.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="1007"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.85" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.85.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.25" steps="1014"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.85.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.65" steps="1016"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.85.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.63" steps="1016"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.85.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="3.36" steps="3509"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.85.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="3.32" steps="3502"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.86" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.86.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.23" steps="1023"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.87" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.87.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1023"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.88" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.88.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.88.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.49" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.43" steps="1026"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.47" steps="1026"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="1026"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.58" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.56" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.59" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.51" steps="1026"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.62" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.60" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.58" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.53" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.53" steps="1028"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.88.0.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.40" steps="1026"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.89" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.89.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.50" steps="1061"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.89.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.50" steps="1061"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.89.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.51" steps="1061"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.89.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.47" steps="1061"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.89.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.51" steps="1061"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.89.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.52" steps="1061"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.90" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.90.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="1071"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.91" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.91.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1071"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.92" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.92.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1071"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.93" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.93.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="1075"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.94" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.94.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.58" steps="1077"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.95" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.95.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="1078"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.96" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.96.0" expl="postcondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.15" steps="1251848"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.96.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.73" steps="1087"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.96.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.73" steps="1087"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.96.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.72" steps="1087"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.96.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.72" steps="1087"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.96.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.73" steps="1087"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.97" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.97.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1097"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.98" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.98.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1097"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.99" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.99.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.23" steps="1109"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.99.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="1109"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.99.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.58" steps="1111"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.99.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.57" steps="1111"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.99.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.56" steps="1111"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.99.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.57" steps="1111"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.100" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.100.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="1119"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.101" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.101.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1120"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.102" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.102.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.25" steps="1120"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.103" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.103.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="1120"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.104" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.104.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1120"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.105" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.105.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1120"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.106" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.106.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="1120"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.107" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.107.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1120"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.108" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.108.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1131"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.108.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.25" steps="1131"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.108.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1131"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.108.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.25" steps="1131"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.108.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1131"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.109" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.109.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="1131"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.110" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.110.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.23" steps="1138"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.110.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.53" steps="1140"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.110.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.57" steps="1140"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.110.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.56" steps="1140"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.110.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.56" steps="1140"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.110.5" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.57" steps="1140"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.111" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.111.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.23" steps="1149"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.112" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.112.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.22" steps="1149"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.113" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.113.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.113.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.51" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.55" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.56" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.68" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.67" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.65" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.55" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.69" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.69" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.67" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.67" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.63" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.58" steps="1156"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.0.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="1154"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="multisig_contract&#39;vc.113.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.113.1.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.54" steps="1152"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.52" steps="1152"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.59" steps="1152"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.74" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.75" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.76" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.63" steps="1152"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.75" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.77" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.76" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.76" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.72" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.66" steps="1154"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.113.1.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.48" steps="1152"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.114" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.114.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.24" steps="1187"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.114.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.67" steps="1189"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.114.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.62" steps="1189"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.114.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.59" steps="1189"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.114.4" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.63" steps="1189"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.115" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.115.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1195"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.116" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.116.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1195"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.117" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.117.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.26" steps="1196"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.118" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.118.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.28" steps="1267"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.119" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.119.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1267"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.120" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.120.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1268"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.121" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.121.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.01" steps="1273"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.121.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.89" steps="1273"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.121.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.98" steps="1273"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.121.3" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.10" steps="1273"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.122" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.122.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1279"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.123" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.123.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1279"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.124" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.124.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1283"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.125" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.125.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1283"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.126" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.126.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.14" steps="1289"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.126.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.03" steps="1289"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.127" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.127.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1291"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.128" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.128.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.30" steps="1291"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.129" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.129.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1291"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.130" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.130.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.28" steps="1295"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.131" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.131.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.28" steps="1295"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.132" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.132.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.132.0.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.38" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.37" steps="1298"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.42" steps="1298"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.39" steps="1298"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.43" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.36" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.37" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.32" steps="1298"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.30" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.23" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.20" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.26" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.22" steps="1300"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.132.0.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.20" steps="1298"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.133" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.133.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.49" steps="1333"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.133.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.12" steps="1333"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.134" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.134.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1335"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.135" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.135.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.75" steps="1337"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.136" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.136.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1338"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.137" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.137.0" expl="postcondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.21" steps="1540742"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.137.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.73" steps="1347"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.137.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.73" steps="1347"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.138" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.138.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1351"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.139" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.139.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.30" steps="1351"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.140" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.140.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.19" steps="1357"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.140.1" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.16" steps="1355"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.140.2" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="3.71" steps="3334"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.140.3" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.140.3.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.67" steps="1354"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.64" steps="1354"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.74" steps="1354"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.01" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.05" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.06" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.74" steps="1354"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.05" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.01" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.95" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.98" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.91" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.86" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.3.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.59" steps="1354"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="multisig_contract&#39;vc.140.4" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="3.70" steps="3334"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.140.5" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="multisig_contract&#39;vc.140.5.0" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.65" steps="1354"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.1" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.72" steps="1354"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.2" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.72" steps="1354"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.3" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.05" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.4" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.04" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.5" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.09" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.6" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.77" steps="1354"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.7" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.05" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.8" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.02" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.9" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="1.02" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.10" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.94" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.11" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.99" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.12" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.88" steps="1356"/></proof>
+    </goal>
+    <goal name="multisig_contract&#39;vc.140.5.13" expl="precondition" proved="true">
+    <proof prover="0"><result status="valid" time="0.62" steps="1354"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.141" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.141.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1443"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.142" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.142.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.30" steps="1443"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.143" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.143.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1449"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.144" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.144.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.31" steps="1456"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.144.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.40" steps="1459"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.145" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.145.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.64" steps="3307504"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.146" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.146.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.31" steps="1462"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.147" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.147.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.33" steps="1469"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.148" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.148.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1469"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.149" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.149.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.87" steps="1484"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.149.1" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.90" steps="1484"/></proof>
+   </goal>
+   <goal name="multisig_contract&#39;vc.149.2" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="1.69" steps="1484"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.150" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.150.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.31" steps="1487"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.151" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.151.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.27" steps="1487"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.152" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.152.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.30" steps="1487"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.153" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.153.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.32" steps="1487"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.154" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.154.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.31" steps="1487"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.155" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.155.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.32" steps="1493"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.156" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.156.0" expl="precondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.29" steps="1493"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.157" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.157.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.31" steps="1499"/></proof>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="multisig_contract&#39;vc.158" expl="postcondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="multisig_contract&#39;vc.158.0" expl="postcondition" proved="true">
+   <proof prover="0"><result status="valid" time="0.32" steps="1500"/></proof>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+</file>
+</why3session>

@@ -1,0 +1,15 @@
+parameter nat;
+storage nat;
+code {  CAR; PUSH @index nat 1; DUP @acc;
+        DIP 2 { DUP; PUSH nat 0; COMPARE; NEQ };
+        DIG 2;
+        LOOP { DIP { DUP @i;
+                     DIP { PUSH nat 1; ADD @ipp } };
+               MUL @tempRes;
+               DIP { DIP { DUP @n };
+                     DUP @ipp2;
+                     DIP { SWAP }; 
+                     COMPARE; LE };
+               SWAP };
+        DIP { DROP; DROP };
+        NIL operation; PAIR };

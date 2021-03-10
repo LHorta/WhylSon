@@ -1,6 +1,5 @@
-(lang dune 1.11)
-(name why3michelson)
-(using menhir 1.0)
+(lang dune 2.7)
+(name whylson)
 
 (generate_opam_files true)
 
@@ -12,8 +11,10 @@
 (maintainers "João Santos Reis <joao.reis@ubi.pt>" "Luís Pedro Arrojado da Horta <luis.horta@ubi.pt>" "Mário Pereira <mariojppereira@gmail.com>")
 
 (package
- (name why3michelson)
+ (name whylson)
  (synopsis "A Why3 plugin to read Michelson files")
  (depends
   (dune :build)
-  (zarith :dev)))
+  zarith
+  why3
+  michelson))

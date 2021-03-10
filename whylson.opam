@@ -15,11 +15,14 @@ license: "MIT"
 homepage: "https://gitlab.com/releaselab/fresco/michelson"
 bug-reports: "https://gitlab.com/releaselab/fresco/michelson/issues"
 depends: [
-  "dune" {build}
-  "zarith" {dev}
+  "dune" {>= "2.7" & build}
+  "zarith"
+  "why3"
+  "michelson"
+  "odoc" {with-doc}
 ]
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   [
     "dune"
     "build"
@@ -33,3 +36,6 @@ build: [
   ]
 ]
 dev-repo: "git+https://gitlab.com/releaselab/fresco/michelson.git"
+pin-depends: [
+    "michelson.dev" "git+https://gitlab.com/releaselab/fresco/michelson.git#edo"
+]
