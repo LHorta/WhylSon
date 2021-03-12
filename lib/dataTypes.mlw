@@ -195,7 +195,16 @@ with program =
   param: typ_t ;
   storage: typ_t;
   code: inst;
-}
+} 
+with operation =
+  | O_transfer_tokens
+  | O_set_delegate
+  | O_create_contract program
+
+type stack_data =
+  | SD data_t     (* Stack Data *)
+  | SP program    (* Stack Program *)
+  | SO operation  (* Stack Operation *)
 
 (* Predicate that returns true if a given type is comparable *)
 predicate is_comparable (t: typ_t) =
@@ -221,21 +230,27 @@ predicate is_comparable (t: typ_t) =
     end
 
 
-let function get_type (d: data_t) : typ_t =
-    match d with
-    | D_int _ t 
-    | D_string _ t
-    | D_bytes _ t
-    | D_unit t
-    | D_bool _  t 
-    | D_pair _ _ t 
-    | D_left _ t 
-    | D_right _ t 
-    | D_none t
-    | D_some _ t
-    | D_elt _ t
-    | D_list _ t
-    | D_instruction _ t -> t
+let function get_type (sd: stack_data) : typ_t =    
+    match sd with
+    | SD d -> 
+      match d with
+      | D_int _ t 
+      | D_string _ t
+      | D_bytes _ t
+      | D_unit t
+      | D_bool _  t 
+      | D_pair _ _ t 
+      | D_left _ t 
+      | D_right _ t 
+      | D_none t
+      | D_some _ t
+      | D_elt _ t
+      | D_list _ t
+      | D_instruction _ t -> t
+      end
+    | SP prg -> T_contract prg.param 
+    | _ -> T_operation
     end
+
 
 end

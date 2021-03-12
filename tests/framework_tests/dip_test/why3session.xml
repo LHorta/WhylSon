@@ -23,7 +23,7 @@
   <proof prover="2"><result status="valid" time="0.15" steps="366"/></proof>
   </goal>
   <goal name="test&#39;vc.4" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="0.54" steps="1730"/></proof>
+  <proof prover="2"><result status="valid" time="0.32" steps="1730"/></proof>
   </goal>
   <goal name="test&#39;vc.5" expl="Intermidate PostCondition 9" proved="true">
   <proof prover="2"><result status="valid" time="0.24" steps="369"/></proof>
@@ -62,7 +62,7 @@
   <proof prover="2"><result status="valid" time="0.14" steps="389"/></proof>
   </goal>
   <goal name="test&#39;vc.17" expl="precondition" proved="true">
-  <proof prover="2"><result status="valid" time="1.04" steps="3883"/></proof>
+  <proof prover="2"><result status="valid" time="0.60" steps="3883"/></proof>
   </goal>
   <goal name="test&#39;vc.18" expl="Intermidate PostCondition 4" proved="true">
   <proof prover="2"><result status="valid" time="0.18" steps="461"/></proof>
@@ -70,17 +70,17 @@
   <goal name="test&#39;vc.19" expl="Intermidate PostCondition 6">
   <transf name="split_vc" >
    <goal name="test&#39;vc.19.0" expl="Intermidate PostCondition 6">
-   <proof prover="1"><result status="timeout" time="5.00" steps="12301952"/></proof>
+   <proof prover="1" obsolete="true"><result status="timeout" time="5.00" steps="12301952"/></proof>
    <proof prover="2"><result status="timeout" time="5.00"/></proof>
-   <proof prover="3"><result status="timeout" time="5.00" steps="471440"/></proof>
+   <proof prover="3" obsolete="true"><result status="timeout" time="5.00" steps="471440"/></proof>
    </goal>
    <goal name="test&#39;vc.19.1" expl="Intermidate PostCondition 6">
    <proof prover="2"><result status="timeout" time="5.00"/></proof>
-   <proof prover="3"><result status="timeout" time="5.00" steps="504658"/></proof>
+   <proof prover="3" obsolete="true"><result status="timeout" time="5.00" steps="504658"/></proof>
    </goal>
    <goal name="test&#39;vc.19.2" expl="Intermidate PostCondition 6">
    <proof prover="2"><result status="timeout" time="5.00"/></proof>
-   <proof prover="3"><result status="timeout" time="5.00" steps="513136"/></proof>
+   <proof prover="3" obsolete="true"><result status="timeout" time="5.00" steps="513136"/></proof>
    </goal>
   </transf>
   </goal>
