@@ -107,20 +107,53 @@ val function compare_string (a b: string) : int
 (* ----------------------------  End  String  Operations   ------------------------------ *)
 (* -------------------------------------------------------------------------------------- *) 
 
-(* predicate only_compare_same_comparable (c1 c2: comparable) =
-    match c1,c2 with
-    | Int _, Int _
-    | Nat _, Nat _
-    | String _, String _
-    | Bytes _, Bytes _
-    | Mutez _, Mutez _
-    | Bool _, Bool _
-    | Key_hash _, Key_hash _ 
-    | Address _, Address _ 
-    | Timestamp _, Timestamp _ -> true
+predicate only_compare_same_comparable (t1 t2: typ_t) =
+    match t1,t2 with
+    | T_unit, T_unit
+    | T_never, T_never
+    | T_bool, T_bool
+    | T_int, T_int
+    | T_nat, T_nat
+    | T_string, T_string
+    | T_chain_id, T_chain_id
+    | T_bytes, T_bytes
+    | T_mutez, T_mutez
+    | T_key_hash, T_key_hash
+    | T_key, T_key
+    | T_signature, T_signature
+    | T_timestamp, T_timestamp -> true
+    | T_option t1, T_option t2 -> only_compare_same_comparable t1 t2
+    | T_or t11 t12, T_or t21 t22 -> only_compare_same_comparable t11 t21 /\ only_compare_same_comparable t12 t22
+    | T_pair t11 t12, T_pair t21 t22 -> only_compare_same_comparable t11 t21 /\ only_compare_same_comparable t12 t22
     | _ -> false
     end
 
+let rec function compare_comparable (a b: data_t) : int
+  requires { is_comparable (get_type (SD a)) }
+  requires { is_comparable (get_type (SD b)) }
+  requires { only_compare_same_comparable (get_type (SD a)) (get_type (SD b)) } =
+  variant { a }  
+  match a, b with 
+  | D_int x _, D_int y _ -> compare_int x y
+  | D_string x _, D_string y _ -> compare_string x y
+  | D_bytes x _, D_bytes y _ -> compare_bytes x y 
+  | D_bool x _, D_bool y _ -> compare_bool x y 
+  | D_pair car1 cdr1 _, D_pair car2 cdr2 _  -> 
+        let res = compare_comparable car1 car2 in  
+        if  res = 0 then  (compare_comparable cdr1 cdr2) else res
+  | D_some x _, D_some y _ -> compare_comparable x y 
+  | D_none _, D_some _ _ -> -1
+  | D_some _ _, D_none _ -> 1
+  | D_none _, D_none _ -> 0
+  | D_unit _, D_unit _ -> 0
+  | D_left x _, D_left y _ -> compare_comparable x y 
+  | D_right x _, D_right y _ -> compare_comparable x y 
+  | D_left _ _, D_right _ _ -> -1
+  | D_right _ _, D_left _ _ -> 1
+  | _ -> absurd
+  end 
+   
+(* 
 let function compare_comparable (a b: comparable) : int 
     requires { only_compare_same_comparable a b } =
     match a,b with 
@@ -134,7 +167,7 @@ let function compare_comparable (a b: comparable) : int
     | Address x, Address y
     | Timestamp x, Timestamp y -> compare_string x y
     | _ -> absurd
-    end *)
+    end  *)
 
 (*FIXME: new version val function compare_string (a b: seq char) : int  *)
 

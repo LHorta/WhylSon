@@ -81,8 +81,8 @@ let empty_spec = {
   sp_partial = false;
 }
 
-
-let mk_term t = { term_desc = t; term_loc = Loc.dummy_position }
+(* added term_loc  as optional parameter *)
+let mk_term ?(term_loc = Loc.dummy_position) term_desc = { term_desc; term_loc }
 
 let mk_term_loc t lc = { term_desc = t; term_loc = lc } 
 (*TODO: Use this new function after  the extract *)
@@ -194,42 +194,6 @@ let mk_position (tz_pos: Michelson.Location.t) =
 (* *************************************************************** *)
 (* ************************     Terms      *********************** *)
 (* *************************************************************** *)
-(* 
-let simple_comparable_term = function
-  | T_int ->
-      mk_term (Tidapp (Qident (mk_id "Int_t"), []))
-  | T_nat ->
-      mk_term (Tidapp (Qident (mk_id "Nat_t"), []))
-  | T_string ->
-      mk_term (Tidapp (Qident (mk_id "String_t"), []))
-  | T_bytes ->
-      mk_term (Tidapp (Qident (mk_id "Bytes_t"), []))
-  | T_mutez ->
-      mk_term (Tidapp (Qident (mk_id "Mutez_t"), []))
-  | T_bool ->
-      mk_term (Tidapp (Qident (mk_id "Bool_t"), []))
-  | T_key_hash ->
-      mk_term (Tidapp (Qident (mk_id "Key_hash_t"), []))
-  | T_timestamp ->
-      mk_term (Tidapp (Qident (mk_id "Timestamp_t"), []))
-  | T_address->
-      mk_term (Tidapp (Qident (mk_id "Address_t"), []))
-
-(* TODO: deal with annotations *)
-let simple_comparable_term_annotated (t,_anot) = 
- simple_comparable_term t
-
-let rec comparable_term = function
-  | T_simple_comparable_type t -> 
-      simple_comparable_term t
-  | T_comparable_pair (sAnot, cAnot) -> 
-      let car_expr_t = simple_comparable_term_annotated sAnot in
-      let cdr_expr_t = comparable_term_annotated cAnot in
-      mk_term (Tidapp (Qident (mk_id "Pair_t"), [car_expr_t;cdr_expr_t]))
-
-(* TODO: deal with annotations *)
-and comparable_term_annotated (t,_anot) = 
-  comparable_term t *)
 
 let rec term (_,t,_) = 
   match t with
@@ -330,42 +294,6 @@ let mk_intermediate_typ t i =
 (* *************************************************************** *)
 (* ************************     Exprs      *********************** *)
 (* *************************************************************** *)
-
-(* let simple_comparable_type = function
-  | T_int ->
-      mk_expr (Eidapp (Qident (mk_id "Int_t"), []))
-  | T_nat ->
-      mk_expr (Eidapp (Qident (mk_id "Nat_t"), []))
-  | T_string ->
-      mk_expr (Eidapp (Qident (mk_id "String_t"), []))
-  | T_bytes ->
-      mk_expr (Eidapp (Qident (mk_id "Bytes_t"), []))
-  | T_mutez ->
-      mk_expr (Eidapp (Qident (mk_id "Mutez_t"), []))
-  | T_bool ->
-      mk_expr (Eidapp (Qident (mk_id "Bool_t"), []))
-  | T_key_hash ->
-      mk_expr (Eidapp (Qident (mk_id "Key_hash_t"), []))
-  | T_timestamp ->
-      mk_expr (Eidapp (Qident (mk_id "Timestamp_t"), []))
-  | T_address->
-      mk_expr (Eidapp (Qident (mk_id "Address_t"), []))
-
-(* TODO: deal with annotations *)
-let simple_comparable_type_annotated (t,_anot) = 
- simple_comparable_type t *)
-
-(* let rec comparable_type = function
-  | T_simple_comparable_type t -> 
-      simple_comparable_type t
-  | T_comparable_pair (sAnot, cAnot) -> 
-      let car_expr_t = simple_comparable_type_annotated sAnot in
-      let cdr_expr_t = comparable_type_annotated cAnot in
-      mk_expr (Eidapp (Qident (mk_id "Pair_t"), [car_expr_t;cdr_expr_t]))
-
-(* TODO: deal with annotations *)
-and comparable_type_annotated (t,_anot) = 
-  comparable_type t *)
 
 let rec typ loc = function
   | T_int ->
@@ -550,8 +478,10 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "right_op"), stack_fuel_args @ [inner_type]))
   | I_if_left (i1, i2) -> 
 			let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in      
-			let pat_left  = mk_pat (Papp  (Qident (mk_id "D_left"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
-			let pat_right = mk_pat (Papp  (Qident (mk_id "D_right"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
+			let p_left  = mk_pat (Papp  (Qident (mk_id "D_left"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
+			let p_right = mk_pat (Papp  (Qident (mk_id "D_right"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
+      let pat_left =  mk_pat (Papp (Qident (mk_id "SD"), [p_left])) in
+      let pat_right =  mk_pat (Papp (Qident (mk_id "SD"), [p_right])) in
 			let pat_absurd = mk_pat Pwild,mk_expr Eabsurd in
 			let branch_true = inst i1 in
 			let branch_false = inst i2 in
@@ -683,8 +613,9 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
   | I_update -> (*FIXME: Implement in WhyML *)
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "update_op"), stack_fuel_args))
   | I_if (i1, i2) -> (* TODO: ask about non exhaustive pm *)		
-			let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in      
-      let pat_bool = mk_pat (Papp  (Qident (mk_id "D_bool"), [mk_pat (Pvar (mk_id "b"));mk_pat (Pvar (mk_id "_"))])) in      
+	    let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in      
+      let pre_pat_bool = mk_pat (Papp  (Qident (mk_id "D_bool"), [mk_pat (Pvar (mk_id "b"));mk_pat (Pvar (mk_id "_"))])) in
+      let pat_bool = mk_pat (Papp (Qident (mk_id "SD"), [pre_pat_bool])) in 
       let pat_absurd = mk_pat Pwild,mk_expr Eabsurd in
 			let branch_true = inst i1 in
 			let branch_false = inst i2 in
