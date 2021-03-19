@@ -631,6 +631,14 @@ module AxiomaticSem
     ensures  { result = s[0] }
     ensures  { get_type result = get_type s[0] }
 
+  val pop (s: stack_t) : (stack_data,  stack_t)
+    requires { length s >= 1 }
+    ensures  { result = (s[0], s[1..]) }
+    ensures  { let top,res_stack = result 
+              in get_type top = get_type s[0] /\
+              length res_stack = length s -1 } 
+
+
   val swap (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }    

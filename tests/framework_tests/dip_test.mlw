@@ -1,0 +1,58 @@
+use axiomatic.AxiomaticSem
+use dataTypes.DataTypes
+use seq.Seq
+use int.Int
+
+let contract (input_stack: stack_t) (fuel: int) : stack_t
+  requires  { fuel > 0 }
+  requires  { length input_stack = 1 }  
+  requires  { get_type input_stack[0] = T_pair T_nat T_nat }
+  ensures   { length result = 1 }
+  ensures   { get_type result[0] = T_pair (T_list T_operation) T_nat } 
+  (*ensures  { match input_stack[0].d, result[0].d with
+              | Pair (Comparable (Nat n)) (Comparable (Nat strg)), Pair _ (Comparable (Nat r)) -> n.value + strg.value = r.value
+              | _ -> false end }*) =
+  let s = unpair input_stack fuel 
+  ensures { get_type result[0] = T_nat /\
+            get_type result[1] = T_nat /\ 
+            length result = 2            
+          } in
+  let s = unit_op s fuel 
+  ensures { get_type result[0] = T_unit /\
+            get_type result[1] = T_nat  /\ 
+            get_type result[2] = T_nat  /\
+            length result = 3            
+          } in
+  let top,s = pop s in
+  (*let top = peek s 
+  ensures { get_type s[0] = T_unit /\
+            get_type s[1] = T_nat  /\ 
+            get_type s[2] = T_nat  /\
+            length s = 3 /\
+            result = s[0]           
+          } in  
+    let s = s[1..] in
+     ensures { 
+            get_type result[0] = T_nat  /\ 
+            get_type result[1] = T_nat  /\
+            length result = 2            
+          } in *)
+    let s = add s fuel 
+    ensures { get_type result[0] = T_nat /\            
+            length result = 1            
+          } in
+  let s = top :: s 
+    ensures { get_type result[0] = T_unit /\
+            get_type result[1] = T_nat  /\             
+            length result = 2            
+          } in
+  let s = drop s fuel 
+  ensures { get_type result[0] = T_nat /\            
+            length result = 1            
+          } in
+  let s = nil_op s fuel (T_operation) 
+  ensures { get_type result[0] = T_list T_operation /\
+            get_type result[1] = T_nat  /\             
+            length result = 2            
+          } in  
+  pair s fuel

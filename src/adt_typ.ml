@@ -129,7 +129,7 @@ type ('l, 'a) inst_t =
   | I_noop
   | I_unpair 
 
-and type_stack_info = { stack_size: int; stack_type: (unit, unit) Adt.typ list }
+and type_stack_info = { stack_size: int; stack_type: (Location.t, annot list) Adt.typ list }
 
 and ('l, 'a) inst = 
   { desc: 'l * ('l,'a) inst_t * 'a;     

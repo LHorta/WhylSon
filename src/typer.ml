@@ -91,21 +91,25 @@ in (),t,()
 
 let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
   let open Adt_typ in
-  let param = type_extractor p.param in  
-  let storage = type_extractor p.storage in
-  let initial_stack = { stack_size=1; stack_type=[ (), Michelson.Adt.T_pair (param, storage),()]} in
+  let lc,_,ant = p.code in   
+  let initial_stack = { stack_size=1; stack_type=[lc , Michelson.Adt.T_pair (p.param, p.storage),ant]} in
   let rec typer s ((lc,i,ant) : (Michelson.Location.t, Michelson.Adt.annot list) Michelson.Adt.inst) =
     let open Michelson.Adt in
     match i with          
-      | I_seq l ->         
-        let code = List.fold_left (fun code_1 i_2 -> 
-            let desc_1, s_1 = code_1.desc, code_1.stack_after in
-            let desc_2, s_2 = typer s_1 i_2 in
-            let code_2 = { desc=desc_2; stack_after=s_2; stack_before=s_1 } in
-            let x = lc,Adt_typ.I_seq (code_1, code_2),ant in
-            {desc=x; stack_after=s_2; stack_before=code_1.stack_before}) {desc=lc,Adt_typ.I_noop,ant; stack_before=s;stack_after=s}
-        l in
-        code.desc, code.stack_after
+      | I_seq l ->  
+         (match l with
+        | [] -> (lc, Adt_typ.I_noop, ant), s
+        | [hd] -> typer s hd
+        | hd::tl ->
+            let desc_1, s1 = typer s hd in
+                let code = List.fold_left (fun code_1 i_2 -> 
+                    let desc_1, s_1 = code_1.desc, code_1.stack_after in
+                    let desc_2, s_2 = typer s_1 i_2 in
+                    let code_2 = { desc=desc_2; stack_after=s_2; stack_before=s_1 } in
+                    let x = lc,Adt_typ.I_seq (code_1, code_2),ant in
+                    {desc=x; stack_after=s_2; stack_before=code_1.stack_before}) {desc = desc_1; stack_before = s; stack_after = s1}
+                tl in
+                code.desc, code.stack_after)
         (* Adt_typ.I_seq (code_1, code_2), s_2 *)
       | I_drop -> 
           let sa = { stack_size = s.stack_size - 1; stack_type = List.tl s.stack_type } in
@@ -131,20 +135,20 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           (lc, Adt_typ.I_dug n, ant), sa
       | I_push (t,d) -> 
           let lst = s.stack_type in
-          let t' = type_extractor t in
-          let sa = { stack_size = s.stack_size + 1; stack_type = t'::lst } in
+          (* let t' = type_extractor t in *)
+          let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_push (t,d), ant), sa
       | I_some ->
           let t',lst = List.hd s.stack_type, List.tl s.stack_type in
-          let t = ((), T_option t', ()) in 
+          let t = (lc, T_option t', ant) in 
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_some, ant), sa
       | I_none t' ->
-          let t,lst = ((), T_option (type_extractor t'), ()), s.stack_type in
+          let t,lst = (lc, T_option t', ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_none t', ant), sa
       | I_unit -> 
-          let t,lst = ((), T_unit, ()), s.stack_type in          
+          let t,lst = (lc, T_unit, ant), s.stack_type in          
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_unit, ant), sa
       | I_if_none ((i_1, i_2)) -> 
@@ -162,7 +166,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           (lc, Adt_typ.I_if_none (code_1, code_2), ant), s_2 else raise Bad_Typing
       | I_pair -> 
           let t1,t2,lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
-          let t = (),T_pair (type_extractor t1, type_extractor t2),() in 
+          let t = lc,T_pair (t1,t2),ant in 
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_pair, ant), sa
       | I_car ->
@@ -180,11 +184,11 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_cdr, ant), sa
       | I_left t' ->       
-          let t,lst = ((), T_or (List.hd s.stack_type, type_extractor t'), ()), List.tl s.stack_type in
+          let t,lst = (lc, T_or (List.hd s.stack_type, t'), ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_left t', ant), sa
       | I_right t' ->   (* checked till here *)    
-          let t,lst = ((), T_or (type_extractor t', List.hd s.stack_type), ()), List.tl s.stack_type in
+          let t,lst = (lc, T_or (t', List.hd s.stack_type), ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_right t', ant), sa
       | I_if_left ((i_1, i_2)) -> 
@@ -201,7 +205,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           if stack_checker s_1.stack_type s_2.stack_type then
           (lc, Adt_typ.I_if_left (code_1, code_2), ant), s_2 else raise Bad_Typing
       | I_nil t' ->
-          let t,lst = ((),T_list (type_extractor t'),()), s.stack_type in
+          let t,lst = (lc,T_list t',ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_nil t', ant), sa
       | I_cons ->
@@ -221,19 +225,19 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           if stack_checker s_1.stack_type s_2.stack_type then
           (lc, Adt_typ.I_if_cons (code_1, code_2), ant), s_2 else raise Bad_Typing
       | I_size -> 
-          let t,lst = ((), T_nat, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_nat, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_size, ant), sa
       | I_empty_set t' -> 
-          let t = (), T_set (type_extractor t'),() in
+          let t = lc, T_set t', ant in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::s.stack_type } in
           (lc, Adt_typ.I_empty_set t', ant), sa
       | I_empty_map (tc',t') -> 
-          let t = (), T_map (type_extractor tc', type_extractor t'),() in
+          let t = lc, T_map (tc', t'), ant in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::s.stack_type } in
           (lc, Adt_typ.I_empty_map (tc',t'), ant), sa
       | I_empty_big_map (tc',t') -> 
-          let t = (), T_big_map (type_extractor tc', type_extractor t'),() in
+          let t = lc, T_big_map (tc', t'), ant in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::s.stack_type } in
           (lc, Adt_typ.I_empty_big_map (tc',t'), ant), sa
       (*| I_map of inst_annotated FIXME: not done yet *)
@@ -243,13 +247,13 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let code = { desc = desc; stack_after = sa; stack_before = s; } in
           (lc, Adt_typ.I_iter code, ant), sa
       | I_mem -> (* TODO: check not sure*)
-          let t, lst = ((),T_bool,()), drop_n Z.(of_int 2) s.stack_type in
+          let t, lst = (lc,T_bool,ant), drop_n Z.(of_int 2) s.stack_type in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_mem, ant), sa
       | I_get -> (* TODO: check not sure*)
           let t = 
             match List.hd (List.tl s.stack_type) with
-              | _, (T_map (c,t') | T_big_map (c, t')),_ -> ((), T_option (type_extractor t'),())
+              | _, (T_map (c,t') | T_big_map (c, t')),_ -> (lc, T_option t', ant)
               | _ -> raise Bad_Typing in
           let lst = drop_n Z.(of_int 2) s.stack_type in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
@@ -272,7 +276,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           (lc, Adt_typ.I_loop code, ant), s'
       (*| I_loop_left of inst_annotated FIXME: not done *)
       | I_lambda (t1,t2,(i)) -> (* TODO: check*)
-          let t,lst = ((), T_lambda (type_extractor t1,type_extractor t2), ()), s.stack_type in    
+          let t,lst = (lc, T_lambda (t1, t2), ant), s.stack_type in    
           let desc, s' =  typer s (i) in 
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           let code = { desc = desc; stack_before = s; stack_after = sa;  } in 
@@ -313,29 +317,29 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let sa = { stack_size = s.stack_size - 1; stack_type = List.tl s.stack_type } in
           (lc, Adt_typ.I_concat, ant), sa
       | I_slice ->
-          let t, lst = ((), T_string, ()), drop_n Z.(of_int 3) s.stack_type  in
+          let t, lst = (lc, T_string, ant), drop_n Z.(of_int 3) s.stack_type  in
           let sa = { stack_size = s.stack_size - 2; stack_type = t::lst } in
           (lc, Adt_typ.I_slice,  ant),sa
       | I_pack ->
-          let t,lst = ((), T_bytes, ()),List.tl (List.tl s.stack_type) in
+          let t,lst = (lc, T_bytes, ant),List.tl (List.tl s.stack_type) in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_pack, ant), sa
       | I_unpack t' ->
-          let t,lst = ((), T_option (type_extractor t'),()), List.tl s.stack_type in            
+          let t,lst = (lc, T_option t',ant), List.tl s.stack_type in            
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_unpack t', ant), sa
       | I_add -> 
-          let (_, t1, _),(_, t2, _),lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
+          let (lc1, t1, ant1),(lc2, t2,ant2),lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
           let t = (match t1,t2 with
             | T_int, T_int
             | T_int, T_nat
-            | T_nat, T_int -> (), T_int, ()
-            | T_nat, T_nat -> (), T_nat, ()
+            | T_nat, T_int -> lc, T_int, ant
+            | T_nat, T_nat -> lc, T_nat, ant
             | _ -> raise Bad_Typing) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_add, ant), sa
       | I_sub ->
-          let t,lst = ((),T_int, ()),List.tl (List.tl s.stack_type) in            
+          let t,lst = (lc,T_int, ant),List.tl (List.tl s.stack_type) in            
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_sub, ant), sa
       | I_mul ->
@@ -343,8 +347,8 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let t = (match t1,t2 with
             | T_int, T_int
             | T_int, T_nat
-            | T_nat, T_int -> (), T_int, ()
-            | T_nat, T_nat -> (), T_nat, ()
+            | T_nat, T_int -> lc, T_int, ant
+            | T_nat, T_nat -> lc, T_nat, ant
             | _ -> raise Bad_Typing) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc,Adt_typ.I_mul, ant), sa
@@ -354,45 +358,45 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
               | T_int, T_int
               | T_int, T_nat
               | T_nat, T_int -> 
-                    T_option ((), T_pair  (((), T_int, ()),
-                                       ((), T_nat, ())), ())
+                    T_option (lc, T_pair  ((lc, T_int, ant),
+                                       (lc, T_nat, ant)), ant)
               |  T_nat, T_nat -> 
-                    T_option ((), T_pair  (((), T_nat, ()),
-                                       ((), T_nat, ())), ())
+                    T_option (lc, T_pair  ((lc, T_nat, ant),
+                                       (lc, T_nat, ant)), ant)
               | _ -> raise Bad_Typing) in
-            let sa = { stack_size = s.stack_size - 1; stack_type = ((), t, ())::lst } in
+            let sa = { stack_size = s.stack_size - 1; stack_type = (lc, t, ant)::lst } in
             (lc, Adt_typ.I_ediv, ant), sa
       | I_abs -> 
-          let t,lst = ((), T_int, ()),List.tl s.stack_type in
+          let t,lst = (lc, T_int, ant),List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_abs, ant), sa
       | I_isnat ->
-          let t,lst = ((), T_option ((), T_nat, ()), ()), List.tl s.stack_type in
+          let t,lst = (lc, T_option (lc, T_nat, ant), ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_isnat, ant), sa
       | I_int ->
-          let t,lst = ((), T_int, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_int, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_int, ant), sa
       | I_neg ->
-          let t,lst = ((), T_int, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_int, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_neg, ant), sa
       | I_lsl ->
-          let t,lst = ((), T_nat, ()), List.tl (List.tl s.stack_type) in
+          let t,lst = (lc, T_nat, ant), List.tl (List.tl s.stack_type) in
           let sa = { stack_size = s.stack_size-1; stack_type = t::lst } in
           (lc, Adt_typ.I_lsl, ant), sa
       | I_lsr ->
-          let t,lst = ((), T_nat, ()), List.tl (List.tl s.stack_type) in
+          let t,lst = (lc, T_nat, ant), List.tl (List.tl s.stack_type) in
           let sa = { stack_size = s.stack_size-1; stack_type = t::lst } in
           (lc, Adt_typ.I_lsr, ant), sa
       | I_or ->
           let (_, t1,_),(_, t2,_),lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
           let t = (match t1,t2 with
               | T_bool, T_bool -> 
-                  (), T_bool, ()
+                  lc, T_bool, ant
               | T_nat, T_nat -> 
-                  (), T_nat, ()
+                  lc, T_nat, ant
               | _ -> raise Bad_Typing) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_or, ant), sa
@@ -400,10 +404,10 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let (_, t1,_),(_, t2,_),lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
           let t = (match t1,t2 with
               | T_bool, T_bool -> 
-                  (), T_bool, ()
+                  lc, T_bool, ant
               | T_int, T_nat                   
               | T_nat, T_nat -> 
-                  (), T_nat, ()
+                  lc, T_nat, ant
               | _ -> raise Bad_Typing) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_and, ant), sa
@@ -411,117 +415,117 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let (_, t1,_),(_, t2,_),lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
           let t = (match t1,t2 with
               | T_bool, T_bool -> 
-                  (), T_bool, ()
+                  lc, T_bool, ant
               | T_nat, T_nat -> 
-                  (), T_nat, ()
+                  lc, T_nat, ant
               | _ -> raise Bad_Typing) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_xor, ant), sa
       | I_not ->
           let (_, t', _),lst = List.hd s.stack_type, List.tl s.stack_type in
           let t = (match t' with
-            | T_bool -> (), T_bool, ()
+            | T_bool -> lc, T_bool, ant
             | T_nat
-            | T_int -> (), T_int, ()
+            | T_int -> lc, T_int, ant
             | _ -> raise Bad_Typing) in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_not, ant), sa
       | I_compare ->
           let lst = List.tl (List.tl s.stack_type) in
-          let t = (), T_int, () in
+          let t = lc, T_int, ant in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_xor, ant), sa
       | I_eq ->
-          let t,lst = ((), T_bool, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_bool, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_eq, ant), sa
       | I_neq ->
-          let t,lst = ((), T_bool, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_bool, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_neq, ant), sa
       | I_lt ->
-          let t,lst = ((), T_bool, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_bool, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_lt, ant), sa
       | I_gt ->
-          let t,lst = ((), T_bool, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_bool, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_gt, ant), sa
       | I_le ->
-          let t,lst = ((), T_bool, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_bool, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_le, ant), sa
       | I_ge ->
-          let t,lst = ((), T_bool, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_bool, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_ge, ant), sa
       | I_self ->
-          let t,lst = ((), T_contract (type_extractor p.param), ()), s.stack_type in
+          let t,lst = (lc, T_contract p.param, ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_self, ant), sa
       | I_contract t' ->
-          let t,lst = ((), T_option (type_extractor t'), ()), List.tl s.stack_type in
+          let t,lst = (lc, T_option t', ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_contract t', ant), sa
       | I_transfer_tokens ->
-          let t,lst = ((), T_operation, ()), List.tl (List.tl (List.tl s.stack_type)) in
+          let t,lst = (lc, T_operation, ant), List.tl (List.tl (List.tl s.stack_type)) in
           let sa = { stack_size = s.stack_size - 2; stack_type = t::lst } in
           (lc, Adt_typ.I_transfer_tokens, ant), sa
       | I_set_delegate ->
-          let t,lst = ((), T_operation, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_operation, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_set_delegate, ant), sa
       | I_create_contract x -> assert false (* of program  FIXME: *)
       | I_implicit_account ->
-          let t,lst = ((), T_contract ((), T_unit, ()), ()), List.tl s.stack_type in
+          let t,lst = (lc, T_contract (lc, T_unit, ant), ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_implicit_account, ant), sa
       | I_now ->
-          let t,lst = ((), T_timestamp,()), s.stack_type in
+          let t,lst = (lc, T_timestamp, ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_now, ant), sa
       | I_amount ->
-          let t,lst = ((), T_mutez, ()), s.stack_type in
+          let t,lst = (lc, T_mutez, ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_amount, ant), sa
       | I_balance ->
-          let t,lst = ((), T_mutez, ()), s.stack_type in
+          let t,lst = (lc, T_mutez, ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_balance, ant), sa
       | I_check_signature ->
-        let t,lst = ((), T_bool, ()), List.tl (List.tl (List.tl s.stack_type)) in
+        let t,lst = (lc, T_bool, ant), List.tl (List.tl (List.tl s.stack_type)) in
         let sa = { stack_size = s.stack_size - 2; stack_type = t::lst } in
         (lc, Adt_typ.I_check_signature, ant), sa
       | I_blake2b ->
-          let t,lst = ((),  T_bytes, ()), List.tl s.stack_type in
+          let t,lst = (lc,  T_bytes, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_blake2b, ant), sa
       | I_sha256 ->
-          let t,lst = ((), T_bytes, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_bytes, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_sha256, ant), sa
       | I_sha512 ->
-          let t,lst = ((), T_bytes, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_bytes, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_sha512, ant), sa
       | I_hash_key ->
-          let t,lst = ((), T_key_hash, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_key_hash, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_hash_key, ant), sa
       | I_source ->
-          let t,lst = ((), T_address, ()), s.stack_type in
+          let t,lst = (lc, T_address, ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_source, ant), sa
       | I_sender ->
-          let t,lst = ((), T_address, ()), s.stack_type in
+          let t,lst = (lc, T_address, ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_sender, ant), sa
       | I_address ->
-          let t,lst = ((), T_address, ()), List.tl s.stack_type in
+          let t,lst = (lc, T_address, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_address, ant), sa
       | I_chain_id ->
-          let t,lst = ((), T_chain_id, ()), s.stack_type in
+          let t,lst = (lc, T_chain_id, ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           (lc, Adt_typ.I_chain_id, ant), sa
       | I_noop -> 

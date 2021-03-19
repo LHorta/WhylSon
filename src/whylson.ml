@@ -38,21 +38,22 @@ open Michelson
 (* open Adt *)
 open Translator
 
+type tz_decl = Loc.position * Ptree.decl 
 
 let read_file file c =
   let tokens = Parser.parse_file file in
-  let adt = Parser.convert tokens in
+  let adt = Parser.convert file tokens in
   adt
 
 let read_channel env path file c =
   let p = read_file file c in
   let p = to_typed_program p in  
   let p = translate_typed_program p in   
-  List.iter (fun d -> Format.eprintf "%a@." Mlw_printer.pp_decl d) p;
+  List.iter (fun (l,d) -> Format.eprintf "%a@." Mlw_printer.pp_decl d) p;
   Typing.open_file env path; (* could remove the Typing. *)
   let id = mk_id "Test" in
   Typing.open_module id;     (* could remove the Typing. *)
-  let add_decl d = Typing.add_decl Loc.dummy_position d in
+  let add_decl (l,d) = Typing.add_decl l d in
   List.iter add_decl p;
   close_module Loc.dummy_position;
   close_file ()

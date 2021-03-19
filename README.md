@@ -8,14 +8,20 @@ WhylSon helps you prove your Michelson smart contract
 
 Use the [opam](https://opam.ocaml.org/doc/Install.html) package manager to install the following:
 
-- [Dune](https://github.com/ocaml/dune) version 2.5.1
+- [Dune](https://github.com/ocaml/dune) version >= 2.7
 
-- [Why3](http://why3.lri.fr/) version 1.3.1
+- [Why3](http://why3.lri.fr/) version 1.3.3
 
 - [GtkSourceView2](https://wiki.gnome.org/Projects/GtkSourceView) version >= 2.0
 
 ## Installation
 
+- Install all the depencies 
+```bash
+opam pin add .
+```
+
+- Build Whylson and Install plugin
 ```bash
 dune build @install 
 dune install

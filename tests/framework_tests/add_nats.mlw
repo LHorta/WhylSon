@@ -2,18 +2,17 @@ use axiomatic.AxiomaticSem
 use dataTypes.DataTypes
 use seq.Seq
 use int.Int
-use natural.Natural
 
 let contract (input_stack: stack_t) (fuel: int) : stack_t
   requires  { fuel > 0 }
   requires  { length input_stack = 1 }  
-  requires  { typ_infer input_stack[0].d = Pair_t (Comparable_t Nat_t) (Comparable_t Nat_t) }
+  requires  { get_type input_stack[0] = T_pair T_nat T_nat }
   ensures   { length result = 1 }
-  ensures   { typ_infer result[0].d = Pair_t (List_t Operation_t) (Comparable_t Nat_t) } 
+  ensures   { get_type result[0] = T_pair (T_list T_operation) T_nat } 
   (*ensures  { match input_stack[0].d, result[0].d with
               | Pair (Comparable (Nat n)) (Comparable (Nat strg)), Pair _ (Comparable (Nat r)) -> n.value + strg.value = r.value
               | _ -> false end }*) =
   let s = unpair input_stack fuel in
   let s = add s fuel in 
-  let s = push s fuel (mk_wf_data (List Nil Operation_t)) in
+  let s = nil_op s fuel (T_operation) in
   pair s fuel
