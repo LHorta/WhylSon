@@ -1,0 +1,100 @@
+use axiomatic.AxiomaticSem
+use dataTypes.DataTypes
+use seq.Seq
+use int.Int
+let test (__stack__: stack_t) (__fuel__: int) : stack_t
+  requires { (length __stack__) = 1 }
+  requires { __fuel__ > 0 }
+  requires { (get_type (__stack__[0])) = (T_pair (T_option T_int ) T_int ) }
+  ensures { (length result) = 1 }
+  ensures { (get_type (result[0])) = (T_pair (T_list T_operation ) T_int ) } =
+  let __stack__ =
+    [@expl:Intermidate PostCondition 11]
+    [@vc:white_box]
+    fun 
+      ensures { ((length result) = 1) /\
+                  ((get_type (result[0]))
+                     = (T_pair (T_list T_operation ) T_int )) } ->
+      let __stack__ =
+        [@expl:Intermidate PostCondition 10]
+        [@vc:white_box]
+        fun 
+          ensures { (((length result) = 2) /\
+                       ((get_type (result[0])) = (T_list T_operation ))) /\
+                      ((get_type (result[1])) = T_int ) } ->
+          let __stack__ =
+            [@expl:Intermidate PostCondition 9]
+            [@vc:white_box]
+            fun 
+              ensures { ((length result) = 1) /\
+                          ((get_type (result[0])) = T_int ) } ->
+              let __stack__ =
+                [@expl:Intermidate PostCondition 8]
+                [@vc:white_box]
+                fun 
+                  ensures { ((length result) = 1) /\
+                              ((get_type (result[0])) = (T_option T_int )) } ->
+                  car __stack__ __fuel__ in
+              ([@expl:Intermidate PostCondition 7]
+               [@vc:white_box]
+               fun 
+                 ensures { ((length result) = 1) /\
+                             ((get_type (result[0])) = T_int ) } ->
+                 match peek __stack__
+                 with
+                   | (SD (D_none _)) ->
+                       (let __stack__ = __stack__[1 ..] in
+                        ([@expl:Intermidate PostCondition 3]
+                         [@vc:white_box]
+                         fun 
+                           ensures { ((length result) = 1) /\
+                                       ((get_type (result[0])) = T_int ) } ->
+                           push
+                             __stack__
+                             __fuel__
+                             T_int 
+                             (SD (D_int 42 T_int ))))
+                   | (SD (D_some dt _)) ->
+                       (let __stack__ =
+                          let __stack__ = __stack__[1 ..] in
+                          (dt :: __stack__) in
+                        ([@expl:Intermidate PostCondition 6]
+                         [@vc:white_box]
+                         fun 
+                           ensures { ((length result) = 1) /\
+                                       ((get_type (result[0])) = T_int ) } ->
+                           let __stack__ =
+                             [@expl:Intermidate PostCondition 5]
+                             [@vc:white_box]
+                             fun 
+                               ensures { (((length result) = 2) /\
+                                            ((get_type (result[0])) = T_int )) /\
+                                           ((get_type (result[1])) = T_int ) } ->
+                               push
+                                 __stack__
+                                 __fuel__
+                                 T_int 
+                                 (SD (D_int 666 T_int )) in
+                           ([@expl:Intermidate PostCondition 4]
+                            [@vc:white_box]
+                            fun 
+                              ensures { ((length result) = 1) /\
+                                          ((get_type (result[0])) = T_int ) } ->
+                              sub __stack__ __fuel__)))
+                   | _ -> absurd
+                 end) in
+          ([@expl:Intermidate PostCondition 2]
+           [@vc:white_box]
+           fun 
+             ensures { (((length result) = 2) /\
+                          ((get_type (result[0])) = (T_list T_operation ))) /\
+                         ((get_type (result[1])) = T_int ) } ->
+             nil_op __stack__ __fuel__ T_operation ) in
+      ([@expl:Intermidate PostCondition 1]
+       [@vc:white_box]
+       fun 
+         ensures { ((length result) = 1) /\
+                     ((get_type (result[0]))
+                        = (T_pair (T_list T_operation ) T_int )) } ->
+         pair __stack__ __fuel__) in
+  __stack__

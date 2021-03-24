@@ -1,0 +1,64 @@
+let contract (input_stack:seq stack_data) (fuel:int) : seq stack_data
+    requires { fuel > 0 }
+    requires { length input_stack = 1 }
+    requires { get_type input_stack[0] = T_pair T_nat T_nat }
+    ensures  { length result = 1 }
+    ensures  { get_type result[0] = T_pair (T_list T_operation) T_nat } =
+    let s =
+      abstract
+        ensures  { get_type result[0] = T_nat /\
+                   get_type result[1] = T_nat /\ length result = 2 }
+        unpair input_stack fuel
+      end
+    in
+    let s1 =
+      abstract
+        ensures  { get_type result[0] = T_unit /\
+                   get_type result[1] = T_nat /\
+                   get_type result[2] = T_nat /\ length result = 3 }
+        unit_op s fuel
+      end
+    in
+    let top =
+      abstract
+        ensures  { get_type s1[0] = T_unit /\
+                   get_type s1[1] = T_nat /\
+                   get_type s1[2] = T_nat /\ length s1 = 3 /\ result = s1[0] }
+        peek s1
+      end
+    in
+    let s2 =
+      abstract
+        ensures  { get_type result[0] = T_nat /\
+                   get_type result[1] = T_nat /\ length result = 2 }
+        let o = 1 in
+        s1[o..]
+      end
+    in
+    let s3 =
+      abstract
+        ensures  { get_type result[0] = T_nat /\ length result = 1 }
+        add s2 fuel
+      end
+    in
+    let s4 =
+      abstract
+        ensures  { get_type result[0] = T_unit /\
+                   get_type result[1] = T_nat /\ length result = 2 }
+        top :: s3
+      end
+    in
+    let s5 =
+      abstract
+        ensures  { get_type result[0] = T_nat /\ length result = 1 }
+        drop s4 fuel
+      end
+    in
+    let s6 =
+      abstract
+        ensures  { get_type result[0] = T_list T_operation /\
+                   get_type result[1] = T_nat /\ length result = 2 }
+        let o = T_operation in
+        nil_op s5 fuel o
+      end in
+    pair s6 fuel

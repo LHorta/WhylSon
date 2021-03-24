@@ -1,0 +1,95 @@
+let test (__stack__: stack_t) (__fuel__: int) : stack_t
+  requires { (length __stack__) = 1 }
+  requires { __fuel__ > 0 }
+  requires { (get_type (__stack__[0])) = (T_pair T_nat  T_nat ) }
+  ensures { (length result) = 1 }
+  ensures { (get_type (result[0])) = (T_pair (T_list T_operation ) T_nat ) } =
+  let __stack__ =
+    [@expl:Intermidate PostCondition 12]
+    [@vc:white_box]
+    fun 
+      ensures { ((length result) = 1) /\
+                  ((get_type (result[0]))
+                     = (T_pair (T_list T_operation ) T_nat )) } ->
+      let __stack__ =
+        [@expl:Intermidate PostCondition 11]
+        [@vc:white_box]
+        fun 
+          ensures { (((length result) = 2) /\
+                       ((get_type (result[0])) = (T_list T_operation ))) /\
+                      ((get_type (result[1])) = T_nat ) } ->
+          let __stack__ =
+            [@expl:Intermidate PostCondition 10]
+            [@vc:white_box]
+            fun 
+              ensures { ((length result) = 1) /\
+                          ((get_type (result[0])) = T_nat ) } ->
+              let __stack__ =
+                [@expl:Intermidate PostCondition 9]
+                [@vc:white_box]
+                fun 
+                  ensures { (((length result) = 2) /\
+                               ((get_type (result[0])) = T_unit )) /\
+                              ((get_type (result[1])) = T_nat ) } ->
+                  let __stack__ =
+                    [@expl:Intermidate PostCondition 8]
+                    [@vc:white_box]
+                    fun 
+                      ensures { ((((length result) = 3) /\
+                                    ((get_type (result[0])) = T_unit )) /\
+                                   ((get_type (result[1])) = T_nat )) /\
+                                  ((get_type (result[2])) = T_nat ) } ->
+                      let __stack__ =
+                        [@expl:Intermidate PostCondition 7]
+                        [@vc:white_box]
+                        fun 
+                          ensures { (((length result) = 2) /\
+                                       ((get_type (result[0])) = T_nat )) /\
+                                      ((get_type (result[1])) = T_nat ) } ->
+                          unpair __stack__ __fuel__ in
+                      ([@expl:Intermidate PostCondition 6]
+                       [@vc:white_box]
+                       fun 
+                         ensures { ((((length result) = 3) /\
+                                       ((get_type (result[0])) = T_unit )) /\
+                                      ((get_type (result[1])) = T_nat )) /\
+                                     ((get_type (result[2])) = T_nat ) } ->
+                         unit_op __stack__ __fuel__) in
+                  ([@expl:Intermidate PostCondition 5]
+                   [@vc:white_box]
+                   fun 
+                     ensures { (((length result) = 2) /\
+                                  ((get_type (result[0])) = T_unit )) /\
+                                 ((get_type (result[1])) = T_nat ) } ->
+                     let top = peek __stack__ in
+                     (let __stack__ = __stack__[1 ..] in
+                      (let __stack__ =
+                         [@expl:Intermidate PostCondition 4]
+                         [@vc:white_box]
+                         fun 
+                           ensures { (((length result) = 2) /\
+                                        ((get_type (result[0])) = T_unit )) /\
+                                       ((get_type (result[1])) = T_nat ) } ->
+                           add __stack__ __fuel__ in
+                       (top :: __stack__)))) in
+              ([@expl:Intermidate PostCondition 3]
+               [@vc:white_box]
+               fun 
+                 ensures { ((length result) = 1) /\
+                             ((get_type (result[0])) = T_nat ) } ->
+                 drop __stack__ __fuel__) in
+          ([@expl:Intermidate PostCondition 2]
+           [@vc:white_box]
+           fun 
+             ensures { (((length result) = 2) /\
+                          ((get_type (result[0])) = (T_list T_operation ))) /\
+                         ((get_type (result[1])) = T_nat ) } ->
+             nil_op __stack__ __fuel__ T_operation ) in
+      ([@expl:Intermidate PostCondition 1]
+       [@vc:white_box]
+       fun 
+         ensures { ((length result) = 1) /\
+                     ((get_type (result[0]))
+                        = (T_pair (T_list T_operation ) T_nat )) } ->
+         pair __stack__ __fuel__) in
+  __stack__

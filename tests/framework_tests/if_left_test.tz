@@ -3,6 +3,6 @@ storage int;
 code { CAR; 
        IF_LEFT 
         { PUSH int 42; ADD }
-        { PUSH int 666; SUB };
+        { PUSH int 666; ADD };
        NIL operation; PAIR 
      }

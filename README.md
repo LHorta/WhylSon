@@ -32,7 +32,7 @@ For some reason if the `dune build @install` command fails, just run it again
 ## Usage
 
 ```bash
-why3 ide -L [PATH_TO_WHYML/src] [yourFile.tz]
+why3 ide -L [PATH_TO_LIB] [your_file.tz]
 ```
 ## Proof Examples
 
@@ -40,7 +40,7 @@ Some proof examples are located under `WhyML/tests` directory
 
 For these examples just run
 ```bash
-why3 ide -L [PATH_TO_WHYML/src] [example_file.mlw]
+why3 ide -L [PATH_TO_LIB] [example_file.mlw]
 ```
 
 ## Contributing

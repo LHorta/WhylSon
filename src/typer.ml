@@ -42,52 +42,94 @@ let rec insert_at x n = function
   | [] -> [x]
   | h :: t as l -> if Z.(n <= zero) then x :: l else h :: insert_at x Z.(n - one) t;;
 
-let stack_checker s1 s2 = 
-  List.fold_left2 (fun acc x y -> acc && x=y) true s1 s2
+  let rec type_extractor (_,t,_) =
+    let open Michelson.Adt in
+    let t = match t with
+    | T_int -> T_int  
+    | T_key -> T_key
+    | T_unit -> T_unit
+    | T_signature -> T_signature
+    | T_operation -> T_operation
+    | T_chain_id -> T_chain_id
+    | T_nat -> T_nat
+    | T_string -> T_string
+    | T_bytes -> T_bytes
+    | T_mutez -> T_mutez
+    | T_bool -> T_bool
+    | T_key_hash -> T_key_hash
+    | T_timestamp -> T_timestamp
+    | T_address -> T_address
+    | T_never -> T_never
+    | T_bls12_381_g1 -> T_bls12_381_g1
+    | T_bls12_381_g2 -> T_bls12_381_g2
+    | T_bls12_381_fr -> T_bls12_381_fr
+    | T_option t' -> T_option (type_extractor t')
+    | T_list t' -> T_list (type_extractor t')
+    | T_set t' -> T_set (type_extractor t')
+    | T_contract t'  -> T_contract (type_extractor t')
+    | T_pair (t1, t2) -> T_pair (type_extractor t1, type_extractor t2)
+    | T_or (t1, t2) -> T_or (type_extractor t1, type_extractor t2)
+    | T_lambda (t1, t2) -> T_lambda (type_extractor t1, type_extractor t2)
+    | T_map (t1, t2) -> T_map (type_extractor t1, type_extractor t2)
+    | T_big_map (t1, t2) -> T_big_map (type_extractor t1, type_extractor t2)
+    | T_ticket t' -> T_ticket (type_extractor t')
+    | T_sapling_transaction n -> T_sapling_transaction n
+    | T_sapling_state n -> T_sapling_state n    
+  in (),t,()
 
-exception Bad_Typing
+let stack_checker s1 s2 =   
+  List.fold_left2 (fun acc x y -> acc && type_extractor x = type_extractor y) true s1 s2
+
+let rec string_of_type (_,t,_) = 
+  let open Michelson.Adt in
+    match t with
+    | T_key -> "T_key"
+    | T_unit -> "T_unit"
+    | T_signature -> "T_signature"
+    | T_option t -> "T_option ("^ string_of_type t ^")"
+    | T_list t -> "T_list ("^ string_of_type t ^")"
+    | T_set t -> "T_set ("^ string_of_type t ^")"
+    | T_operation -> "T_operation"
+    | T_contract t -> "T_Contract ("^ string_of_type t ^")"
+    | T_pair (t1,t2) -> "T_pair ("^ string_of_type t1 ^", "^ string_of_type t2 ^")"
+    | T_or (t1,t2) -> "T_or ("^ string_of_type t1 ^", "^ string_of_type t2 ^")"
+    | T_lambda (t1,t2) -> "T_lambda ("^ string_of_type t1 ^", "^ string_of_type t2 ^")"
+    | T_map (t1,t2) -> "T_map ("^ string_of_type t1 ^", "^ string_of_type t2 ^")"
+    | T_big_map (t1,t2) -> "T_big_map ("^ string_of_type t1 ^", "^ string_of_type t2 ^")"
+    | T_chain_id -> "T_chain_id"
+    | T_int -> "T_int"
+    | T_nat -> "T_nat"
+    | T_string -> "T_string"
+    | T_bytes -> "T_bytes"
+    | T_mutez -> "T_mutez"
+    | T_bool -> "T_bool"
+    | T_key_hash -> "T_key_hash"
+    | T_timestamp -> "T_timestamp"
+    | T_address -> "T_address"
+    | T_never -> "T_never"
+    | T_ticket t -> "T_ticket ("^ string_of_type t ^")"
+    | T_bls12_381_g1 -> "T_bls12_381_g1"
+    | T_bls12_381_g2 -> "T_bls12_381_g2"
+    | T_bls12_381_fr -> "T_bls12_381_fr"
+    | T_sapling_transaction n -> "T_sapling_transaction ("^ Z.to_string n ^")"
+    | T_sapling_state n -> "T_sapling_state ("^ Z.to_string n ^")"
+
+
+
+let stack_printer s_name s =    
+  s_name^": ["^ String.concat "; " ((List.map (fun x -> (string_of_type x)) s)@["]\n"]) 
+    
+
+exception Bad_Typing of string
 let split_n n lst = 
-  if Z.(n < zero) then raise Bad_Typing else
+  if Z.(n < zero) then raise (Bad_Typing "Invalid List size")  else
   let rec aux n lst acc = 
       match lst with 
-      | [] -> if Z.(n > zero) then raise Bad_Typing else List.rev acc,[]
+      | [] -> if Z.(n > zero) then raise (Bad_Typing "List is smaller than argument") else List.rev acc,[]
       | h::t -> if Z.(n = zero) then List.rev acc,h::t else aux Z.(n - one) t (h::acc) in
   aux n lst []
 
-let rec type_extractor (_,t,_) =
-  let open Michelson.Adt in
-  let t = match t with
-  | T_int -> T_int  
-  | T_key -> T_key
-  | T_unit -> T_unit
-  | T_signature -> T_signature
-  | T_operation -> T_operation
-  | T_chain_id -> T_chain_id
-  | T_nat -> T_nat
-  | T_string -> T_string
-  | T_bytes -> T_bytes
-  | T_mutez -> T_mutez
-  | T_bool -> T_bool
-  | T_key_hash -> T_key_hash
-  | T_timestamp -> T_timestamp
-  | T_address -> T_address
-  | T_never -> T_never
-  | T_bls12_381_g1 -> T_bls12_381_g1
-  | T_bls12_381_g2 -> T_bls12_381_g2
-  | T_bls12_381_fr -> T_bls12_381_fr
-  | T_option t' -> T_option (type_extractor t')
-  | T_list t' -> T_list (type_extractor t')
-  | T_set t' -> T_set (type_extractor t')
-  | T_contract t'  -> T_contract (type_extractor t')
-  | T_pair (t1, t2) -> T_pair (type_extractor t1, type_extractor t2)
-  | T_or (t1, t2) -> T_or (type_extractor t1, type_extractor t2)
-  | T_lambda (t1, t2) -> T_lambda (type_extractor t1, type_extractor t2)
-  | T_map (t1, t2) -> T_map (type_extractor t1, type_extractor t2)
-  | T_big_map (t1, t2) -> T_big_map (type_extractor t1, type_extractor t2)
-  | T_ticket t' -> T_ticket (type_extractor t')
-  | T_sapling_transaction n -> T_sapling_transaction n
-  | T_sapling_state n -> T_sapling_state n    
-in (),t,()
+
 
 let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
   let open Adt_typ in
@@ -155,7 +197,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let s' = 
             match List.hd s.stack_type with
               | (_, T_option t', _) -> t'
-              | _ -> raise Bad_Typing in
+              | _ -> raise (Bad_Typing "Invalid types on IF_NONE") in
           let s_1' = { stack_size = s.stack_size - 1; stack_type = List.tl s.stack_type } in
           let s_2' = { stack_size = s.stack_size; stack_type = s'::(List.tl s.stack_type) } in
           let desc_1, s_1 = typer s_1' (i_1) in
@@ -163,7 +205,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let code_1 = { desc = desc_1; stack_after = s_1; stack_before = s_1' } in
           let code_2 = { desc = desc_2; stack_after = s_2; stack_before = s_2' } in
           if stack_checker s_1.stack_type s_2.stack_type then
-          (lc, Adt_typ.I_if_none (code_1, code_2), ant), s_2 else raise Bad_Typing
+          (lc, Adt_typ.I_if_none (code_1, code_2), ant), s_2 else raise (Bad_Typing "Type of IF_NONE branches do not match")
       | I_pair -> 
           let t1,t2,lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
           let t = lc,T_pair (t1,t2),ant in 
@@ -195,7 +237,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let s' = 
             match List.hd s.stack_type with
               | _, (T_or (l,r)),_ -> l,r
-              | _ -> raise Bad_Typing in
+              | _ -> raise (Bad_Typing "Invalid types on IF_LEFT") in
           let s_1' = { s with stack_type = (fst s')::(List.tl s.stack_type) } in
           let s_2' = { s with stack_type = (snd s')::(List.tl s.stack_type) } in
           let desc_1, s_1 = typer s_1' (i_1) in
@@ -203,7 +245,8 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let code_1 = { desc = desc_1; stack_after = s_1; stack_before = s_1' } in
           let code_2 = { desc = desc_2; stack_after = s_2; stack_before = s_2' } in
           if stack_checker s_1.stack_type s_2.stack_type then
-          (lc, Adt_typ.I_if_left (code_1, code_2), ant), s_2 else raise Bad_Typing
+          (lc, Adt_typ.I_if_left (code_1, code_2), ant), s_2 else           
+            raise (Bad_Typing "Type of IF_LEFT branches do not match")
       | I_nil t' ->
           let t,lst = (lc,T_list t',ant), s.stack_type in
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
@@ -215,15 +258,19 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
       | I_if_cons ((i_1, i_2)) ->
           let s' = match List.hd s.stack_type with 
                   | _,(T_list t'),_ -> t'
-                  | _ -> raise Bad_Typing in
+                  | _ -> raise (Bad_Typing "Invalid types on IF_CONS") in
           let s_1' = { stack_size = s.stack_size + 1; stack_type = s'::s.stack_type } in
           let s_2' = { stack_size = s.stack_size - 1; stack_type = List.tl s.stack_type } in
           let desc_1, s_1 = typer s_1' (i_1) in
           let desc_2, s_2 = typer s_2' (i_2) in
           let code_1 = { desc = desc_1; stack_after = s_1; stack_before = s_1';  } in
           let code_2 = { desc = desc_2; stack_after = s_2; stack_before = s_2';  } in
-          if stack_checker s_1.stack_type s_2.stack_type then
-          (lc, Adt_typ.I_if_cons (code_1, code_2), ant), s_2 else raise Bad_Typing
+          if stack_checker s_1.stack_type s_2.stack_type then            
+          (lc, Adt_typ.I_if_cons (code_1, code_2), ant), s_2 else
+            let str1 = stack_printer "s1" s_1.stack_type in
+            let str2 = stack_printer "s2" s_2.stack_type in           
+            let () = Printf.printf "%s\n%s\n%s\n" str1 str2 (string_of_bool (stack_checker s_1.stack_type s_2.stack_type)) in 
+            raise (Bad_Typing "Type of IF_CONS branches do not match")
       | I_size -> 
           let t,lst = (lc, T_nat, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
@@ -254,7 +301,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let t = 
             match List.hd (List.tl s.stack_type) with
               | _, (T_map (c,t') | T_big_map (c, t')),_ -> (lc, T_option t', ant)
-              | _ -> raise Bad_Typing in
+              | _ -> raise (Bad_Typing "Invalid types on GET") in
           let lst = drop_n Z.(of_int 2) s.stack_type in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_get, ant), sa
@@ -269,7 +316,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let code_1 = { desc = desc_1; stack_after = s_1; stack_before = s'; } in
           let code_2 = { desc = desc_2; stack_after = s_2; stack_before = s'; } in
           if stack_checker s_1.stack_type s_2.stack_type then
-          (lc, Adt_typ.I_if (code_1, code_2), ant), s_2 else raise Bad_Typing
+          (lc, Adt_typ.I_if (code_1, code_2), ant), s_2 else raise (Bad_Typing "Type of IF branches do not match")
       | I_loop (i) -> (* TODO: check not sure FIXME: *)
           let desc, s' = typer ({ stack_size = s.stack_size - 1; stack_type = List.tl s.stack_type }) (i) in          
           let code = { desc = desc; stack_after = s'; stack_before = s;  } in
@@ -285,7 +332,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let t',lst = List.hd (List.tl s.stack_type), drop_n Z.(of_int 2) s.stack_type in
           let t = match t' with
                     | _, T_lambda (t1,t2),_ -> t2
-                    | _ -> raise Bad_Typing in
+                    | _ -> raise(Bad_Typing "Invalid types on EXEC") in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_exec, ant), sa
       | I_dip (i) ->
@@ -335,7 +382,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
             | T_int, T_nat
             | T_nat, T_int -> lc, T_int, ant
             | T_nat, T_nat -> lc, T_nat, ant
-            | _ -> raise Bad_Typing) in
+            | _ -> raise (Bad_Typing "Invalid types on ADD")) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_add, ant), sa
       | I_sub ->
@@ -349,7 +396,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
             | T_int, T_nat
             | T_nat, T_int -> lc, T_int, ant
             | T_nat, T_nat -> lc, T_nat, ant
-            | _ -> raise Bad_Typing) in
+            | _ -> raise (Bad_Typing "Invalid types on MUL")) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc,Adt_typ.I_mul, ant), sa
       | I_ediv ->
@@ -363,7 +410,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
               |  T_nat, T_nat -> 
                     T_option (lc, T_pair  ((lc, T_nat, ant),
                                        (lc, T_nat, ant)), ant)
-              | _ -> raise Bad_Typing) in
+              | _ -> raise (Bad_Typing "Invalid types on EDIV")) in
             let sa = { stack_size = s.stack_size - 1; stack_type = (lc, t, ant)::lst } in
             (lc, Adt_typ.I_ediv, ant), sa
       | I_abs -> 
@@ -397,7 +444,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
                   lc, T_bool, ant
               | T_nat, T_nat -> 
                   lc, T_nat, ant
-              | _ -> raise Bad_Typing) in
+              | _ -> raise (Bad_Typing "Invalid types on OR")) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_or, ant), sa
       | I_and ->
@@ -408,7 +455,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
               | T_int, T_nat                   
               | T_nat, T_nat -> 
                   lc, T_nat, ant
-              | _ -> raise Bad_Typing) in
+              | _ -> raise (Bad_Typing "Invalid types on AND")) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_and, ant), sa
       | I_xor ->
@@ -418,7 +465,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
                   lc, T_bool, ant
               | T_nat, T_nat -> 
                   lc, T_nat, ant
-              | _ -> raise Bad_Typing) in
+              | _ -> raise (Bad_Typing "Invalid types on XOR")) in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_xor, ant), sa
       | I_not ->
@@ -427,7 +474,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
             | T_bool -> lc, T_bool, ant
             | T_nat
             | T_int -> lc, T_int, ant
-            | _ -> raise Bad_Typing) in
+            | _ -> raise (Bad_Typing "Invalid types on NOT")) in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_not, ant), sa
       | I_compare ->

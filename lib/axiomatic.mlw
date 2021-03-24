@@ -652,6 +652,12 @@ module AxiomaticSem
   val unpair (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 } 
+    requires {  match s[0] with 
+                | SD _ -> true
+                | _ -> false end } 
+    requires {  match s[0] with 
+                | SD (D_pair _ _ (T_pair _ _)) -> true
+                | _ -> false end } 
     requires { match get_type s[0] with T_pair _ _ -> true | _ -> false end }    
     ensures  { forall t1 t2: typ_t.
       get_type s[0] = T_pair t1 t2 ->

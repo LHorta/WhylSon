@@ -4,5 +4,5 @@ code { CAR;
        IF_NONE 
         { PUSH int 42 }
         { PUSH int 666; SUB };
-      NIL operation; PAIR 
-}
+       NIL operation; PAIR 
+     }

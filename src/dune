@@ -2,7 +2,7 @@
   (public_name whylson)
   (flags :standard -w -9-32-27 -linkall)
   (library_flags -linkall)
-  (modules translator whylson adt_typ typer)
+  (modules translator whylson_plugin adt_typ typer)
   (libraries why3 michelson))
 
 ;; cf https://discuss.ocaml.org/t/dune-problems-using-dynlink-plugins/2874

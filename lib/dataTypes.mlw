@@ -204,7 +204,7 @@ with operation =
 type stack_data =
   | SD data_t     (* Stack Data *)
   | SP program    (* Stack Program *)
-  | SO operation  (* Stack Operation *)
+
 
 (* Predicate that returns true if a given type is comparable *)
 predicate is_comparable (t: typ_t) =
@@ -229,6 +229,60 @@ predicate is_comparable (t: typ_t) =
     | _ -> false
     end
 
+(* predicate is_well_typed (s: stack_data) =
+  match t with
+  | SD d -> 
+    match d with
+    | D_int _ t -> 
+        match t with        
+        | T_int
+        | T_nat                
+        | T_mutez        
+        | T_timestamp        
+        | T_bls12_381_g1
+        | T_bls12_381_g2
+        | T_bls12_381_fr -> true
+        | _ -> false
+        end
+    | D_string _ t ->
+        match t with
+        | T_key        
+        | T_signature 
+        | T_chain_id        
+        | T_key_hash
+        | T_timestamp
+        | T_address
+        | T_string -> true          
+        | _ -> false     
+        end
+    | D_bytes _ t ->
+        match t with
+        | T_bytes 
+        | T_chain_id
+        | T_bls12_381_g1
+        | T_bls12_381_g2
+        | T_bls12_381_fr -> true
+        | T_key        
+        | T_signature 
+        | T_key_hash
+        | T_timestamp
+        | T_address
+        | T_string -> true          
+        | _ -> false     
+        end
+    | D_unit t
+    | D_bool _ t
+    | D_pair _ _ t
+    | D_left _ t
+    | D_right _ t
+    | D_some _ t
+    | D_none t
+    | D_elt _ t
+    | D_list _ t
+    | D_instruction _ t
+    end 
+  | SP p  
+  end *)
 
 let function get_type (sd: stack_data) : typ_t =    
     match sd with
@@ -248,8 +302,7 @@ let function get_type (sd: stack_data) : typ_t =
       | D_list _ t
       | D_instruction _ t -> t
       end
-    | SP prg -> T_contract prg.param 
-    | _ -> T_operation
+    | SP prg -> T_contract prg.param    
     end
 
 
