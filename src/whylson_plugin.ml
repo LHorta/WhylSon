@@ -28,28 +28,27 @@
 *   FRESCO - FoRmal vErification of Smart COntracts.                                      *
 *                                                                                         *
 *  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *)
-
 open Typer
 open Why3
 open Pmodule
 open Typing
-(* open Ptree *)
 open Michelson
-(* open Adt *)
 open Translator
+(* open Ptree *)
+(* open Adt *)
 
 type tz_decl = Loc.position * Ptree.decl 
 
-let read_file file c =
+let read_file file =
   let tokens = Parser.parse_file file in
   let adt = Parser.convert file tokens in
   adt
 
-let read_channel env path file c =
-  let p = read_file file c in
+let read_channel env path file _c =
+  let p = read_file file  in
   let p = to_typed_program p in  
   let p = translate_typed_program p in   
-  List.iter (fun (l,d) -> Format.eprintf "%a@." Mlw_printer.pp_decl d) p;
+  List.iter (fun (_l,d) -> Format.eprintf "%a@." Mlw_printer.pp_decl d) p;
   Typing.open_file env path; (* could remove the Typing. *)
   let id = mk_id "Test" in
   Typing.open_module id;     (* could remove the Typing. *)

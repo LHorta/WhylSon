@@ -35,7 +35,7 @@ let rec remove_at n = function
 
 let rec drop_n n = function
   | [] -> []
-  | h::t as lst -> if Z.(n <= zero) then lst else drop_n Z.(n - one) t
+  | _::t as lst -> if Z.(n <= zero) then lst else drop_n Z.(n - one) t
 
   (* if given position is a negative number, the element will be placed at the head of the list *)
 let rec insert_at x n = function
@@ -145,7 +145,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
         | hd::tl ->
             let desc_1, s1 = typer s hd in
                 let code = List.fold_left (fun code_1 i_2 -> 
-                    let desc_1, s_1 = code_1.desc, code_1.stack_after in
+                    let s_1 = code_1.stack_after in
                     let desc_2, s_2 = typer s_1 i_2 in
                     let code_2 = { desc=desc_2; stack_after=s_2; stack_before=s_1 } in
                     let x = lc,Adt_typ.I_seq (code_1, code_2),ant in
@@ -300,7 +300,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
       | I_get -> (* TODO: check not sure*)
           let t = 
             match List.hd (List.tl s.stack_type) with
-              | _, (T_map (c,t') | T_big_map (c, t')),_ -> (lc, T_option t', ant)
+              | _, (T_map (_c,t') | T_big_map (_c, t')),_ -> (lc, T_option t', ant)
               | _ -> raise (Bad_Typing "Invalid types on GET") in
           let lst = drop_n Z.(of_int 2) s.stack_type in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
@@ -322,16 +322,16 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let code = { desc = desc; stack_after = s'; stack_before = s;  } in
           (lc, Adt_typ.I_loop code, ant), s'
       (*| I_loop_left of inst_annotated FIXME: not done *)
-      | I_lambda (t1,t2,(i)) -> (* TODO: check*)
+      | I_lambda (t1,t2,(i)) -> (* TODO: check why s' is not being used *)
           let t,lst = (lc, T_lambda (t1, t2), ant), s.stack_type in    
-          let desc, s' =  typer s (i) in 
+          let desc, _s' =  typer s (i) in 
           let sa = { stack_size = s.stack_size + 1; stack_type = t::lst } in
           let code = { desc = desc; stack_before = s; stack_after = sa;  } in 
           (lc, Adt_typ.I_lambda (t1,t2,code), ant), sa
       | I_exec -> (* TODO: check *)
           let t',lst = List.hd (List.tl s.stack_type), drop_n Z.(of_int 2) s.stack_type in
           let t = match t' with
-                    | _, T_lambda (t1,t2),_ -> t2
+                    | _, T_lambda (_t1,t2),_ -> t2
                     | _ -> raise(Bad_Typing "Invalid types on EXEC") in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_exec, ant), sa
@@ -376,7 +376,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_unpack t', ant), sa
       | I_add -> 
-          let (lc1, t1, ant1),(lc2, t2,ant2),lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
+          let (_lc1, t1, _ant1),(_lc2, t2,_ant2),lst = List.hd s.stack_type, List.hd (List.tl s.stack_type),List.tl (List.tl s.stack_type) in
           let t = (match t1,t2 with
             | T_int, T_int
             | T_int, T_nat
@@ -522,7 +522,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let t,lst = (lc, T_operation, ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_set_delegate, ant), sa
-      | I_create_contract x -> assert false (* of program  FIXME: *)
+      | I_create_contract _x -> assert false (* of program  FIXME: *)
       | I_implicit_account ->
           let t,lst = (lc, T_contract (lc, T_unit, ant), ant), List.tl s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in

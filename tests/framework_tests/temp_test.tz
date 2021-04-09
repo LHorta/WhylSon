@@ -1,0 +1,8 @@
+parameter nat;
+storage nat;
+code { UNPAIR; 
+       PUSH string "hahaha";
+       PUSH string "errou!";
+       DIP 2 { ADD }; DROP 2;
+       NIL operation; PAIR 
+     }

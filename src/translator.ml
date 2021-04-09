@@ -104,7 +104,7 @@ let t_fuel = mk_term (Tident q_fuel)
 let t_result = mk_term (Tident (Qident(mk_id "result")))
 
 let len_stack  = mk_tapp (Qident (mk_id "length")) [t_stack]
-let len_stack  = mk_tapp (Qident (mk_id "length")) [t_stack]
+
 let len_result = mk_tapp (Qident (mk_id "length")) [t_result]
 
 let top_input_stack = mk_tapp (Qident (mk_id "mixfix []")) [t_stack;mk_tconst 0]
@@ -117,13 +117,13 @@ let post_len = mk_tapp eq_symb [len_result;mk_tconst 1]
 
 let mk_pre_typ t1 t2 = 
   let top_input_stack = mk_tapp (Qident (mk_id "mixfix []")) [t_stack;mk_tconst 0] in  
-  let typ_stack = mk_tapp (Qident (mk_id "get_type")) [top_input_stack] in
+  let typ_stack = mk_tapp (Qident (mk_id "type_of")) [top_input_stack] in
   let p = mk_term (Tidapp (Qident (mk_id "T_pair"), [t1;t2])) in
   mk_tapp eq_symb [typ_stack;p]  
 
 let mk_post_typ t =  
   let top_result_stack = mk_tapp (Qident (mk_id "mixfix []")) [t_result;mk_tconst 0] in  
-  let typ_stack = mk_tapp (Qident (mk_id "get_type")) [top_result_stack] in
+  let typ_stack = mk_tapp (Qident (mk_id "type_of")) [top_result_stack] in
   let opt_t = mk_term (Tidapp (Qident (mk_id "T_operation"), [])) in
   let lst_t = mk_term (Tidapp (Qident (mk_id "T_list"), [opt_t])) in
   let p = mk_term (Tidapp (Qident (mk_id "T_pair"), [lst_t;t])) in
@@ -161,9 +161,9 @@ let mk_position (tz_pos: Michelson.Location.t) =
 
 (* let list_iter body list =
   let pat_var = mk_expr (Eident (Qident list)) in 
-  let lhs_pat_nil  = mk_pat (Papp (Qident (mk_id "List"), [mk_pat (Pvar (mk_id "_Nil")); mk_pat Pwild])) in (* List Nil _ *)
+  let lhs_pat_nil  = mk_pat (Papp (Qident (mk_id "D_list"), [mk_pat (Pvar (mk_id "_Nil")); mk_pat Pwild])) in (* List Nil _ *)
   let cons_var = mk_pat (Papp (Qident (mk_id "Cons"), [mk_pat (Pvar (mk_id "hd")); mk_pat (Pvar (mk_id "tl"))])) in (* Cons hd tl *)
-  let lhs_pat_cons = mk_pat (Papp (Qident (mk_id "List"),[cons_var; mk_pat (Pvar (mk_id "t"))])) in  (* List (Cons hd tl) t *)			
+  let lhs_pat_cons = mk_pat (Papp (Qident (mk_id "D_list"),[cons_var; mk_pat (Pvar (mk_id "t"))])) in  (* List (Cons hd tl) t *)			
   let pat_absurd = mk_pat Pwild,mk_expr Eabsurd in  
   let rhs_pat_nil = e_stack in 
   let hd = mk_expr (Eident (Qident (mk_id "hd"))) in
@@ -171,10 +171,10 @@ let mk_position (tz_pos: Michelson.Location.t) =
   let t = mk_expr (Eident (Qident (mk_id "t"))) in 
   let fun_id = mk_id "list_iter_fun" in
   let rec_call = mk_expr (Eidapp (Qident (fun_id), [e_stack;t])) in    
-  let lst = mk_expr (Eidapp (Qident (mk_id "List"),[tl;t])) in
-  let wf_hd = mk_expr (Eidapp (Qident (mk_id "mk_wf_data"), [hd])) in
-  let wf_lst = mk_expr (Eidapp (Qident (mk_id "mk_wf_data"), [lst])) in (*TODO: check unused *)
-  let stack_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [wf_hd;e_stack])) in 
+  let lst = mk_expr (Eidapp (Qident (mk_id "D_list"),[tl;t])) in
+  (* let wf_hd = mk_expr (Eidapp (Qident (mk_id "mk_wf_data"), [hd])) in *)
+  (* let wf_lst = mk_expr (Eidapp (Qident (mk_id "mk_wf_data"), [lst])) in *)
+  let stack_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [hd;e_stack])) in 
   let new_stack = mk_expr (Eidapp (eq_symb, [e_stack; body])) in 
   let s_equal_body_let = mk_expr (Elet (id_stack, false, Expr.RKnone, new_stack, rec_call)) in (* let s' = body in *)
   let rhs_pat_cons = mk_expr (Elet (id_stack, false, Expr.RKnone, stack_cat, s_equal_body_let)) in (* let stack = h::stack in *)
@@ -188,7 +188,7 @@ let mk_position (tz_pos: Michelson.Location.t) =
   let binders = [stack_binder;list_binder] in
   let fun_def = [fun_id,false,kind,binders,pty,pat,mask,empty_spec,mtch] in       
   let main_call = mk_expr (Eidapp (Qident fun_id ,[e_stack;pat_var])) in
-  mk_expr (Erec (fun_def,main_call))            *)
+  mk_expr (Erec (fun_def,main_call))             *)
 
 (* *************************************************************** *)
 (* ************************     Terms      *********************** *)
@@ -286,7 +286,7 @@ let rec term (lc,t,_) =
 (* make intermediate types *)  
 let mk_intermediate_typ t i = 
   let result_stack_at_i = mk_tapp (Qident (mk_id "mixfix []")) [t_result;mk_tconst i] in  
-  let typ_stack = mk_tapp (Qident (mk_id "get_type")) [result_stack_at_i] in
+  let typ_stack = mk_tapp (Qident (mk_id "type_of")) [result_stack_at_i] in
   let tp = term t in
   mk_tapp eq_symb [typ_stack;tp] 
 
@@ -384,7 +384,7 @@ and typ_annotated (loc, t,_anot) =
 
 and to_expr_typed =
     let c = ref 0 in 
-    fun  (exp: expr) ({desc; stack_before; stack_after} : (Location.t, annot list) Adt_typ.inst ) ->    
+    fun  (exp: expr) ({  stack_after; _} : (Location.t, annot list) Adt_typ.inst ) ->    (* myabe also add stack before for preconditions *)
     let len_of_stack = mk_tapp eq_symb [len_result;mk_tconst stack_after.stack_size] in
     let post = 
       List.fold_left (fun (acc,i) (t) ->   mk_term (Tbinop (acc,Dterm.DTand,mk_intermediate_typ t i)), i+1) 
@@ -433,7 +433,7 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
   | I_dug n -> let n = Z.to_string n in 
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_expr (Econst (Constant.ConstInt n)) in
-      mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "dig_n"), stack_fuel_args @ [n]))
+      mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "dug_n"), stack_fuel_args @ [n]))
   | I_push (t,dt) ->
       let push_type = typ_annotated t in 
       let pushed_data = data t dt in  
@@ -447,10 +447,10 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "unit_op"), stack_fuel_args))
 	| I_if_none (i1, i2) -> 
       let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in      
-			let p_none  = mk_pat (Papp  (Qident (mk_id "D_none"), [mk_pat (Pvar (mk_id "_"))])) in
-			let p_some = mk_pat (Papp  (Qident (mk_id "D_some"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
-      let pat_none =  mk_pat (Papp (Qident (mk_id "SD"), [p_none])) in
-      let pat_some =  mk_pat (Papp (Qident (mk_id "SD"), [p_some])) in
+			let pat_none  = mk_pat (Papp  (Qident (mk_id "D_none"), [mk_pat (Pvar (mk_id "_"))])) in
+			let pat_some = mk_pat (Papp  (Qident (mk_id "D_some"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
+      (* let pat_none =  mk_pat (Papp (Qident (mk_id "SD"), [p_none])) in
+      let pat_some =  mk_pat (Papp (Qident (mk_id "SD"), [p_some])) in *)
 			let pat_absurd = mk_pat Pwild,mk_expr Eabsurd in
 			let branch_true = inst i1 in
 			let branch_false = inst i2 in
@@ -480,17 +480,17 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "right_op"), stack_fuel_args @ [inner_type]))
   | I_if_left (i1, i2) -> 
 			let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in      
-			let p_left  = mk_pat (Papp  (Qident (mk_id "D_left"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
-			let p_right = mk_pat (Papp  (Qident (mk_id "D_right"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
-      let pat_left =  mk_pat (Papp (Qident (mk_id "SD"), [p_left])) in
-      let pat_right =  mk_pat (Papp (Qident (mk_id "SD"), [p_right])) in
+			let pat_left  = mk_pat (Papp  (Qident (mk_id "D_left"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
+			let pat_right = mk_pat (Papp  (Qident (mk_id "D_right"), [mk_pat (Pvar (mk_id "dt"));mk_pat (Pvar (mk_id "_"))])) in
+      (* let pat_left =  mk_pat (Papp (Qident (mk_id "SD"), [p_left])) in
+      let pat_right =  mk_pat (Papp (Qident (mk_id "SD"), [p_right])) in *)
 			let pat_absurd = mk_pat Pwild,mk_expr Eabsurd in
 			let branch_true = inst i1 in
 			let branch_false = inst i2 in
 			let n_lit = int_literal ILitDec ~neg:false "1" in
       let n = mk_expr (Econst (Constant.ConstInt n_lit)) in
-			let pre_dt = mk_expr (Eident (Qident (mk_id "dt"))) in
-      let dt =  mk_expr (Eidapp (Qident (mk_id "SD"), [pre_dt])) in
+			let dt = mk_expr (Eident (Qident (mk_id "dt"))) in
+      (* let dt =  mk_expr (Eidapp (Qident (mk_id "SD"), [pre_dt])) in *)
 			let drop_head = mk_expr (Eidapp (Qident (mk_id "mixfix [_..]"), [e_stack;n])) in (* s = s[1..] *)			
 			let final_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [dt;e_stack])) in 
 			let mid_let = mk_expr (Elet (id_stack, false, Expr.RKnone, drop_head, final_cat)) in 
@@ -507,22 +507,22 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "cons_op"), stack_fuel_args))
   | I_if_cons (i1, i2) -> 
 			let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in      
-			let p_nil  = mk_pat (Papp (Qident (mk_id "D_list"), [mk_pat (Pvar (mk_id "_Nil"));mk_pat (Pvar (mk_id "_"))])) in
+			let pat_nil  = mk_pat (Papp (Qident (mk_id "D_list"), [mk_pat (Pvar (mk_id "_Nil"));mk_pat (Pvar (mk_id "_"))])) in
 			let cons_var = mk_pat (Papp (Qident (mk_id "Cons"), [mk_pat (Pvar (mk_id "hd"));mk_pat (Pvar (mk_id "tl"))])) in
-			let p_cons = mk_pat (Papp (Qident (mk_id "D_list"),[cons_var; mk_pat (Pvar (mk_id "t"))])) in 
-      let pat_nil =  mk_pat (Papp (Qident (mk_id "SD"), [p_nil])) in
-      let pat_cons =  mk_pat (Papp (Qident (mk_id "SD"), [p_cons])) in
+			let pat_cons = mk_pat (Papp (Qident (mk_id "D_list"),[cons_var; mk_pat (Pvar (mk_id "t"))])) in 
+      (* let pat_nil =  mk_pat (Papp (Qident (mk_id "SD"), [p_nil])) in
+      let pat_cons =  mk_pat (Papp (Qident (mk_id "SD"), [p_cons])) in *)
 			let pat_absurd = mk_pat Pwild,mk_expr Eabsurd in
 			let branch_true = inst i1 in
 			let branch_false = inst i2 in
 			let n_lit = int_literal ILitDec ~neg:false "1" in
       let n = mk_expr (Econst (Constant.ConstInt n_lit)) in
-			let pre_hd = mk_expr (Eident (Qident (mk_id "hd"))) in
-      let hd =  mk_expr (Eidapp (Qident (mk_id "SD"), [pre_hd])) in
+			let hd = mk_expr (Eident (Qident (mk_id "hd"))) in
+      (* let hd =  mk_expr (Eidapp (Qident (mk_id "SD"), [pre_hd])) in *)
 			let tl = mk_expr (Eident (Qident (mk_id "tl"))) in 
 			let t = mk_expr (Eident (Qident (mk_id "t"))) in 
-			let pre_lst = mk_expr (Eidapp (Qident (mk_id "D_list"),[tl;t])) in
-      let lst =  mk_expr (Eidapp (Qident (mk_id "SD"), [pre_lst])) in
+			let lst = mk_expr (Eidapp (Qident (mk_id "D_list"),[tl;t])) in
+      (* let lst =  mk_expr (Eidapp (Qident (mk_id "SD"), [pre_lst])) in *)
 			let drop_head = mk_expr (Eidapp (Qident (mk_id "mixfix [_..]"), [e_stack;n])) in (* s = s[1..] *)			
 			let first_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [lst;e_stack])) in 
 			let final_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [hd;first_cat])) in 
@@ -544,8 +544,8 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			let key_ctype = typ_annotated ct in
 			let value_type = typ_annotated t in
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "empty_big_map_op"), stack_fuel_args @ [key_ctype; value_type]))
-  | I_map i -> assert false (* TODO: implement *) (*FIXME: Implement in WhyML *)
-  | I_iter i -> (* FIXME: only working for lists *) assert false 
+  | I_map _i -> assert false (* TODO: implement *) (*FIXME: Implement in WhyML *)
+  | I_iter _i -> (* FIXME: only working for lists *) assert false 
       (* let body = inst_annotated i in      
       let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in
       let d_field = mk_expr (Eidapp (Qident (mk_id "d"), [top])) in
@@ -621,8 +621,8 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "update_op"), stack_fuel_args))
   | I_if (i1, i2) -> (* TODO: ask about non exhaustive pm *)		
 	    let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in      
-      let pre_pat_bool = mk_pat (Papp  (Qident (mk_id "D_bool"), [mk_pat (Pvar (mk_id "b"));mk_pat (Pvar (mk_id "_"))])) in
-      let pat_bool = mk_pat (Papp (Qident (mk_id "SD"), [pre_pat_bool])) in 
+      let pat_bool = mk_pat (Papp  (Qident (mk_id "D_bool"), [mk_pat (Pvar (mk_id "b"))])) in
+      (* let pat_bool = mk_pat (Papp (Qident (mk_id "SD"), [pre_pat_bool])) in  *)
       let pat_absurd = mk_pat Pwild,mk_expr Eabsurd in
 			let branch_true = inst i1 in
 			let branch_false = inst i2 in
@@ -637,8 +637,8 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			mk_expr ~expr_loc:new_loc  (Ematch (top,branch,[]))			
   | I_loop i -> 
       let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in
-      let d_field = mk_expr (Eidapp (Qident (mk_id "d"), [top])) in	      
-      let pat_bool = mk_pat (Papp  (Qident (mk_id "D_bool"), [mk_pat (Pvar (mk_id "b"));mk_pat (Pvar (mk_id "_"))])) in
+      (* let d_field = mk_expr (Eidapp (Qident (mk_id "d"), [top])) in	       *)
+      let pat_bool = mk_pat (Papp  (Qident (mk_id "D_bool"), [mk_pat (Pvar (mk_id "b"))])) in
       let pat_absurd = mk_pat Pwild,mk_expr Eabsurd in      
       let n_lit = int_literal ILitDec ~neg:false "1" in
       let n = mk_expr (Econst (Constant.ConstInt n_lit)) in
@@ -652,16 +652,28 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
       let if_eval = mk_expr (Eif (bool_eval, rec_call, e_stack)) in
       let drop_let = mk_expr (Elet(id_stack,false,kind,drop_head,if_eval)) in
 			let branch = [(pat_bool,drop_let);pat_absurd] in
-			let mtch = mk_expr (Ematch (d_field,branch,[]))	in
+			let mtch = mk_expr (Ematch (top,branch,[]))	in
       let pat = mk_pat (Pvar id_stack_t) in 
       let mask = Ity.MaskVisible in
       let pty = Some stack_ty in
       let binders = [stack_binder;fuel_binder] in
       let fun_def = [fun_id,false,kind,binders,pty,pat,mask,empty_spec,mtch] in       
       mk_expr ~expr_loc:new_loc  (Erec (fun_def,e_stack))           
-  | I_loop_left i -> assert false (* TODO: implement *) (*FIXME: Implement in WhyML *)
-  | I_lambda (t1,t2,i) -> assert false (* TODO: implement *) (*FIXME: Implement in WhyML *)  
-  | I_dip i ->
+  | I_loop_left _i -> assert false (* TODO: implement *) (*FIXME: Implement in WhyML *)
+  | I_lambda (_t1,_t2,_i) -> assert false (* TODO: implement *) (*FIXME: Implement in WhyML *)  
+  | I_dip i ->     
+    let top_id = mk_id "top" in 
+    let top_value = mk_expr (Eident (Qident top_id)) in       
+    let zero_lit = int_literal ILitDec ~neg:false "0" in
+    let zero = mk_expr (Econst (Constant.ConstInt zero_lit)) in 
+    let top = mk_expr (Eidapp (Qident (mk_id "mixfix []"), [e_stack;zero])) in
+    let n_lit = int_literal ILitDec ~neg:false "1" in
+    let n = mk_expr (Econst (Constant.ConstInt n_lit)) in
+    let headless = mk_expr (Eidapp (Qident (mk_id "mixfix [_..]"), [e_stack;n])) in (* s = s[1..] *)			
+    let final_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [top_value;e_stack])) in (* top :: s *)
+    let last_let = mk_expr (Elet (id_stack, false, Expr.RKnone, inst i, final_cat)) in 
+    let middle_let =  mk_expr (Elet (id_stack, false, Expr.RKnone, headless, last_let)) in
+    mk_expr ~expr_loc:new_loc  (Elet (top_id, false, Expr.RKnone, top, middle_let)) 
     (* 
       let top,__stack__ = pop _stack__ in
         let __stack__ = inst i __stack__ in
@@ -676,16 +688,17 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			let last_let = mk_expr (Elet (id_stack, false, Expr.RKnone, inst i, final_cat)) in 	
     (* let middle_let =  mk_expr (Elet (id_stack, false, Expr.RKnone, pop, last_let)) in	 *)
 			mk_expr ~expr_loc:new_loc  (Elet (top_id, false, Expr.RKnone, top_and_stack, middle_let)) 			 *)
-			let top_id = mk_id "top" in 
+      (*------------------------------------------------------------------------------------------------*)
+			(*let top_id = mk_id "top" in 
 			let top_value = mk_expr (Eident (Qident top_id)) in 
 			let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in (* top = s[0] *)
 			let n_lit = int_literal ILitDec ~neg:false "1" in
       let n = mk_expr (Econst (Constant.ConstInt n_lit)) in
 			let headless = mk_expr (Eidapp (Qident (mk_id "mixfix [_..]"), [e_stack;n])) in (* s = s[1..] *)			
-			let final_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [top_value;e_stack])) in (* top :: s *)
+			let final_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [top;e_stack])) in (* top :: s *)
 			let last_let = mk_expr (Elet (id_stack, false, Expr.RKnone, inst i, final_cat)) in 
 			let middle_let =  mk_expr (Elet (id_stack, false, Expr.RKnone, headless, last_let)) in
-			mk_expr ~expr_loc:new_loc  (Elet (top_id, false, Expr.RKnone, top, middle_let)) 
+			mk_expr ~expr_loc:new_loc  (Elet (top_id, false, Expr.RKnone, top, middle_let)) *)
   | I_dip_n (n,i) -> 
       let top_id = mk_id "top" in 
 			let top_value = mk_expr (Eident (Qident top_id)) in 
@@ -763,7 +776,7 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "transfer_tokens"), stack_fuel_args))
   | I_set_delegate -> 
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "set_delegate_op"), stack_fuel_args))
-  | I_create_contract p -> assert false (* TODO: implement *) (*FIXME: Implement in WhyML *)
+  | I_create_contract _p -> assert false (* TODO: implement *) (*FIXME: Implement in WhyML *)
   | I_implicit_account -> 
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "implicit_account_op"), stack_fuel_args))
   | I_now -> 
@@ -805,21 +818,21 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
   let desc = loc,desc,annot in
   to_expr_typed x ({ desc; stack_before; stack_after})
 
-
+(*FIXME: refactor for new type system *)
 and data (lt,t,_) d = 
 	let rec aux (ld,d)= 	
   let loc = mk_position ld in
   match d with
     | D_int n ->      
-        let t = typ (mk_position lt) t in
+        (* let t = typ (mk_position lt) t in *)
         let n = Z.to_string n in
         let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
         let i = mk_expr (Econst (Constant.ConstInt n)) in        
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_int"), [i;t]))        
+        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_int"), [i]))        
     | D_string s ->
-        let t = typ (mk_position lt) t in
+        (* let t = typ (mk_position lt) t in FIXME: *)
         let str_const = mk_expr (Econst (Constant.ConstStr s)) in
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_string"),[str_const;t])) 				
+        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_string"),[str_const])) 				
     | D_bool b -> 
         let t = typ (mk_position lt) t in
         let v_true = mk_expr Etrue in 

@@ -3,107 +3,107 @@
 "http://why3.lri.fr/why3session.dtd">
 <why3session shape_version="6">
 <prover id="1" name="Alt-Ergo" version="2.3.3" timelimit="5" steplimit="0" memlimit="1000"/>
-<file format="michelson">
+<file format="michelson" proved="true">
 <path name=".."/><path name="if_left_test.tz"/>
-<theory name="Test">
- <goal name="test&#39;vc" expl="VC for test">
- <transf name="split_vc" >
+<theory name="Test" proved="true">
+ <goal name="test&#39;vc" expl="VC for test" proved="true">
+ <transf name="split_vc" proved="true" >
   <goal name="test&#39;vc.0" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="0.11" steps="840"/></proof>
+  <proof prover="1"><result status="valid" time="0.11" steps="850"/></proof>
   </goal>
   <goal name="test&#39;vc.1" expl="precondition" proved="true">
-  <proof prover="1"><result status="valid" time="0.12" steps="840"/></proof>
+  <proof prover="1"><result status="valid" time="0.12" steps="850"/></proof>
   </goal>
   <goal name="test&#39;vc.2" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.2.0" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.2.0.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.22" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.1" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.19" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.2" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.19" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.3" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.23" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.4" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.23" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.5" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.21" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.6" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.19" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.7" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.27" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.24" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.8" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.27" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.9" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.20" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.10" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.24" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.11" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.29" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.19" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.12" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.24" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.13" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.23" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.22" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.14" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.22" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.15" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.18" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.16" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.21" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.17" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.23" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.21" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.18" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.22" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.19" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.19" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.20" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.29" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.21" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.20" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.22" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.21" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.23" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.27" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.19" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.24" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.18" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.21" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.25" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.20" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.26" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="843"/></proof>
+    <proof prover="1"><result status="valid" time="0.27" steps="853"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.27" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.24" steps="855"/></proof>
     </goal>
     <goal name="test&#39;vc.2.0.28" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="845"/></proof>
+    <proof prover="1"><result status="valid" time="0.20" steps="855"/></proof>
     </goal>
    </transf>
    </goal>
@@ -112,60 +112,65 @@
   <goal name="test&#39;vc.3" expl="Intermidate PostCondition 10" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.3.0" expl="Intermidate PostCondition 10" proved="true">
-   <proof prover="1"><result status="valid" time="0.16" steps="878"/></proof>
+   <proof prover="1"><result status="valid" time="0.16" steps="892"/></proof>
    </goal>
    <goal name="test&#39;vc.3.1" expl="Intermidate PostCondition 10" proved="true">
-   <proof prover="1"><result status="valid" time="0.20" steps="880"/></proof>
+   <proof prover="1"><result status="valid" time="0.20" steps="894"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.4" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.4.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.13" steps="881"/></proof>
+   <proof prover="1"><result status="valid" time="0.13" steps="895"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.5" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.5.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.11" steps="883"/></proof>
+   <proof prover="1"><result status="valid" time="0.12" steps="897"/></proof>
    </goal>
    <goal name="test&#39;vc.5.1" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="883"/></proof>
+   <proof prover="1"><result status="valid" time="0.11" steps="897"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.6" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.6.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="883"/></proof>
+   <proof prover="1"><result status="valid" time="0.12" steps="897"/></proof>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.7" expl="Intermidate PostCondition 4">
-  <transf name="split_vc" >
+  <goal name="test&#39;vc.7" expl="Intermidate PostCondition 4" proved="true">
+  <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.7.0" expl="Intermidate PostCondition 4" proved="true">
-   <proof prover="1"><result status="valid" time="0.39" steps="2088"/></proof>
+   <proof prover="1"><result status="valid" time="0.39" steps="1818"/></proof>
    </goal>
    <goal name="test&#39;vc.7.1" expl="Intermidate PostCondition 4" proved="true">
-   <proof prover="1"><result status="valid" time="0.11" steps="891"/></proof>
+   <proof prover="1"><result status="valid" time="0.11" steps="905"/></proof>
    </goal>
-   <goal name="test&#39;vc.7.2" expl="Intermidate PostCondition 4">
+   <goal name="test&#39;vc.7.2" expl="Intermidate PostCondition 4" proved="true">
+   <proof prover="1"><result status="valid" time="0.37" steps="2938"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.8" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.8.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="895"/></proof>
+   <transf name="split_vc" proved="true" >
+    <goal name="test&#39;vc.8.0.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="909"/></proof>
+    </goal>
+   </transf>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.9" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.9.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.11" steps="895"/></proof>
+   <proof prover="1"><result status="valid" time="0.13" steps="909"/></proof>
    </goal>
   </transf>
   </goal>
@@ -174,329 +179,352 @@
    <goal name="test&#39;vc.10.0" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.10.0.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.1" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.2" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.17" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.3" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.09" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.4" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.5" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.6" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.7" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.14" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.8" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.9" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.23" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.14" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.10" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.27" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.11" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.12" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.13" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.15" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.14" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.15" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.15" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.16" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.17" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.18" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.19" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.17" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.20" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.21" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.22" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.23" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.24" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.25" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.10.0.26" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
-    </goal>
-    <goal name="test&#39;vc.10.0.27" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="test&#39;vc.10.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
+   </goal>
+   <goal name="test&#39;vc.10.2" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
+   </goal>
+   <goal name="test&#39;vc.10.3" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.10.1.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.1" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.2" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.2" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.10" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.3" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.16" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.3" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.10" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.4" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.4" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.5" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.10" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.5" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.10" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.6" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.6" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.7" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.7" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.8" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.8" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.9" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.9" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.10" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.10" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.11" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.16" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.11" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.12" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.15" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.12" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.13" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.13" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.14" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.14" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.15" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.15" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.16" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.16" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.16" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.17" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.17" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.18" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.18" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.19" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.19" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.20" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.20" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.21" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.21" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.22" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.22" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.23" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.23" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.23" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.24" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.24" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.25" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.25" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.15" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.26" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.26" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.1.27" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.10.3.27" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
+    </goal>
+    <goal name="test&#39;vc.10.3.28" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="910"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.10.2" expl="precondition" proved="true">
+   <goal name="test&#39;vc.10.4" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
+   </goal>
+   <goal name="test&#39;vc.10.5" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.10.2.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.1" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.2" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.2" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.3" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.3" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.4" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.25" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.4" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.5" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.5" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.6" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.6" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.7" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.7" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.23" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.8" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.8" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.9" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.23" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.9" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.25" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.10" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.10" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.11" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.23" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.11" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.12" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.12" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.13" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.13" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.14" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.14" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.15" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.15" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.16" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.16" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.15" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.17" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.17" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.27" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.18" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.18" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.19" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.19" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.20" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.20" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.21" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.21" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.22" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.22" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.23" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.23" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.24" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.24" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.25" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.10.5.25" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.26" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.25" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.26" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.10.2.27" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="900"/></proof>
+    <goal name="test&#39;vc.10.5.27" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.10" steps="910"/></proof>
+    </goal>
+    <goal name="test&#39;vc.10.5.28" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
    </transf>
+   </goal>
+   <goal name="test&#39;vc.10.6" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
+   </goal>
+   <goal name="test&#39;vc.10.7" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="1.91" steps="19059"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.11" expl="Intermidate PostCondition 3" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.11.0" expl="Intermidate PostCondition 3" proved="true">
-   <proof prover="1"><result status="valid" time="0.13" steps="967"/></proof>
+   <proof prover="1"><result status="valid" time="0.13" steps="978"/></proof>
    </goal>
    <goal name="test&#39;vc.11.1" expl="Intermidate PostCondition 3" proved="true">
-   <proof prover="1"><result status="valid" time="0.13" steps="967"/></proof>
+   <proof prover="1"><result status="valid" time="0.13" steps="978"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.12" expl="Intermidate PostCondition 5" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.12.0" expl="Intermidate PostCondition 5" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="968"/></proof>
+   <proof prover="1"><result status="valid" time="0.12" steps="979"/></proof>
    </goal>
    <goal name="test&#39;vc.12.1" expl="Intermidate PostCondition 5" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="968"/></proof>
+   <proof prover="1"><result status="valid" time="0.12" steps="979"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.13" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.13.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="883"/></proof>
+   <proof prover="1"><result status="valid" time="0.11" steps="897"/></proof>
    </goal>
    <goal name="test&#39;vc.13.1" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.11" steps="883"/></proof>
+   <proof prover="1"><result status="valid" time="0.12" steps="897"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.14" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.14.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="883"/></proof>
+   <proof prover="1"><result status="valid" time="0.12" steps="897"/></proof>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.15" expl="Intermidate PostCondition 7">
-  <transf name="split_vc" >
+  <goal name="test&#39;vc.15" expl="Intermidate PostCondition 7" proved="true">
+  <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.15.0" expl="Intermidate PostCondition 7" proved="true">
-   <proof prover="1"><result status="valid" time="0.35" steps="2088"/></proof>
+   <proof prover="1"><result status="valid" time="0.35" steps="1818"/></proof>
    </goal>
    <goal name="test&#39;vc.15.1" expl="Intermidate PostCondition 7" proved="true">
-   <proof prover="1"><result status="valid" time="0.10" steps="891"/></proof>
+   <proof prover="1"><result status="valid" time="0.12" steps="905"/></proof>
    </goal>
-   <goal name="test&#39;vc.15.2" expl="Intermidate PostCondition 7">
+   <goal name="test&#39;vc.15.2" expl="Intermidate PostCondition 7" proved="true">
+   <proof prover="1"><result status="valid" time="0.38" steps="2938"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.16" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.16.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="895"/></proof>
+   <transf name="split_vc" proved="true" >
+    <goal name="test&#39;vc.16.0.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.17" steps="909"/></proof>
+    </goal>
+   </transf>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.17" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.17.0" expl="precondition" proved="true">
-   <proof prover="1"><result status="valid" time="0.13" steps="895"/></proof>
+   <proof prover="1"><result status="valid" time="0.11" steps="909"/></proof>
    </goal>
   </transf>
   </goal>
@@ -505,389 +533,448 @@
    <goal name="test&#39;vc.18.0" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.18.0.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.10" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.1" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.15" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.2" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.15" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.3" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.4" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.5" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.6" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.7" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.29" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.8" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.9" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.10" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.23" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.11" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.12" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.13" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.14" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.15" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.16" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.16" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.17" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.10" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.18" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.16" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.19" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.19" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.20" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.21" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.19" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.22" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.25" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.23" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.10" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.24" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.10" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.25" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.16" steps="896"/></proof>
+    <proof prover="1"><result status="valid" time="0.12" steps="914"/></proof>
     </goal>
     <goal name="test&#39;vc.18.0.26" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
-    </goal>
-    <goal name="test&#39;vc.18.0.27" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="914"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="test&#39;vc.18.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
+   </goal>
+   <goal name="test&#39;vc.18.2" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.14" steps="910"/></proof>
+   </goal>
+   <goal name="test&#39;vc.18.3" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.18.1.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.1" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.17" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.2" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.2" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.3" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.3" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.4" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.4" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.5" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.5" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.6" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.6" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.7" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.7" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.8" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.8" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.15" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.9" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.9" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.10" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.10" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.11" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.11" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.24" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.12" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.12" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.13" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.13" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.14" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.14" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.23" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.15" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.15" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.16" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.16" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.17" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.17" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.18" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.09" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.18" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.19" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.19" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.20" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.20" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.21" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.21" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.22" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.22" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.23" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.23" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.24" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.24" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.17" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.24" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.25" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.25" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.26" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.26" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.1.27" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.3.27" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
+    </goal>
+    <goal name="test&#39;vc.18.3.28" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.15" steps="910"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.18.2" expl="precondition" proved="true">
+   <goal name="test&#39;vc.18.4" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
+   </goal>
+   <goal name="test&#39;vc.18.5" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.18.2.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.23" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.1" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.2" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.2" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.3" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.3" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.4" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.28" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.4" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.5" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.27" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.5" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.6" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.6" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.7" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.25" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.7" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.24" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.8" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.27" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.8" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.9" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.9" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.10" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.24" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.10" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.11" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.11" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.12" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.25" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.12" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.13" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.13" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.14" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.14" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.10" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.15" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.15" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.16" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.16" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.17" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.10" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.17" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.18" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.18" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.23" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.19" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.19" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.20" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.20" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.10" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.21" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.21" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.22" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.22" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.23" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.23" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.24" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.11" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.24" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.25" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.15" steps="896"/></proof>
+    <goal name="test&#39;vc.18.5.25" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.26" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.26" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="910"/></proof>
     </goal>
-    <goal name="test&#39;vc.18.2.27" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.23" steps="900"/></proof>
+    <goal name="test&#39;vc.18.5.27" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="910"/></proof>
+    </goal>
+    <goal name="test&#39;vc.18.5.28" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="910"/></proof>
     </goal>
    </transf>
+   </goal>
+   <goal name="test&#39;vc.18.6" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.11" steps="910"/></proof>
+   </goal>
+   <goal name="test&#39;vc.18.7" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="2.02" steps="19059"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.19" expl="Intermidate PostCondition 6" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.19.0" expl="Intermidate PostCondition 6" proved="true">
-   <proof prover="1"><result status="valid" time="0.16" steps="967"/></proof>
+   <proof prover="1"><result status="valid" time="0.16" steps="978"/></proof>
    </goal>
    <goal name="test&#39;vc.19.1" expl="Intermidate PostCondition 6" proved="true">
-   <proof prover="1"><result status="valid" time="0.13" steps="967"/></proof>
+   <proof prover="1"><result status="valid" time="0.13" steps="978"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="test&#39;vc.20" expl="Intermidate PostCondition 8" proved="true">
   <transf name="split_vc" proved="true" >
    <goal name="test&#39;vc.20.0" expl="Intermidate PostCondition 8" proved="true">
-   <proof prover="1"><result status="valid" time="0.12" steps="968"/></proof>
+   <proof prover="1"><result status="valid" time="0.12" steps="979"/></proof>
    </goal>
    <goal name="test&#39;vc.20.1" expl="Intermidate PostCondition 8" proved="true">
-   <proof prover="1"><result status="valid" time="0.13" steps="968"/></proof>
+   <proof prover="1"><result status="valid" time="0.13" steps="979"/></proof>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.21" expl="unreachable point">
-  <transf name="split_vc" >
-   <goal name="test&#39;vc.21.0" expl="unreachable point">
-   <transf name="split_vc" >
-    <goal name="test&#39;vc.21.0.0" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.1" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.2" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.3" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.4" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.5" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.6" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.7" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.8" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.9" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-    <goal name="test&#39;vc.21.0.10" expl="unreachable point">
-    <proof prover="1"><result status="timeout" time="5.00"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
-  <goal name="test&#39;vc.22" expl="unreachable point" proved="true">
+  <goal name="test&#39;vc.21" expl="unreachable point" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.22.0" expl="unreachable point" proved="true">
+   <goal name="test&#39;vc.21.0" expl="unreachable point" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.22.0.0" expl="unreachable point" proved="true">
-    <proof prover="1"><result status="valid" time="0.41" steps="1765"/></proof>
+    <goal name="test&#39;vc.21.0.0" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="899"/></proof>
     </goal>
-    <goal name="test&#39;vc.22.0.1" expl="unreachable point" proved="true">
-    <proof prover="1"><result status="valid" time="0.47" steps="1765"/></proof>
+    <goal name="test&#39;vc.21.0.1" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.24" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.2" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.3" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.4" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.25" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.5" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.24" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.6" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.7" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.26" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.8" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.9" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.35" steps="1779"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.10" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.25" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.11" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.23" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.12" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.25" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.13" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.24" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.14" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="897"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.15" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.31" steps="1781"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.16" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.28" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.17" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.24" steps="897"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.18" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.26" steps="899"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.19" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.32" steps="1778"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.20" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.32" steps="1779"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.21" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.31" steps="1777"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.22" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.29" steps="1779"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.23" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.33" steps="1779"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.24" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.32" steps="1779"/></proof>
+    </goal>
+    <goal name="test&#39;vc.21.0.25" expl="unreachable point" proved="true">
+    <proof prover="1"><result status="valid" time="0.31" steps="1779"/></proof>
     </goal>
    </transf>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.23" expl="Intermidate PostCondition 9" proved="true">
+  <goal name="test&#39;vc.22" expl="Intermidate PostCondition 9" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.23.0" expl="Intermidate PostCondition 9" proved="true">
+   <goal name="test&#39;vc.22.0" expl="Intermidate PostCondition 9" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.23.0.0" expl="Intermidate PostCondition 9" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="972"/></proof>
+    <goal name="test&#39;vc.22.0.0" expl="Intermidate PostCondition 9" proved="true">
+    <proof prover="1"><result status="valid" time="0.18" steps="983"/></proof>
     </goal>
-    <goal name="test&#39;vc.23.0.1" expl="Intermidate PostCondition 9" proved="true">
-    <proof prover="1"><result status="valid" time="0.18" steps="972"/></proof>
+    <goal name="test&#39;vc.22.0.1" expl="Intermidate PostCondition 9" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="983"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.23.1" expl="Intermidate PostCondition 9" proved="true">
+   <goal name="test&#39;vc.22.1" expl="Intermidate PostCondition 9" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.23.1.0" expl="Intermidate PostCondition 9" proved="true">
-    <proof prover="1"><result status="valid" time="0.17" steps="972"/></proof>
+    <goal name="test&#39;vc.22.1.0" expl="Intermidate PostCondition 9" proved="true">
+    <proof prover="1"><result status="valid" time="0.16" steps="983"/></proof>
     </goal>
-    <goal name="test&#39;vc.23.1.1" expl="Intermidate PostCondition 9" proved="true">
-    <proof prover="1"><result status="valid" time="0.16" steps="972"/></proof>
+    <goal name="test&#39;vc.22.1.1" expl="Intermidate PostCondition 9" proved="true">
+    <proof prover="1"><result status="valid" time="0.17" steps="983"/></proof>
     </goal>
    </transf>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.24" expl="Intermidate PostCondition 11" proved="true">
+  <goal name="test&#39;vc.23" expl="Intermidate PostCondition 11" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.24.0" expl="Intermidate PostCondition 11" proved="true">
+   <goal name="test&#39;vc.23.0" expl="Intermidate PostCondition 11" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.24.0.0" expl="Intermidate PostCondition 11" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="972"/></proof>
+    <goal name="test&#39;vc.23.0.0" expl="Intermidate PostCondition 11" proved="true">
+    <proof prover="1"><result status="valid" time="0.17" steps="983"/></proof>
     </goal>
-    <goal name="test&#39;vc.24.0.1" expl="Intermidate PostCondition 11" proved="true">
-    <proof prover="1"><result status="valid" time="0.17" steps="972"/></proof>
+    <goal name="test&#39;vc.23.0.1" expl="Intermidate PostCondition 11" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="983"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.24.1" expl="Intermidate PostCondition 11" proved="true">
+   <goal name="test&#39;vc.23.1" expl="Intermidate PostCondition 11" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.24.1.0" expl="Intermidate PostCondition 11" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="972"/></proof>
+    <goal name="test&#39;vc.23.1.0" expl="Intermidate PostCondition 11" proved="true">
+    <proof prover="1"><result status="valid" time="0.17" steps="983"/></proof>
     </goal>
-    <goal name="test&#39;vc.24.1.1" expl="Intermidate PostCondition 11" proved="true">
-    <proof prover="1"><result status="valid" time="0.17" steps="972"/></proof>
+    <goal name="test&#39;vc.23.1.1" expl="Intermidate PostCondition 11" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="983"/></proof>
     </goal>
    </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="test&#39;vc.24" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="test&#39;vc.24.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.12" steps="983"/></proof>
+   </goal>
+   <goal name="test&#39;vc.24.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.14" steps="983"/></proof>
    </goal>
   </transf>
   </goal>
@@ -896,102 +983,94 @@
    <goal name="test&#39;vc.25.0" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.25.0.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.18" steps="972"/></proof>
+    <proof prover="1"><result status="valid" time="0.18" steps="983"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="test&#39;vc.25.1" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.25.1.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.17" steps="972"/></proof>
+    <proof prover="1"><result status="valid" time="0.18" steps="983"/></proof>
     </goal>
    </transf>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.26" expl="precondition" proved="true">
+  <goal name="test&#39;vc.26" expl="Intermidate PostCondition 2" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.26.0" expl="precondition" proved="true">
+   <goal name="test&#39;vc.26.0" expl="Intermidate PostCondition 2" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.26.0.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.18" steps="972"/></proof>
+    <goal name="test&#39;vc.26.0.0" expl="Intermidate PostCondition 2" proved="true">
+    <proof prover="1"><result status="valid" time="0.15" steps="989"/></proof>
+    </goal>
+    <goal name="test&#39;vc.26.0.1" expl="Intermidate PostCondition 2" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="989"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.26.1" expl="precondition" proved="true">
+   <goal name="test&#39;vc.26.1" expl="Intermidate PostCondition 2" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.26.1.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.18" steps="972"/></proof>
+    <goal name="test&#39;vc.26.1.0" expl="Intermidate PostCondition 2" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="989"/></proof>
+    </goal>
+    <goal name="test&#39;vc.26.1.1" expl="Intermidate PostCondition 2" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="989"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="test&#39;vc.26.2" expl="Intermidate PostCondition 2" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="test&#39;vc.26.2.0" expl="Intermidate PostCondition 2" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="993"/></proof>
+    </goal>
+    <goal name="test&#39;vc.26.2.1" expl="Intermidate PostCondition 2" proved="true">
+    <proof prover="1"><result status="valid" time="0.17" steps="993"/></proof>
     </goal>
    </transf>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.27" expl="Intermidate PostCondition 2" proved="true">
+  <goal name="test&#39;vc.27" expl="Intermidate PostCondition 12" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.27.0" expl="Intermidate PostCondition 2" proved="true">
+   <goal name="test&#39;vc.27.0" expl="Intermidate PostCondition 12" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.27.0.0" expl="Intermidate PostCondition 2" proved="true">
-    <proof prover="1"><result status="valid" time="0.20" steps="978"/></proof>
+    <goal name="test&#39;vc.27.0.0" expl="Intermidate PostCondition 12" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="992"/></proof>
     </goal>
-    <goal name="test&#39;vc.27.0.1" expl="Intermidate PostCondition 2" proved="true">
-    <proof prover="1"><result status="valid" time="0.15" steps="978"/></proof>
+    <goal name="test&#39;vc.27.0.1" expl="Intermidate PostCondition 12" proved="true">
+    <proof prover="1"><result status="valid" time="0.16" steps="992"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.27.1" expl="Intermidate PostCondition 2" proved="true">
+   <goal name="test&#39;vc.27.1" expl="Intermidate PostCondition 12" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.27.1.0" expl="Intermidate PostCondition 2" proved="true">
-    <proof prover="1"><result status="valid" time="0.17" steps="978"/></proof>
+    <goal name="test&#39;vc.27.1.0" expl="Intermidate PostCondition 12" proved="true">
+    <proof prover="1"><result status="valid" time="0.18" steps="992"/></proof>
     </goal>
-    <goal name="test&#39;vc.27.1.1" expl="Intermidate PostCondition 2" proved="true">
-    <proof prover="1"><result status="valid" time="0.22" steps="978"/></proof>
+    <goal name="test&#39;vc.27.1.1" expl="Intermidate PostCondition 12" proved="true">
+    <proof prover="1"><result status="valid" time="0.15" steps="992"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.27.2" expl="Intermidate PostCondition 2" proved="true">
+   <goal name="test&#39;vc.27.2" expl="Intermidate PostCondition 12" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.27.2.0" expl="Intermidate PostCondition 2" proved="true">
-    <proof prover="1"><result status="valid" time="0.36" steps="981"/></proof>
+    <goal name="test&#39;vc.27.2.0" expl="Intermidate PostCondition 12" proved="true">
+    <proof prover="1"><result status="valid" time="0.19" steps="992"/></proof>
     </goal>
-    <goal name="test&#39;vc.27.2.1" expl="Intermidate PostCondition 2" proved="true">
-    <proof prover="1"><result status="valid" time="0.37" steps="981"/></proof>
+    <goal name="test&#39;vc.27.2.1" expl="Intermidate PostCondition 12" proved="true">
+    <proof prover="1"><result status="valid" time="0.18" steps="992"/></proof>
     </goal>
    </transf>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.28" expl="Intermidate PostCondition 12" proved="true">
+  <goal name="test&#39;vc.28" expl="precondition" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.28.0" expl="Intermidate PostCondition 12" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.28.0.0" expl="Intermidate PostCondition 12" proved="true">
-    <proof prover="1"><result status="valid" time="0.16" steps="981"/></proof>
-    </goal>
-    <goal name="test&#39;vc.28.0.1" expl="Intermidate PostCondition 12" proved="true">
-    <proof prover="1"><result status="valid" time="0.21" steps="981"/></proof>
-    </goal>
-   </transf>
+   <goal name="test&#39;vc.28.0" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.12" steps="992"/></proof>
    </goal>
-   <goal name="test&#39;vc.28.1" expl="Intermidate PostCondition 12" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.28.1.0" expl="Intermidate PostCondition 12" proved="true">
-    <proof prover="1"><result status="valid" time="0.18" steps="981"/></proof>
-    </goal>
-    <goal name="test&#39;vc.28.1.1" expl="Intermidate PostCondition 12" proved="true">
-    <proof prover="1"><result status="valid" time="0.19" steps="981"/></proof>
-    </goal>
-   </transf>
-   </goal>
-   <goal name="test&#39;vc.28.2" expl="Intermidate PostCondition 12" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.28.2.0" expl="Intermidate PostCondition 12" proved="true">
-    <proof prover="1"><result status="valid" time="0.15" steps="981"/></proof>
-    </goal>
-    <goal name="test&#39;vc.28.2.1" expl="Intermidate PostCondition 12" proved="true">
-    <proof prover="1"><result status="valid" time="0.18" steps="981"/></proof>
-    </goal>
-   </transf>
+   <goal name="test&#39;vc.28.1" expl="precondition" proved="true">
+   <proof prover="1"><result status="valid" time="0.13" steps="992"/></proof>
    </goal>
   </transf>
   </goal>
@@ -1000,80 +1079,80 @@
    <goal name="test&#39;vc.29.0" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.29.0.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="981"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="992"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="test&#39;vc.29.1" expl="precondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.29.1.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="981"/></proof>
+    <proof prover="1"><result status="valid" time="0.15" steps="992"/></proof>
     </goal>
    </transf>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.30" expl="precondition" proved="true">
+  <goal name="test&#39;vc.30" expl="Intermidate PostCondition 1" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.30.0" expl="precondition" proved="true">
+   <goal name="test&#39;vc.30.0" expl="Intermidate PostCondition 1" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.30.0.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.15" steps="981"/></proof>
+    <goal name="test&#39;vc.30.0.0" expl="Intermidate PostCondition 1" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="998"/></proof>
+    </goal>
+    <goal name="test&#39;vc.30.0.1" expl="Intermidate PostCondition 1" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="998"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.30.1" expl="precondition" proved="true">
+   <goal name="test&#39;vc.30.1" expl="Intermidate PostCondition 1" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.30.1.0" expl="precondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="981"/></proof>
+    <goal name="test&#39;vc.30.1.0" expl="Intermidate PostCondition 1" proved="true">
+    <proof prover="1"><result status="valid" time="0.12" steps="998"/></proof>
+    </goal>
+    <goal name="test&#39;vc.30.1.1" expl="Intermidate PostCondition 1" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="998"/></proof>
     </goal>
    </transf>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.31" expl="Intermidate PostCondition 1" proved="true">
+  <goal name="test&#39;vc.31" expl="Intermidate PostCondition 13" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.31.0" expl="Intermidate PostCondition 1" proved="true">
+   <goal name="test&#39;vc.31.0" expl="Intermidate PostCondition 13" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.31.0.0" expl="Intermidate PostCondition 1" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="985"/></proof>
+    <goal name="test&#39;vc.31.0.0" expl="Intermidate PostCondition 13" proved="true">
+    <proof prover="1"><result status="valid" time="0.17" steps="1000"/></proof>
     </goal>
-    <goal name="test&#39;vc.31.0.1" expl="Intermidate PostCondition 1" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="985"/></proof>
+    <goal name="test&#39;vc.31.0.1" expl="Intermidate PostCondition 13" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="1000"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.31.1" expl="Intermidate PostCondition 1" proved="true">
+   <goal name="test&#39;vc.31.1" expl="Intermidate PostCondition 13" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.31.1.0" expl="Intermidate PostCondition 1" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="985"/></proof>
+    <goal name="test&#39;vc.31.1.0" expl="Intermidate PostCondition 13" proved="true">
+    <proof prover="1"><result status="valid" time="0.16" steps="1000"/></proof>
     </goal>
-    <goal name="test&#39;vc.31.1.1" expl="Intermidate PostCondition 1" proved="true">
-    <proof prover="1"><result status="valid" time="0.12" steps="985"/></proof>
+    <goal name="test&#39;vc.31.1.1" expl="Intermidate PostCondition 13" proved="true">
+    <proof prover="1"><result status="valid" time="0.13" steps="1000"/></proof>
     </goal>
    </transf>
    </goal>
   </transf>
   </goal>
-  <goal name="test&#39;vc.32" expl="Intermidate PostCondition 13" proved="true">
+  <goal name="test&#39;vc.32" expl="postcondition" proved="true">
   <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.32.0" expl="Intermidate PostCondition 13" proved="true">
+   <goal name="test&#39;vc.32.0" expl="postcondition" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.32.0.0" expl="Intermidate PostCondition 13" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="987"/></proof>
-    </goal>
-    <goal name="test&#39;vc.32.0.1" expl="Intermidate PostCondition 13" proved="true">
-    <proof prover="1"><result status="valid" time="0.17" steps="987"/></proof>
+    <goal name="test&#39;vc.32.0.0" expl="postcondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.14" steps="1000"/></proof>
     </goal>
    </transf>
    </goal>
-   <goal name="test&#39;vc.32.1" expl="Intermidate PostCondition 13" proved="true">
+   <goal name="test&#39;vc.32.1" expl="postcondition" proved="true">
    <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.32.1.0" expl="Intermidate PostCondition 13" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="987"/></proof>
-    </goal>
-    <goal name="test&#39;vc.32.1.1" expl="Intermidate PostCondition 13" proved="true">
-    <proof prover="1"><result status="valid" time="0.16" steps="987"/></proof>
+    <goal name="test&#39;vc.32.1.0" expl="postcondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.16" steps="1000"/></proof>
     </goal>
    </transf>
    </goal>
@@ -1084,32 +1163,14 @@
    <goal name="test&#39;vc.33.0" expl="postcondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.33.0.0" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.16" steps="987"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="1000"/></proof>
     </goal>
    </transf>
    </goal>
    <goal name="test&#39;vc.33.1" expl="postcondition" proved="true">
    <transf name="split_vc" proved="true" >
     <goal name="test&#39;vc.33.1.0" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.14" steps="987"/></proof>
-    </goal>
-   </transf>
-   </goal>
-  </transf>
-  </goal>
-  <goal name="test&#39;vc.34" expl="postcondition" proved="true">
-  <transf name="split_vc" proved="true" >
-   <goal name="test&#39;vc.34.0" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.34.0.0" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="987"/></proof>
-    </goal>
-   </transf>
-   </goal>
-   <goal name="test&#39;vc.34.1" expl="postcondition" proved="true">
-   <transf name="split_vc" proved="true" >
-    <goal name="test&#39;vc.34.1.0" expl="postcondition" proved="true">
-    <proof prover="1"><result status="valid" time="0.13" steps="987"/></proof>
+    <proof prover="1"><result status="valid" time="0.13" steps="1000"/></proof>
     </goal>
    </transf>
    </goal>

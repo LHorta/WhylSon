@@ -50,6 +50,9 @@ val function some_bytes : seq Bytes.t
 
 val function some_string : string
 
+val function some_timestamp : int
+    ensures { result >= 0 }
+
 val function some_mutez : int
     ensures { result >= 0 }
 
@@ -129,30 +132,39 @@ predicate only_compare_same_comparable (t1 t2: typ_t) =
     end
 
 let rec function compare_comparable (a b: data_t) : int
-  requires { is_comparable (get_type (SD a)) }
-  requires { is_comparable (get_type (SD b)) }
-  requires { only_compare_same_comparable (get_type (SD a)) (get_type (SD b)) } =
+  requires { is_comparable (type_of a) }
+  requires { is_comparable (type_of b) }
+  requires { only_compare_same_comparable (type_of a) (type_of b) } =
   variant { a }  
   match a, b with 
-  | D_int x _, D_int y _ -> compare_int x y
-  | D_string x _, D_string y _ -> compare_string x y
-  | D_bytes x _, D_bytes y _ -> compare_bytes x y 
-  | D_bool x _, D_bool y _ -> compare_bool x y 
-  | D_pair car1 cdr1 _, D_pair car2 cdr2 _  -> 
+  | D_int x, D_int y 
+  | D_nat x, D_nat y 
+  | D_mutez x, D_mutez y
+  | D_timestamp x, D_timestamp y -> compare_int x y
+  | D_key x, D_key y
+  | D_key_hash x, D_key_hash y
+  | D_chain_id x, D_chain_id y
+  | D_signature x, D_signature y
+  | D_address x, D_address y (* FIXME: change how these are comapreded *)
+  | D_string x, D_string y -> compare_string x y
+  | D_bytes x, D_bytes y -> compare_bytes x y (* FIXME: change how these are comapreded *)
+  | D_bool x, D_bool y -> compare_bool x y 
+  | D_pair car1 cdr1, D_pair car2 cdr2 -> 
         let res = compare_comparable car1 car2 in  
         if  res = 0 then  (compare_comparable cdr1 cdr2) else res
   | D_some x _, D_some y _ -> compare_comparable x y 
   | D_none _, D_some _ _ -> -1
   | D_some _ _, D_none _ -> 1
   | D_none _, D_none _ -> 0
-  | D_unit _, D_unit _ -> 0
+  | D_unit, D_unit -> 0
+  | D_never, D_never -> 0
   | D_left x _, D_left y _ -> compare_comparable x y 
   | D_right x _, D_right y _ -> compare_comparable x y 
   | D_left _ _, D_right _ _ -> -1
   | D_right _ _, D_left _ _ -> 1
   | _ -> absurd
   end 
-   
+    
 (* 
 let function compare_comparable (a b: comparable) : int 
     requires { only_compare_same_comparable a b } =

@@ -45,7 +45,7 @@ module AxiomaticSem
   use list.Reverse
   use list.List
 
-  type stack_t = seq stack_data
+  type stack_t = seq data_t
 
 
   let function (::) (a: 'a) (b: seq 'a) = cons a  b
@@ -69,155 +69,165 @@ module AxiomaticSem
   val or (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { match get_type s[0], get_type s[1] with                
+    requires { match type_of s[0], type_of s[1] with                
                 | T_bool, T_bool
                 | T_nat, T_nat -> true
                 | _ -> false
                end }
-    ensures { match get_type s[0], get_type s[1] with
-                | T_bool, T_bool -> get_type result[0] = T_bool
-                | T_nat, T_nat -> get_type result[0] = T_nat                             
+    ensures { match type_of s[0], type_of s[1] with
+                | T_bool, T_bool -> type_of result[0] = T_bool
+                | T_nat, T_nat -> type_of result[0] = T_nat                             
                 | _ -> false
                end }
     ensures  { length result = length s - 1 }    
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i+1] }    
     ensures  { match s[0], s[1] with
-                | SD (D_bool x _) , SD (D_bool y _) -> 
+                | D_bool x, D_bool y -> 
                   let out_stack = s[2 ..] in
-                  let res = D_bool (x || y) T_bool in
-                  result = (SD res) :: out_stack
-                | SD (D_int x _), SD (D_int y _) ->
+                  let res = D_bool (x || y) in
+                  result = res:: out_stack
+                | D_nat x, D_nat y ->
                   let out_stack = s[2 ..] in                  
-                  let res = D_int (to_int (bw_or (of_int x) (of_int y))) T_nat in
-                  result =  (SD res) :: out_stack
+                  let res = D_nat (to_int (bw_or (of_int x) (of_int y))) in
+                  result = res :: out_stack
                | _ -> false end }
 
 
   val and (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { match get_type s[0], get_type s[1] with                
-                | T_bool, T_bool
+    requires { match type_of s[0], type_of s[1] with                
                 | T_int, T_nat
-                | T_nat, T_nat -> true
+                | T_nat, T_nat
+                | T_bool, T_bool -> true
                 | _ -> false
                end }
-    ensures { match get_type s[0], get_type s[1] with
-                | T_bool, T_bool -> get_type result[0] = T_bool
+    ensures { match type_of s[0], type_of s[1] with
                 | T_int, T_nat
-                | T_nat, T_nat -> get_type result[0] = T_nat                             
+                | T_nat, T_nat -> type_of result[0] = T_nat                             
+                | T_bool, T_bool -> type_of result[0] = T_bool
                 | _ -> false
                end }
     ensures  { length result = length s - 1 }    
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i+1] }        
     ensures  { match s[0], s[1] with
-                | SD (D_bool x _), SD (D_bool y _) ->
+                | D_bool x, D_bool y ->
                   let out_stack = s[2 ..] in
-                  let res = D_bool (x && y) T_bool in
-                  result =  (SD res) :: out_stack
-                | SD (D_int x _), SD (D_int y _) ->
+                  let res = D_bool (x && y) in
+                  result =  res :: out_stack
+                | D_int x, D_nat y 
+                | D_nat x, D_nat y ->
                   let out_stack = s[2 ..] in                  
-                  let res = D_int (to_int (bw_and (of_int x) (of_int y))) T_nat in
-                  result =  (SD res) :: out_stack                                  
+                  let res = D_nat (to_int (bw_and (of_int x) (of_int y))) in
+                  result =  res :: out_stack                                  
                 | _ -> false end }
 
 
   val xor (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { match get_type s[0], get_type s[1] with                
+    requires { match type_of s[0], type_of s[1] with                
                 | T_bool, T_bool
                 | T_nat, T_nat -> true
                 | _ -> false
                end }
-    ensures { match get_type s[0], get_type s[1] with
-                | T_bool, T_bool -> get_type result[0] = T_bool
-                | T_nat, T_nat -> get_type result[0] = T_nat                             
+    ensures { match type_of s[0], type_of s[1] with
+                | T_bool, T_bool -> type_of result[0] = T_bool
+                | T_nat, T_nat -> type_of result[0] = T_nat                             
                 | _ -> false
                end }
     ensures  { length result = length s - 1 } 
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i+1] }    
     ensures  { match s[0], s[1] with
-                | SD (D_bool x _), SD (D_bool y _)->
+                | D_bool x, D_bool y ->
                   let out_stack = s[2 ..] in
-                  let res = D_bool ((x || y) && not (x && y)) T_bool in
-                  result =  (SD res) :: out_stack
-                | SD (D_int x _), SD (D_int y _) ->
+                  let res = D_bool ((x || y) && not (x && y)) in
+                  result =  res :: out_stack
+                | D_nat x, D_nat y ->
                   let out_stack = s[2 ..] in                  
-                  let res = D_int (to_int (bw_xor (of_int x) (of_int y))) T_nat in
-                  result =  (SD res) :: out_stack
+                  let res = D_nat (to_int (bw_xor (of_int x) (of_int y))) in
+                  result =  res :: out_stack
                | _ -> false end }
 
   (* this operation is the 'not' operation but since it is a reserved word we named it not_op *)
   val not_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { match get_type s[0] with                
+    requires { match type_of s[0] with                
                 | T_bool
                 | T_int
                 | T_nat -> true
                 | _ -> false
                end }
-    ensures { match get_type s[0] with
-                | T_bool -> get_type result[0] = T_bool
+    ensures { match type_of s[0] with
+                | T_bool -> type_of result[0] = T_bool
                 | T_nat
-                | T_int -> get_type result[0] = T_int                             
+                | T_int -> type_of result[0] = T_int                             
                 | _ -> false
                end }
     ensures  { length result = length s }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures  { match s[0] with
-                | SD (D_bool x _) ->
+                | D_bool x ->
                   let out_stack = s[1 ..] in
-                  let res = D_bool (not x) T_bool in
-                  result = (SD res) :: out_stack
-                | SD (D_int x _) ->
+                  let res = D_bool (not x) in
+                  result = res :: out_stack
+                | D_int x
+                | D_nat x ->
                   let out_stack = s[1 ..] in
-                  let res = D_int (to_int (bw_not (of_int x))) T_int in                   
-                  result = (SD res) :: out_stack                
+                  let res = D_int (to_int (bw_not (of_int x))) in                   
+                  result = res :: out_stack                
                 | _ -> false end }
 
   val neg (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { match get_type s[0] with                                
+    requires { match type_of s[0] with                                
                 | T_int
-                | T_nat -> true
-                | _ -> false
-               end }
-    ensures { match get_type s[0] with               
                 | T_nat
-                | T_int -> get_type result[0] = T_int                             
-                | _ -> false
-               end }
+                | T_bls12_381_g1
+                | T_bls12_381_g2
+                | T_bls12_381_fr -> true
+                | _ -> false end }
+    ensures { match type_of s[0] with               
+                | T_nat
+                | T_int -> type_of result[0] = T_int
+                | T_bls12_381_g1 -> type_of result[0] = T_bls12_381_g1
+                | T_bls12_381_g2 -> type_of result[0] = T_bls12_381_g2
+                | T_bls12_381_fr -> type_of result[0] = T_bls12_381_fr
+                | _ -> false end }
     ensures  { length result = length s }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
-    ensures  { match s[0] with
-                | SD (D_int x _) ->
-                  let out_stack = s[1 ..] in
-                  let res = D_int (-x) T_int in
-                  result = (SD res) :: out_stack                  
+    ensures  { let out_stack = s[1 ..] in
+                match s[0] with
+                | D_int x 
+                | D_nat x ->
+                    let res = D_int (-x) in
+                    result = res :: out_stack
+                | D_bls12_381_g1 x -> 
+                    let res = D_bls12_381_g1 (-x) in
+                    result = res :: out_stack
+                | D_bls12_381_g2 x ->
+                    let res = D_bls12_381_g2 (-x) in
+                    result = res :: out_stack
+                | D_bls12_381_fr x ->
+                    let res = D_bls12_381_fr (-x) in
+                    result = res :: out_stack
                 | _ -> false end }
 
   (* this operation is the 'abs' operation but since it is a reserved word we named it abs_op *)
   val abs_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { match get_type s[0] with                 
+    requires { match type_of s[0] with                 
                 | T_int -> true
                 | _ -> false
                end }
-    ensures { match get_type s[0] with                
-                | T_int -> get_type result[0] = T_nat                             
-                | _ -> false
-               end }
+    ensures  { type_of result[0] = T_nat }
     ensures  { length result = length s }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures  { match s[0] with
-                | SD (D_int x _) ->
-                  let out_stack = s[1 ..] in
-                  let res = D_int (abs x) T_nat in
-                  result = (SD res) :: out_stack                 
+                | D_int x -> result = (D_nat (abs x)) :: s[1..]                        
                 | _ -> false end }
 
 
@@ -229,163 +239,251 @@ module AxiomaticSem
   val push (s: stack_t) (fuel: int) (t: typ_t) (d: data_t) : stack_t
     requires { fuel > 0 }   
     ensures  { length result = length s + 1 }
-    ensures  { get_type result[0] = t }
+    ensures  { type_of result[0] = t }
     ensures  { forall i: int. 0 <= i < length s -> result[i+1] = s[i] }    
-    ensures  { result = (SD d) ::  s /\ result[0] = SD d }
+    ensures  { result = d ::  s /\ result[0] = d }
 
   val add (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { match get_type s[0], get_type s[1] with
+    requires { match type_of s[0], type_of s[1] with
                 | T_int, T_int
                 | T_int, T_nat
                 | T_nat, T_int
-                | T_nat, T_nat -> true
+                | T_nat, T_nat 
+                | T_timestamp, T_int
+                | T_int, T_timestamp 
+                | T_mutez, T_mutez 
+                | T_bls12_381_g1, T_bls12_381_g1 
+                | T_bls12_381_g2, T_bls12_381_g2 
+                | T_bls12_381_fr, T_bls12_381_fr -> true
                 | _ -> false
                end }
     ensures  { length result = length s - 1 }
-    ensures { match get_type s[0], get_type s[1] with
+    ensures { match type_of s[0], type_of s[1] with
                 | T_int, T_int
                 | T_int, T_nat
-                | T_nat, T_int -> get_type result[0] = T_int 
-                | T_nat, T_nat -> get_type result[0] = T_nat                
-                | _ -> false
-               end }
+                | T_nat, T_int -> type_of result[0] = T_int 
+                | T_nat, T_nat -> type_of result[0] = T_nat
+                | T_timestamp, T_int
+                | T_int, T_timestamp -> type_of result[0] = T_timestamp
+                | T_mutez, T_mutez -> type_of result[0] = T_mutez
+                | T_bls12_381_g1, T_bls12_381_g1 -> type_of result[0] = T_bls12_381_g1
+                | T_bls12_381_g2, T_bls12_381_g2 -> type_of result[0] = T_bls12_381_g2 
+                | T_bls12_381_fr, T_bls12_381_fr -> type_of result[0] = T_bls12_381_fr
+                | _ -> false end }
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i+1] }    
     ensures  add_post { match s[0], s[1] with
-                | SD (D_int x T_int), SD (D_int y T_int) 
-                | SD (D_int x T_int), SD (D_int y T_nat)
-                | SD (D_int x T_nat), SD (D_int y T_int) ->
-                  let res = D_int (x + y) T_int in
-                  result = (SD res) :: s[2..] /\ result[0] = SD (D_int (x + y) T_int)
-                | SD (D_int x T_nat), SD (D_int y T_nat) ->
-                  let res = D_int (x + y) T_nat in
-                  result = (SD res) :: s[2..] /\ result[0] = SD (D_int (x + y) T_nat)
+                | D_int x, D_int y 
+                | D_int x, D_nat y
+                | D_nat x, D_int y ->
+                    let res = D_int (x + y) in
+                    result = res :: s[2..] /\ result[0] = D_int (x + y)
+                | D_nat x, D_nat y ->
+                    let res = D_nat (x + y) in
+                    result = res :: s[2..] /\ result[0] = D_nat (x + y)
+                | D_timestamp x, D_int y 
+                | D_int x, D_timestamp y ->
+                    let res = D_timestamp (x + y) in
+                    result = res :: s[2..] /\ result[0] = D_timestamp (x + y)
+                | D_mutez x, D_mutez y ->
+                    let res = D_mutez (x + y) in
+                    result = res :: s[2..] /\ result[0] = D_mutez (x + y)
+                | D_bls12_381_g1 x, D_bls12_381_g1 y ->
+                    let res = D_bls12_381_g1 (x + y) in
+                    result = res :: s[2..] /\ result[0] = D_bls12_381_g1 (x + y)
+                | D_bls12_381_g2 x, D_bls12_381_g2 y ->
+                    let res = D_bls12_381_g2 (x + y) in
+                    result = res :: s[2..] /\ result[0] = D_bls12_381_g2 (x + y)
+                | D_bls12_381_fr x, D_bls12_381_fr y ->
+                    let res = D_bls12_381_fr (x + y) in
+                    result = res :: s[2..] /\ result[0] = D_bls12_381_fr (x + y)
                 | _ -> false end }
+
+  exception Negative_Mutez_Value
 
   val sub (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { match get_type s[0], get_type s[1] with
+    requires { match type_of s[0], type_of s[1] with
                 | T_int, T_int 
                 | T_int, T_nat
                 | T_nat, T_int  
-                | T_nat, T_nat -> true
+                | T_nat, T_nat 
+                | T_timestamp, T_int 
+                | T_timestamp, T_timestamp
+                | T_mutez, T_mutez -> true
                 | _ -> false
                end }
+    (* raises   { Negative_Mutez_Value } *)
     ensures  { length result = length s - 1 }
-    ensures  { get_type result[0] = T_int } 
+    ensures  { type_of result[0] = T_int } 
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i+1] }    
     ensures  { match s[0], s[1] with
-                | SD (D_int x T_int), SD (D_int y T_int) 
-                | SD (D_int x T_int), SD (D_int y T_nat)
-                | SD (D_int x T_nat), SD (D_int y T_int)
-                | SD (D_int x T_nat), SD (D_int y T_nat) ->
-                  let res = D_int (x - y) T_int in
-                  result = (SD res) :: s[2..] /\ result[0] = SD (D_int (x - y) T_int)
+                | D_int x, D_int y
+                | D_nat x, D_int y
+                | D_int x, D_nat y
+                | D_nat x, D_nat y 
+                | D_timestamp x, D_timestamp y ->
+                    let res = D_int (x - y) in
+                    result = res :: s[2..] /\ result[0] = D_int (x - y)
+                | D_timestamp x, D_int y ->
+                    let res = D_timestamp (x - y) in
+                    result = res :: s[2..] /\ result[0] = D_timestamp (x - y)
+                | D_mutez x, D_mutez y ->
+                    if (x - y) >= 0 then 
+                      let res = D_mutez (x - y) in
+                      result = res :: s[2..] /\ result[0] = D_mutez (x - y)
+                    else result = D_never :: s[2..] (*FIXME: Need to raise exception *)
                 | _ -> false end }
 
   val mul (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { match get_type s[0], get_type s[1] with
+    requires { match type_of s[0], type_of s[1] with
                 | T_int, T_int 
                 | T_int, T_nat
                 | T_nat, T_int  
-                | T_nat, T_nat -> true
+                | T_nat, T_nat
+                | T_mutez, T_nat
+                | T_nat, T_mutez 
+                | T_bls12_381_g1, T_bls12_381_fr
+                | T_bls12_381_g2, T_bls12_381_fr 
+                | T_bls12_381_fr, T_bls12_381_fr 
+                | T_nat, T_bls12_381_fr 
+                | T_int, T_bls12_381_fr 
+                | T_bls12_381_fr, T_nat 
+                | T_bls12_381_fr, T_int -> true
                 | _ -> false
                end }
-    ensures { match get_type s[0], get_type s[1] with
+    ensures { match type_of s[0], type_of s[1] with
                 | T_int, T_int
                 | T_int, T_nat
-                | T_nat, T_int -> get_type result[0] = T_int 
-                | T_nat, T_nat -> get_type result[0] = T_nat                
+                | T_nat, T_int -> type_of result[0] = T_int 
+                | T_nat, T_nat -> type_of result[0] = T_nat
+                | T_mutez, T_nat
+                | T_nat, T_mutez -> type_of result[0] = T_mutez
+                | T_bls12_381_g1, T_bls12_381_fr -> type_of result[0] = T_bls12_381_g1
+                | T_bls12_381_g2, T_bls12_381_fr -> type_of result[0] = T_bls12_381_g2
+                | T_bls12_381_fr, T_bls12_381_fr 
+                | T_nat, T_bls12_381_fr 
+                | T_int, T_bls12_381_fr 
+                | T_bls12_381_fr, T_nat 
+                | T_bls12_381_fr, T_int -> type_of result[0] = T_bls12_381_fr
                 | _ -> false
                end }
     ensures  { length result = length s - 1 }
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i+1] }    
     ensures  mult_post { match s[0], s[1] with
-                | SD (D_int x T_int), SD (D_int y T_int) 
-                | SD (D_int x T_int), SD (D_int y T_nat)
-                | SD (D_int x T_nat), SD (D_int y T_int) ->
-                  let res = D_int (x * y) T_int in
-                  result = (SD res) :: s[2..] /\ result[0] = SD (D_int (x * y) T_int)
-                | SD (D_int x T_nat), SD (D_int y T_nat) ->
-                  let res = D_int (x * y) T_nat in
-                  result = (SD res) :: s[2..] /\ result[0] = SD (D_int (x * y) T_nat)
+                | D_int x, D_int y
+                | D_int x, D_nat y 
+                | D_nat x, D_int y ->
+                    let res = D_int (x * y) in
+                    result = res :: s[2..] /\ result[0] = D_int (x * y)
+                | D_nat x, D_nat y ->
+                    let res = D_nat (x * y) in
+                    result = res :: s[2..] /\ result[0] = D_nat (x * y)
+                | D_mutez x, D_nat y 
+                | D_nat x, D_mutez y ->
+                    let res = D_mutez (x * y) in
+                    result = res :: s[2..] /\ result[0] = D_mutez (x * y)
+                | D_bls12_381_g1 x, D_bls12_381_fr y ->
+                    let res = D_bls12_381_g1 (x * y) in
+                    result = res :: s[2..] /\ result[0] = D_bls12_381_g1 (x * y)
+                | D_bls12_381_g2 x, D_bls12_381_fr y ->
+                    let res = D_bls12_381_g2 (x * y) in
+                    result = res :: s[2..] /\ result[0] = D_bls12_381_g2 (x * y)
+                | D_nat x, D_bls12_381_fr y
+                | D_int x, D_bls12_381_fr y
+                | D_bls12_381_fr x, D_nat y
+                | D_bls12_381_fr x, D_int y ->
+                    let res = D_bls12_381_fr (x * y) in
+                    result = res :: s[2..] /\ result[0] = D_bls12_381_fr (x * y)
                 | _ -> false 
                 end }  
 
   val ediv (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { match get_type s[0], get_type s[1] with
+    requires { match type_of s[0], type_of s[1] with
                 | T_int, T_int 
                 | T_int, T_nat
                 | T_nat, T_int  
-                | T_nat, T_nat -> true
+                | T_nat, T_nat 
+                | T_mutez, T_nat
+                | T_mutez, T_mutez  -> true
                 | _ -> false
                end }
-    ensures { match get_type s[0], get_type s[1] with
+    ensures { match type_of s[0], type_of s[1] with
                 | T_int, T_int 
                 | T_int, T_nat
-                | T_nat, T_int -> get_type result[0] = T_option (T_pair T_int T_nat) (* TODO: not sure if snd works *)
-                | T_nat, T_nat -> get_type result[0] = T_option (T_pair T_nat T_nat)
+                | T_nat, T_int -> type_of result[0] = T_option (T_pair T_int T_nat) (* TODO: not sure if snd works *)
+                | T_nat, T_nat -> type_of result[0] = T_option (T_pair T_nat T_nat)
+                | T_mutez, T_nat -> type_of result[0] = T_option (T_pair T_mutez T_mutez)
+                | T_mutez, T_mutez -> type_of result[0] = T_option (T_pair T_nat T_mutez)
                 | _ -> false
                end }    
     ensures  { length result = length s - 1 }
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i+1] }    
     ensures  { match s[0], s[1] with
-                | SD (D_int x T_int), SD (D_int y T_int) 
-                | SD (D_int x T_int), SD (D_int y T_nat)
-                | SD (D_int x T_nat), SD (D_int y T_int) ->
-                  if y = 0 then result = (SD (D_none (T_option (T_pair T_int T_nat)))) :: s[2..]
-                  else let res = D_some (D_pair (D_int (div x y) T_int) (D_int (mod x y) T_nat) (T_pair T_int T_nat)) (T_option (T_pair T_int T_nat)) in
-                  result = (SD res) :: s[2..] /\ result[0] = SD (D_some (D_pair (D_int (div x y) T_int) (D_int (mod x y) T_nat) (T_pair T_int T_nat)) (T_option (T_pair T_int T_nat)))
-                | SD (D_int x T_nat), SD (D_int y T_nat) ->
-                  if y = 0 then result = (SD (D_none (T_option (T_pair T_nat T_nat)))) :: s[2..]                             
-                  else let res = D_some (D_pair (D_int (div x y) T_nat) (D_int (mod x y) T_nat) (T_pair T_nat T_nat)) (T_option (T_pair T_nat T_nat)) in
-                  result = (SD res) :: s[2..] /\ result[0] = SD (D_some (D_pair (D_int (div x y) T_nat) (D_int (mod x y) T_nat) (T_pair T_nat T_nat)) (T_option (T_pair T_nat T_nat)))
+                | D_int x, D_int y
+                | D_int x, D_nat y
+                | D_nat x, D_int y ->
+                    if y = 0 then result = (D_none (T_option (T_pair T_int T_nat))) :: s[2..]
+                    else let res = D_some (D_pair (D_int (div x y)) (D_int (mod x y))) (T_option (T_pair T_int T_nat)) in
+                    result = res :: s[2..] /\ result[0] = D_some (D_pair (D_int (div x y)) (D_int (mod x y)))  (T_option (T_pair T_int T_nat))
+                | D_nat x, D_nat y ->
+                    if y = 0 then result = (D_none (T_option (T_pair T_nat T_nat))) :: s[2..]                             
+                    else let res = D_some (D_pair (D_nat (div x y)) (D_nat (mod x y))) (T_option (T_pair T_nat T_nat)) in
+                    result = res :: s[2..] /\ result[0] = D_some (D_pair (D_nat (div x y)) (D_nat (mod x y))) (T_option (T_pair T_nat T_nat))
+                | D_mutez x, D_nat y ->
+                    if y = 0 then result = (D_none (T_option (T_pair T_mutez T_mutez))) :: s[2..]                             
+                    else let res = D_some (D_pair (D_mutez (div x y)) (D_mutez (mod x y))) (T_option (T_pair T_mutez T_mutez)) in
+                    result = res :: s[2..] /\ result[0] = D_some (D_pair (D_mutez (div x y)) (D_mutez (mod x y))) (T_option (T_pair T_mutez T_mutez)) 
+                | D_mutez x, D_nat y ->
+                    if y = 0 then result = (D_none (T_option (T_pair T_nat T_mutez))) :: s[2..]                             
+                    else let res = D_some (D_pair (D_nat (div x y)) (D_mutez (mod x y))) (T_option (T_pair T_nat T_mutez)) in
+                    result = res :: s[2..] /\ result[0] = D_some (D_pair (D_nat (div x y)) (D_mutez (mod x y))) (T_option (T_pair T_nat T_mutez))
                 | _ -> false end }    
 
   (* this operation is the 'lsl' operation but since it is a reserved word we named it lsl_op *)
   val lsl_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }    
-    requires { match get_type s[0], get_type s[1] with                
+    requires { match type_of s[0], type_of s[1] with                
                 | T_nat, T_nat -> true
                 | _ -> false
                end }
     requires { match s[1] with 
-                | SD (D_int n T_nat) ->  n <= 256 
+                | D_nat n ->  n <= 256 
                 | _ -> false end }
     ensures  { length result = length s - 1 }
-    ensures  { get_type result[0] = T_nat } 
+    ensures  { type_of result[0] = T_nat } 
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i+1] }     
     ensures  { match s[0], s[1] with
-                | SD (D_int x T_nat), SD (D_int y T_nat) ->                  
-                  let res = D_int (to_int (lsl (of_int x) y)) T_nat in 
-                  result = (SD res) :: s[2..]
+                | D_nat x, D_nat y ->                  
+                  let res = D_nat (to_int (lsl (of_int x) y)) in 
+                  result = res :: s[2..]
                 | _ -> false end }
 
   (* this operation is the 'lsr' operation but since it is a reserved word we named it lsr_op *)
   val lsr_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { match get_type s[0], get_type s[1] with                
+    requires { match type_of s[0], type_of s[1] with                
                 | T_nat, T_nat -> true
                 | _ -> false
                end }
     requires { match s[1] with 
-                | SD (D_int n T_nat) ->  n <= 256 
+                | D_nat n ->  n <= 256 
                 | _ -> false end }
     ensures  { length result = length s - 1 }
-    ensures  { get_type result[0] = T_nat } 
+    ensures  { type_of result[0] = T_nat } 
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i+1] }    
     ensures  { match s[0], s[1] with
-                | SD (D_int x T_nat), SD (D_int y T_nat) ->                  
-                  let res = D_int (to_int (lsr (of_int x) y)) T_nat in               
-                  result = (SD res) :: s[2..]
+                | D_nat x, D_nat y ->                  
+                  let res = D_nat (to_int (lsr (of_int x) y)) in
+                  result = res :: s[2..]
                 | _ -> false end }
 
   val pair (s: stack_t) (fuel: int) : stack_t
@@ -393,13 +491,9 @@ module AxiomaticSem
     requires { length s >= 2 }
     ensures  { length result = length s - 1 }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i+1] }    
-    ensures  { get_type result[0] = T_pair (get_type s[0]) (get_type s[1]) }
-    ensures  { match s[0], s[1] with
-                | SD d1, SD d2 ->                  
-                  let res = D_pair d1 d2 (T_pair (get_type s[0]) (get_type s[1])) in               
-                  result = (SD res) :: s[2..]
-                | _ -> false end }    
-
+    ensures  { type_of result[0] = T_pair (type_of s[0]) (type_of s[1]) }
+    ensures  { result = (D_pair s[0] s[1]) :: s[2..] }
+        
   val drop (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
@@ -417,27 +511,27 @@ module AxiomaticSem
   val car (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { match get_type s[0] with T_pair _ _ -> true | _ -> false end }
+    requires { match type_of s[0] with T_pair _ _ -> true | _ -> false end }
     ensures  { length result = length s }
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { match get_type s[0] with 
-              | T_pair x _ -> get_type result[0] = x
+    ensures  { match type_of s[0] with 
+              | T_pair x _ -> type_of result[0] = x
               | _ -> false end }
     ensures  { match s[0] with
-                | SD (D_pair x _ _) -> result = (SD x) :: s[2..] 
+                | D_pair x _ -> result = x :: s[2..] 
                 | _ -> false end }
 
   val cdr (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { match get_type s[0] with T_pair _ _ -> true | _ -> false end }
+    requires { match type_of s[0] with T_pair _ _ -> true | _ -> false end }
     ensures  { length result = length s }
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { match get_type s[0] with 
-              | T_pair _ x -> get_type result[0] = x
+    ensures  { match type_of s[0] with 
+              | T_pair _ x -> type_of result[0] = x
               | _ -> false end }
     ensures  { match s[0] with
-                | SD (D_pair _ x _) -> result = (SD x) :: s[2..] 
+                | D_pair _ x -> result = x :: s[2..] 
                 | _ -> false end }
 
   val dup (s: stack_t) (fuel: int) : stack_t
@@ -446,7 +540,7 @@ module AxiomaticSem
     ensures  { length result = length s + 1 }
     ensures  { result[0] = result[1] = s[0] }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i-1] }    
-    ensures  { get_type result[0] = get_type result[1] = get_type s[0] }
+    ensures  { type_of result[0] = type_of result[1] = type_of s[0] }
     ensures  { result = s[0] :: s }   
 
   (* TODO: review this function *)
@@ -457,13 +551,13 @@ module AxiomaticSem
     requires { n > 0 -> length s > n }
     ensures  { length result = length s }    
     ensures  { n > 0 -> result[0] = s[n] }   
-    ensures  { n > 0 -> get_type result[0] = get_type s[n] }
+    ensures  { n > 0 -> type_of result[0] = type_of s[n] }
     ensures  { n = 0 -> forall i:int. 0 <= i < length result -> result[i] = s[i] }
-    ensures  { n = 0 -> forall i:int. 0 <= i < length result -> get_type result[i] = get_type s[i] }
+    ensures  { n = 0 -> forall i:int. 0 <= i < length result -> type_of result[i] = type_of s[i] }
     ensures  { n > 0 -> forall i:int. 1 <= i <= n -> result[i] = s[i-1] }
     ensures  { n > 0 -> forall i:int. n < i < length result -> result[i] = s[i] }
-    ensures  { n > 0 -> forall i:int. 1 <= i <= n -> get_type result[i] =  get_type s[i-1] }
-    ensures  { n > 0 -> forall i:int. n < i < length result -> get_type result[i] = get_type s[i] }
+    ensures  { n > 0 -> forall i:int. 1 <= i <= n -> type_of result[i] =  type_of s[i-1] }
+    ensures  { n > 0 -> forall i:int. n < i < length result -> type_of result[i] = type_of s[i] }
     ensures  { if n = 0 then result = s else 
                let elt = s[n] in
                if length s > n then
@@ -478,13 +572,13 @@ module AxiomaticSem
     requires { n > 0 -> length s > n }
     ensures  { length result = length s }    (* [a;b;c;d;e;f]  DUG 2 *)
     ensures  { n > 0 -> result[n] = s[0] }   (* [b;c;a;d;e;f] *)
-    ensures  { n > 0 -> get_type result[n] = get_type s[0] }
+    ensures  { n > 0 -> type_of result[n] = type_of s[0] }
     ensures  { n = 0 -> forall i:int. 0 <= i < length result -> result[i] = s[i] }
-    ensures  { n = 0 -> forall i:int. 0 <= i < length result -> get_type result[i] = get_type s[i] }
+    ensures  { n = 0 -> forall i:int. 0 <= i < length result -> type_of result[i] = type_of s[i] }
     ensures  { n > 0 -> forall i:int. 0 <= i < n -> result[i] = s[i+1] }
     ensures  { n > 0 -> forall i:int. n < i < length result -> result[i] = s[i] }
-    ensures  { n > 0 -> forall i:int. 0 <= i < n -> get_type result[i] =  get_type s[i+1] }
-    ensures  { n > 0 -> forall i:int. n < i < length result -> get_type result[i] = get_type s[i] }
+    ensures  { n > 0 -> forall i:int. 0 <= i < n -> type_of result[i] =  type_of s[i+1] }
+    ensures  { n > 0 -> forall i:int. n < i < length result -> type_of result[i] = type_of s[i] }
     ensures  { if n = 0 then result = s else 
                let elt = s[0] in
                if length s > n then
@@ -494,95 +588,93 @@ module AxiomaticSem
   val eq (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { get_type s[0] = T_int }
+    requires { type_of s[0] = T_int }
     ensures  { length result = length s }
-    ensures  { get_type result[0] = T_bool }
+    ensures  { type_of result[0] = T_bool }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures  { match s[0] with
-                | SD (D_int i T_int) ->
-                    let res = D_bool (compare_int i 0 = 0) T_bool in
-                    result = (SD res) :: s[1..]
+                | D_int i ->
+                    let res = D_bool (compare_int i 0 = 0) in
+                    result = res :: s[1..]
                 | _ -> false end }
 
   val neq (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { get_type s[0] = T_int }
+    requires { type_of s[0] = T_int }
     ensures  { length result = length s }
-    ensures  { get_type result[0] = T_bool }
+    ensures  { type_of result[0] = T_bool }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures  neq_post { match s[0] with
-                | SD (D_int i T_int) ->
-                    let res = D_bool (compare_int i 0 <> 0) T_bool in 
-                    result = (SD res) :: s[1..]
+                | D_int i ->
+                    let res = D_bool (compare_int i 0 <> 0) in 
+                    result = res :: s[1..]
                 | _ -> false end }
   
   val lt (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { get_type s[0] = T_int }
+    requires { type_of s[0] = T_int }
     ensures  { length result = length s }
-    ensures  { get_type result[0] = T_bool }
+    ensures  { type_of result[0] = T_bool }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }   
     ensures  { match s[0] with
-                | SD (D_int i T_int) ->
-                    let res = D_bool (compare_int i 0 < 0) T_bool in 
-                    result = (SD res) :: s[1..]
+                | D_int i ->
+                    let res = D_bool (compare_int i 0 < 0) in 
+                    result = res :: s[1..]
                 | _ -> false end }
 
   val gt (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { get_type s[0] = T_int }
+    requires { type_of s[0] = T_int }
     ensures  { length result = length s }
-    ensures  { get_type result[0] = T_bool }
+    ensures  { type_of result[0] = T_bool }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures  { match s[0] with
-                | SD (D_int i T_int) ->
-                    let res = D_bool (compare_int i 0 > 0) T_bool in 
-                    result = (SD res) :: s[1..]
+                | D_int i ->
+                    let res = D_bool (compare_int i 0 > 0) in 
+                    result = res :: s[1..]
                 | _ -> false end }
 
   val le (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { get_type s[0] = T_int }
+    requires { type_of s[0] = T_int }
     ensures  { length result = length s }
-    ensures  { get_type result[0] = T_bool }
+    ensures  { type_of result[0] = T_bool }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures le_post { match s[0] with
-                | SD (D_int i T_int) ->
-                    let res = D_bool (compare_int i 0 <= 0) T_bool in 
-                    result = (SD res) :: s[1..]
+                | D_int i ->
+                    let res = D_bool (compare_int i 0 <= 0) in 
+                    result = res :: s[1..]
                 | _ -> false end }
 
   val ge (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 1 }
-    requires { get_type s[0] = T_int }
+    requires { type_of s[0] = T_int }
     ensures  { length result = length s }
-    ensures  { get_type result[0] = T_bool }
+    ensures  { type_of result[0] = T_bool }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures  { match s[0] with
-                | SD (D_int i T_int) ->
-                    let res = D_bool (compare_int i 0 >= 0) T_bool in 
-                    result = (SD res) :: s[1..]
+                | D_int i ->
+                    let res = D_bool (compare_int i 0 >= 0) in 
+                    result = res :: s[1..]
                 | _ -> false end }
   
-  (* TODO: rewrite this to fit the new type system *)
-  (*val compare_op (s: stack_t) (fuel: int) : stack_t
+  val compare_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires {  is_comparable (get_type s[0]) /\ is_comparable (get_type s[1]) }
+    requires {  is_comparable (type_of s[0]) /\ is_comparable (type_of s[1]) }
     ensures  { length result = length s - 1 }    
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i+1] }
-    ensures  { get_type result[0] = T_int }    
-    ensures  cmp_post { match s[0].d, s[1].d with
-               | Comparable x, Comparable y ->
-                 let r = compare_comparable x y in
-                 result = cons (mk_wf_data (Comparable(Int r))) s[2..] 
-                 /\ result[0].d = Comparable (Int r) 
-                 /\ match x,y with
+    ensures  { type_of result[0] = T_int }    
+    ensures  cmp_post { let r = compare_comparable s[0] s[1] in
+                        let res = D_int r in
+                        result = res :: s[2..] 
+                        /\ result[0] = res }
+                 (* /\ match x,y with
                       | Mutez a, Mutez b 
                       | Int a, Int b -> if r = 0 then a = b else if r < 0 then a < b else a > b  
                       | Nat a, Nat b -> if r = 0 then a.value = b.value else if r < 0 then a.value < b.value else a.value > b.value
@@ -591,7 +683,7 @@ module AxiomaticSem
                       | Address a, Address b
                       | Timestamp a, Timestamp b -> if r = 0 then String.(a = b) else if r < 0 then String.lt a b else String.lt b a
                       | _ -> false end
-                | _ -> false end } *)
+                | _ -> false end }  *)
 
   (* this operation is the 'unit' operation but since it is a reserved word we named it unit_op *)
   val unit_op (s: stack_t) (fuel: int) : stack_t
@@ -600,42 +692,43 @@ module AxiomaticSem
     ensures  { length result = length s + 1 }
     ensures  { result[1..] = s }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
-    ensures  { result = (SD (D_unit T_unit)) :: s }  
+    ensures  { result = D_unit :: s }  
   
   val nil_op (s: stack_t) (fuel: int) (t: typ_t) : stack_t
     requires  { fuel > 0 }
     requires  { length s >= 0 }
     ensures   { length result = length s + 1 }
-    ensures   { get_type result[0] = T_list t }
+    ensures   { type_of result[0] = T_list t }
     ensures   { forall i:int. 1 <= i < length result -> result[i] = s[i-1] }    
-    ensures   { result = (SD (D_list Nil t)) :: s }
+    ensures   { result = (D_list Nil t) :: s }
   
   val cons_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
     requires { length s >= 2 }
-    requires { let t = get_type s[0] in
-                match get_type s[1] with 
+    requires { let t = type_of s[0] in
+                match type_of s[1] with 
                 | T_list t' -> t = t'
                 | _ -> false
                 end }    
     ensures  { length result = length s - 1 }
     ensures  { forall i:int. 1 <= i < length result -> result[i] = s[i+1] }
-    ensures  { get_type result[0] = get_type s[1] = T_list (get_type s[0]) }      
-    ensures  { match s[0], s[1] with
-                | SD elt, SD (D_list l t) -> let lst = Cons elt l in
-                    result = (SD (D_list lst t)) :: s[2..]
+    ensures  { type_of result[0] = type_of s[1] = T_list (type_of s[0]) }      
+    ensures  { match s[1] with
+                | D_list l t -> 
+                    let lst = Cons s[0] l in
+                    result = (D_list lst t) :: s[2..]
                 | _ -> false end }
 
-  val peek (s: stack_t) : stack_data
+  val peek (s: stack_t) : data_t
     requires { length s >= 1 }
     ensures  { result = s[0] }
-    ensures  { get_type result = get_type s[0] }
+    ensures  { type_of result = type_of s[0] }
 
-  val pop (s: stack_t) : (stack_data,  stack_t)
+  val pop (s: stack_t) : (data_t,  stack_t)
     requires { length s >= 1 }
     ensures  { result = (s[0], s[1..]) }
     ensures  { let top,res_stack = result 
-              in get_type top = get_type s[0] /\
+              in type_of top = type_of s[0] /\
               length res_stack = length s -1 } 
 
 
@@ -643,7 +736,7 @@ module AxiomaticSem
     requires { fuel > 0 }
     requires { length s >= 2 }    
     ensures  { length result = length s }
-    ensures  { get_type result[0] = get_type s[1] /\ get_type result[1] = get_type s[0] }    
+    ensures  { type_of result[0] = type_of s[1] /\ type_of result[1] = type_of s[0] }    
     ensures  { result = s[1] :: (s[0] :: s[2 ..]) }
     ensures  { result[0] = s[1] /\ result[1] = s[0] }    
     ensures  { forall i:int. 2 <= i < length result -> result[i] = s[i] }
@@ -651,21 +744,18 @@ module AxiomaticSem
     
   val unpair (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }
-    requires { length s >= 1 } 
-    requires {  match s[0] with 
-                | SD _ -> true
-                | _ -> false end } 
-    requires {  match s[0] with 
-                | SD (D_pair _ _ (T_pair _ _)) -> true
-                | _ -> false end } 
-    requires { match get_type s[0] with T_pair _ _ -> true | _ -> false end }    
+    requires { length s >= 1 }         
+    requires { match type_of s[0] with T_pair _ _ -> true | _ -> false end }   
+    requires { match s[0] with 
+               | D_pair _ _ -> true
+               | _ -> false end } 
     ensures  { forall t1 t2: typ_t.
-      get_type s[0] = T_pair t1 t2 ->
-      get_type result[0] = t1 /\ get_type result[1] = t2 }
+                    type_of s[0] = T_pair t1 t2 ->
+                    type_of result[0] = t1 /\ type_of result[1] = t2 }
     ensures  { forall i:int. i>=2 /\ i < length result -> result[i] = s[i-1] }    
     ensures  { length result = length s + 1 } 
     ensures  { match s[0] with
-               | SD (D_pair x y _) -> result = (SD x) :: ((SD y) :: s[1..])
+               | D_pair x y -> result = x :: ( y :: s[1..])
                | _ -> false end }
   
   exception Failing
@@ -673,7 +763,7 @@ module AxiomaticSem
   val assert_op (s: stack_t) (fuel: int) : stack_t
     requires  { fuel > 0 }
     requires  { length s >= 1 }
-    requires  { get_type s[0] = T_bool }
+    requires  { type_of s[0] = T_bool }
     ensures   { length result = length s - 1 }
     raises    { Failing }
     ensures   { forall i:int. 0 <= i < length result -> result[i] = s[i+1] }    
@@ -683,51 +773,43 @@ module AxiomaticSem
     requires  { fuel > 0 }
     requires  { length s >= 1 }
     ensures   { length result = length s }
-    ensures   { get_type result[0] = T_option (get_type s[0]) }    
+    ensures   { type_of result[0] = T_option (type_of s[0]) }    
     ensures   { forall i:int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { match s[0] with
-               | SD d -> 
-                  let res = D_some d (get_type s[0]) in 
-                  result = (SD res) :: s[1..] 
-               | _ -> false end }    
+    ensures  { result = (D_some s[0] (type_of s[0])) :: s[1..] }
 
   val none_op (s: stack_t) (fuel: int) (t: typ_t) : stack_t
     requires  { fuel > 0 }
     requires  { length s >= 0 }
     ensures   { length result = length s + 1 }
-    ensures   { get_type result[0] = T_option t }
+    ensures   { type_of result[0] = T_option t }
     ensures   { forall i:int. 1 <= i < length result -> result[i] = s[i-1] }    
-    ensures   { result = (SD (D_none t)) :: s }
+    ensures   { result =  (D_none t) :: s }
 
   val left_op (s: stack_t) (fuel: int) (right_t: typ_t) : stack_t
     requires  { fuel > 0 }
     requires  { length s >= 1 }
     ensures   { length result = length s }
-    ensures   { get_type result[0] = T_or (get_type s[0]) right_t }
+    ensures   { type_of result[0] = T_or (type_of s[0]) right_t }
     ensures   { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
-    ensures   { let t = T_or (get_type s[0]) right_t in 
-                match s[0] with
-                | SD d -> result = (SD (D_left d t)) :: s[1..] 
-                | _ -> false end }
+    ensures   { let t = T_or (type_of s[0]) right_t in 
+                result = (D_left s[0] t) :: s[1..] }                
 
   val right_op (s: stack_t) (fuel: int) (left_t: typ_t) : stack_t
     requires  { fuel > 0 }
     requires  { length s >= 1 }
     ensures   { length result = length s }    
-    ensures   { get_type result[0] = T_or left_t (get_type s[0]) }
+    ensures   { type_of result[0] = T_or left_t (type_of s[0]) }
     ensures   { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
-    ensures   { let t = T_or left_t (get_type s[0])  in 
-                match s[0] with
-                | SD d -> result = (SD (D_right d t)) :: s[1..] 
-                | _ -> false end }
+    ensures   { let t = T_or left_t (type_of s[0]) in 
+                result = (D_right s[0] t) :: s[1..] }               
   
   val pack (s: stack_t) (fuel: int) : stack_t
     requires  { fuel > 0 }
     requires  { length s >= 1 }
     ensures   { length result = length s }
-    ensures   { get_type result[0] = T_bytes }
+    ensures   { type_of result[0] = T_bytes }
     ensures   { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
-    ensures   { result = (SD (D_bytes some_bytes T_bytes))  :: s[1..] }
+    ensures   { result = (D_bytes some_bytes)  :: s[1..] }
 
   (* TODO: add *)  
   (* val unpack (s: stack_t) (fuel: int) (t: typ) : stack_t
@@ -743,65 +825,67 @@ module AxiomaticSem
   val isnat (s: stack_t) (fuel: int) : stack_t
     requires  { fuel > 0 }
     requires  { length s >= 1 }
-    requires  { get_type s[0] = T_int }
+    requires  { type_of s[0] = T_int }
     ensures   { length result = length s }
-    ensures   { get_type result[0] = T_option T_nat }
+    ensures   { type_of result[0] = T_option T_nat }
     ensures   { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures   { match s[0] with
-                  | SD (D_int i T_int) ->                    
+                  | D_int i ->                  
                       let res = 
-                        if i >= 0 then D_some (D_int i T_nat) (T_option T_nat)
+                        if i >= 0 then D_some (D_nat i) (T_option T_nat)
                         else D_none (T_option T_nat) in
-                      result = (SD res) :: s[1 ..] 
+                      result = res :: s[1 ..] 
                   | _ -> false end }
 
   val int_op (s: stack_t) (fuel: int) : stack_t
     requires  { fuel > 0 }
     requires  { length s >= 1 }
-    requires  { get_type s[0] = T_nat }
+    requires  { match type_of s[0] with 
+                | T_nat 
+                | T_bls12_381_fr -> true 
+                | _ -> false end }
     ensures   { length result = length s }
-    ensures   { get_type result[0] = T_int }
+    ensures   { type_of result[0] = T_int }
     ensures   { forall i:int. 1 <= i < length result -> result[i] = s[i] }    
     ensures   { match s[0] with
-                  | SD (D_int i T_nat) -> 
-                    let res = D_int i T_int in
-                    result = (SD res) :: s[1..]
+                  | D_nat i 
+                  | D_bls12_381_fr i -> result = (D_int i) :: s[1..]
                   | _ -> false end }
 
   
   (* -------------------------------------------------------------------------------------- *)
   (* ----------------------    Dummy Cryptographic Functions    --------------------------- *)
   (* -------------------------------------------------------------------------------------- *)                
- 
-  val self_op (s: stack_t) (fuel: int)  (t: typ_t) (p: program): stack_t    
+  
+  (* TODO:  val self_op (s: stack_t) (fuel: int)  (t: typ_t) (p: program): stack_t    
     requires { fuel > 0 }    
     requires { length s >= 0 }    
     ensures  { length result = length s + 1 }    
     ensures  { forall i: int. 0 <= i < length s -> result[i+1] = s[i] }        
-    ensures  {  match get_type result[0] with
+    ensures  {  match type_of result[0] with
                 | T_contract t' -> t' = t
                 | _ -> false end } 
-    ensures  {  result = (SP p) :: s } 
+    ensures  {  result = (D_instruction p.code (T_contract p.param)) :: s }  *)
     
 
   val address_op (s: stack_t) (fuel: int) : stack_t    
     requires { fuel > 0 }    
     requires { length s >= 1 }
-    requires { match get_type s[0] with 
+    requires { match type_of s[0] with 
                 | T_contract _ -> true
                 | _ -> false end }
     ensures  { length result = length s }    
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { get_type result[0] = T_address }     
-    ensures  { result = (SD (D_string some_string T_address)) ::  s[1..] }
+    ensures  { type_of result[0] = T_address }     
+    ensures  { result = (D_address some_string) ::  s[1..] }
 
   val chain_id_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 0 }
     ensures  { length result = length s + 1 }    
     ensures  { forall i: int. 0 <= i < length s -> result[i+1] = s[i] }
-    ensures  { get_type result[0] = T_chain_id }     
-    ensures  { result = (SD (D_string some_string T_chain_id)) :: s }
+    ensures  { type_of result[0] = T_chain_id }     
+    ensures  { result = (D_chain_id some_string) :: s }
 
   (* TODO: not done 
   val check_signature_op (s: stack_t) (fuel: int) : stack_t
@@ -842,71 +926,71 @@ module AxiomaticSem
   val blake2b_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 1 }
-    requires { get_type s[0] = T_bytes }
+    requires { type_of s[0] = T_bytes }
     ensures  { length result = length s }    
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { get_type result[0] = T_bytes }     
-    ensures  { result = (SD (D_bytes some_bytes T_bytes)) :: s[1..] }
+    ensures  { type_of result[0] = T_bytes }     
+    ensures  { result = (D_bytes some_bytes) :: s[1..] }
 
   val sha256_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 1 }
-    requires { get_type s[0] = T_bytes }
+    requires { type_of s[0] = T_bytes }
     ensures  { length result = length s }    
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { get_type result[0] = T_bytes }     
-    ensures  { result = (SD (D_bytes some_bytes T_bytes)) :: s[1..] }
+    ensures  { type_of result[0] = T_bytes }     
+    ensures  { result = (D_bytes some_bytes) :: s[1..] }
 
   val sha512_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 1 }
-    requires { get_type s[0] = T_bytes }
+    requires { type_of s[0] = T_bytes }
     ensures  { length result = length s }    
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { get_type result[0] = T_bytes }     
-    ensures  { result = (SD (D_bytes some_bytes T_bytes)) :: s[1..] }
+    ensures  { type_of result[0] = T_bytes }     
+    ensures  { result = (D_bytes some_bytes) :: s[1..] }
 
   val hash_key_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 1 }
-    requires { get_type s[0] = T_key }
+    requires { type_of s[0] = T_key }
     ensures  { length result = length s }    
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { get_type result[0] = T_key_hash }     
-    ensures  { result = (SD (D_string some_string T_key_hash)) :: s[1..] } (* not sure if it is string *)
+    ensures  { type_of result[0] = T_key_hash }     
+    ensures  { result = (D_key_hash some_string) :: s[1..] } (* not sure if it is string *)
 
   val now_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 0 }    
     ensures  { length result = length s + 1} 
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i-1] }
-    ensures  { get_type result[0] = T_timestamp }     
-    ensures  { result = (SD (D_string some_string T_timestamp)) :: s }
+    ensures  { type_of result[0] = T_timestamp }     
+    ensures  { result = (D_timestamp some_timestamp) :: s }
 
   val amount_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 0 }    
     ensures  { length result = length s + 1} 
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i-1] }
-    ensures  { get_type result[0] = T_mutez }     
-    ensures  { result = (SD (D_int some_mutez T_mutez)) :: s }
+    ensures  { type_of result[0] = T_mutez }     
+    ensures  { result = (D_mutez some_mutez) :: s }
 
   val balance_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 0 }    
     ensures  { length result = length s + 1} 
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i-1] }
-    ensures  { get_type result[0] = T_mutez }     
-    ensures  { result = (SD (D_int some_mutez T_mutez)) :: s }
+    ensures  { type_of result[0] = T_mutez }     
+    ensures  { result = (D_mutez some_mutez) :: s }
 
   (* TODO: 
     val implicit_account_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 1 }
-    requires { get_type s[0].d = T_key_hash }
+    requires { type_of s[0].d = T_key_hash }
     ensures  { length result = length s }    
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i] }
-    ensures  { get_type result[0] = T_contract T_unit }     
+    ensures  { type_of result[0] = T_contract T_unit }     
     ensures  { result = ({ param = p; storage = s; code = D_unit (T_contract T_unit)}) :: s[1..] } *)
 
   val source_op (s: stack_t) (fuel: int) : stack_t
@@ -914,16 +998,16 @@ module AxiomaticSem
     requires { length s >= 0 }    
     ensures  { length result = length s + 1} 
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i-1] }
-    ensures  { get_type result[0] = T_address }     
-    ensures  { result = (SD (D_string some_string T_address)) :: s }
+    ensures  { type_of result[0] = T_address }     
+    ensures  { result = (D_address some_string) :: s }
 
   val sender_op (s: stack_t) (fuel: int) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 0 }    
     ensures  { length result = length s + 1} 
     ensures  { forall i: int. 1 <= i < length result -> result[i] = s[i-1] }
-    ensures  { get_type result[0] = T_address }     
-    ensures  { result = (SD (D_string some_string T_address)) :: s }
+    ensures  { type_of result[0] = T_address }     
+    ensures  { result = (D_address some_string) :: s }
 
   (*val contract_op (s: stack_t) (fuel: int) (t: typ) : stack_t
     requires { fuel > 0 }    

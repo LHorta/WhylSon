@@ -1,5 +1,8 @@
 parameter (list string);
 storage (list string);
-code{CAR; DIP{NIL string};
-     IF_CONS {CONS; SWAP} {NIL string};
+code{CAR; 
+     DIP {NIL string};
+     IF_CONS 
+          {CONS; SWAP} 
+          {NIL string};
      DROP; NIL operation; PAIR};

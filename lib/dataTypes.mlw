@@ -177,19 +177,35 @@ with inst =
   | I_get_n int
   | I_update_n int
 with data_t =
-  | D_int int typ_t
-  | D_string string typ_t
-  | D_bytes (seq Bytes.t) typ_t
-  | D_unit typ_t
-  | D_bool bool typ_t
-  | D_pair data_t data_t typ_t
+  | D_bls12_381_fr int
+  | D_bls12_381_g1 int
+  | D_bls12_381_g2 int
+  | D_int int 
+  | D_nat int
+  | D_mutez int
+  | D_timestamp int
+  | D_address string
+  | D_chain_id string
+  | D_contract string typ_t
+  | D_string string 
+  | D_key string
+  | D_key_hash string
+  | D_signature string
+  | D_never
+  | D_lambda typ_t typ_t inst  
+  | D_bytes (seq Bytes.t) 
+  | D_unit 
+  | D_bool bool 
+  | D_pair data_t data_t 
   | D_left data_t typ_t
   | D_right data_t typ_t
   | D_some data_t typ_t
   | D_none typ_t
-  | D_elt (list (data_t, data_t)) typ_t
+  | D_map (list (data_t, data_t)) typ_t
+  | D_big_map (list (data_t, data_t)) typ_t
   | D_list (list data_t) typ_t
-  | D_instruction inst typ_t
+  | D_set (list data_t) typ_t
+  (* | D_instruction inst typ_t *)
 with program =
 { 
   param: typ_t ;
@@ -227,6 +243,39 @@ predicate is_comparable (t: typ_t) =
     | T_or t1 t2 -> is_comparable t1 /\ is_comparable t2    
     | T_pair t1 t2 -> is_comparable t1 /\ is_comparable t2
     | _ -> false
+    end
+
+let rec function type_of (d: data_t) : typ_t =    
+  match d with
+  | D_int _ -> T_int
+  | D_nat _ -> T_nat
+  | D_mutez _ -> T_mutez
+  | D_address _ -> T_address
+  | D_chain_id _ -> T_chain_id
+  | D_contract _ t -> T_contract t
+  | D_string _ -> T_string
+  | D_key _ -> T_key
+  | D_key_hash _ -> T_key_hash
+  | D_signature _ -> T_signature
+  | D_timestamp _ -> T_timestamp
+  | D_never -> T_never
+  | D_lambda t1 t2 _ -> T_lambda t1 t2
+  | D_bytes _ -> T_bytes
+  | D_unit -> T_unit
+  | D_bool _ -> T_bool
+  | D_pair d1 d2 -> T_pair (type_of d1) (type_of d2)
+  | D_left d t -> T_or (type_of d) t
+  | D_right d t -> T_or t (type_of d)
+  | D_some d _ -> T_option (type_of d)
+  | D_none t -> T_option t
+  | D_map _ t -> (T_map t t)
+  | D_big_map _ t -> (T_big_map t t)
+  | D_list _ t -> T_list t
+  | D_set _ t -> T_set t
+  | D_bls12_381_fr _ -> T_bls12_381_fr
+  | D_bls12_381_g1 _ -> T_bls12_381_g1 
+  | D_bls12_381_g2 _ -> T_bls12_381_g2
+  (* | D_instruction _ t -> t *)
     end
 
 (* predicate is_well_typed (s: stack_data) =
@@ -284,7 +333,7 @@ predicate is_comparable (t: typ_t) =
   | SP p  
   end *)
 
-let function get_type (sd: stack_data) : typ_t =    
+(* let function get_type (sd: stack_data) : typ_t =    
     match sd with
     | SD d -> 
       match d with
@@ -303,7 +352,7 @@ let function get_type (sd: stack_data) : typ_t =
       | D_instruction _ t -> t
       end
     | SP prg -> T_contract prg.param    
-    end
+    end *)
 
 
 end
