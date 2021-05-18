@@ -31,19 +31,19 @@
 
 let rec remove_at n = function
   | [] -> []
-  | h :: t -> if Z.(n = zero) then t else h :: remove_at Z.(n - one) t
+  | h :: t -> if Bigint.(n = zero) then t else h :: remove_at Bigint.(n - one) t
 
 let rec drop_n n = function
   | [] -> []
-  | _::t as lst -> if Z.(n <= zero) then lst else drop_n Z.(n - one) t
+  | _::t as lst -> if Bigint.(n <= zero) then lst else drop_n Bigint.(n - one) t
 
   (* if given position is a negative number, the element will be placed at the head of the list *)
 let rec insert_at x n = function
   | [] -> [x]
-  | h :: t as l -> if Z.(n <= zero) then x :: l else h :: insert_at x Z.(n - one) t;;
+  | h :: t as l -> if Bigint.(n <= zero) then x :: l else h :: insert_at x Bigint.(n - one) t;;
 
   let rec type_extractor (_,t,_) =
-    let open Michelson.Adt in
+    let open Michelson.Edo.Adt in
     let t = match t with
     | T_int -> T_int  
     | T_key -> T_key
@@ -81,7 +81,7 @@ let stack_checker s1 s2 =
   List.fold_left2 (fun acc x y -> acc && type_extractor x = type_extractor y) true s1 s2
 
 let rec string_of_type (_,t,_) = 
-  let open Michelson.Adt in
+  let open Michelson.Edo.Adt in
     match t with
     | T_key -> "T_key"
     | T_unit -> "T_unit"
@@ -111,8 +111,8 @@ let rec string_of_type (_,t,_) =
     | T_bls12_381_g1 -> "T_bls12_381_g1"
     | T_bls12_381_g2 -> "T_bls12_381_g2"
     | T_bls12_381_fr -> "T_bls12_381_fr"
-    | T_sapling_transaction n -> "T_sapling_transaction ("^ Z.to_string n ^")"
-    | T_sapling_state n -> "T_sapling_state ("^ Z.to_string n ^")"
+    | T_sapling_transaction n -> "T_sapling_transaction ("^ Bigint.to_string n ^")"
+    | T_sapling_state n -> "T_sapling_state ("^ Bigint.to_string n ^")"
 
 
 
@@ -122,11 +122,11 @@ let stack_printer s_name s =
 
 exception Bad_Typing of string
 let split_n n lst = 
-  if Z.(n < zero) then raise (Bad_Typing "Invalid List size")  else
+  if Bigint.(n < zero) then raise (Bad_Typing "Invalid List size")  else
   let rec aux n lst acc = 
       match lst with 
-      | [] -> if Z.(n > zero) then raise (Bad_Typing "List is smaller than argument") else List.rev acc,[]
-      | h::t -> if Z.(n = zero) then List.rev acc,h::t else aux Z.(n - one) t (h::acc) in
+      | [] -> if Bigint.(n > zero) then raise (Bad_Typing "List is smaller than argument") else List.rev acc,[]
+      | h::t -> if Bigint.(n = zero) then List.rev acc,h::t else aux Bigint.(n - one) t (h::acc) in
   aux n lst []
 
 
@@ -134,9 +134,9 @@ let split_n n lst =
 let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
   let open Adt_typ in
   let lc,_,ant = p.code in   
-  let initial_stack = { stack_size=1; stack_type=[lc , Michelson.Adt.T_pair (p.param, p.storage),ant]} in
-  let rec typer s ((lc,i,ant) : (Michelson.Location.t, Michelson.Adt.annot list) Michelson.Adt.inst) =
-    let open Michelson.Adt in
+  let initial_stack = { stack_size=1; stack_type=[lc , Michelson.Edo.Adt.T_pair (p.param, p.storage),ant]} in
+  let rec typer s ((lc,i,ant) : (Michelson.Micheline.Loc.t, string list) Michelson.Edo.Adt.inst) =
+    let open Michelson.Edo.Adt in
     match i with          
       | I_seq l ->  
          (match l with
@@ -158,7 +158,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           (lc, Adt_typ.I_drop, ant), sa
       | I_drop_n n ->
           let lst = drop_n n s.stack_type in
-          let sa = { stack_size = s.stack_size - (Z.to_int n); stack_type = lst } in
+          let sa = { stack_size = s.stack_size - (Bigint.to_int_exn n); stack_type = lst } in
           (lc, Adt_typ.I_drop_n n, ant), sa
       | I_dup -> 
           let sa = { stack_size = s.stack_size + 1; stack_type = (List.hd s.stack_type)::s.stack_type } in
@@ -168,7 +168,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let sa = { stack_size = s.stack_size; stack_type = t2::(t1::lst) } in
           (lc, Adt_typ.I_swap, ant), sa
       | I_dig n -> 
-          let t,lst = List.nth s.stack_type (Z.to_int n), remove_at n s.stack_type in
+          let t,lst = List.nth s.stack_type (Bigint.to_int_exn n), remove_at n s.stack_type in
           let sa = { stack_size = s.stack_size; stack_type = t::lst } in
           (lc, Adt_typ.I_dig n, ant), sa
       | I_dug n ->
@@ -294,7 +294,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let code = { desc = desc; stack_after = sa; stack_before = s; } in
           (lc, Adt_typ.I_iter code, ant), sa
       | I_mem -> (* TODO: check not sure*)
-          let t, lst = (lc,T_bool,ant), drop_n Z.(of_int 2) s.stack_type in
+          let t, lst = (lc,T_bool,ant), drop_n Bigint.(of_int_exn 2) s.stack_type in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_mem, ant), sa
       | I_get -> (* TODO: check not sure*)
@@ -302,11 +302,11 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
             match List.hd (List.tl s.stack_type) with
               | _, (T_map (_c,t') | T_big_map (_c, t')),_ -> (lc, T_option t', ant)
               | _ -> raise (Bad_Typing "Invalid types on GET") in
-          let lst = drop_n Z.(of_int 2) s.stack_type in
+          let lst = drop_n Bigint.(of_int_exn 2) s.stack_type in
           let sa = { stack_size = s.stack_size - 1; stack_type = t::lst } in
           (lc, Adt_typ.I_get, ant), sa
       | I_update ->
-          let lst = drop_n Z.(of_int 2) s.stack_type in
+          let lst = drop_n Bigint.(of_int_exn 2) s.stack_type in
           let sa = { stack_size = s.stack_size - 2; stack_type = lst } in
           (lc, Adt_typ.I_update, ant), sa
       | I_if ((i_1, i_2)) -> (* TODO: check not sure*)
@@ -329,7 +329,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let code = { desc = desc; stack_before = s; stack_after = sa;  } in 
           (lc, Adt_typ.I_lambda (t1,t2,code), ant), sa
       | I_exec -> (* TODO: check *)
-          let t',lst = List.hd (List.tl s.stack_type), drop_n Z.(of_int 2) s.stack_type in
+          let t',lst = List.hd (List.tl s.stack_type), drop_n Bigint.(of_int_exn 2) s.stack_type in
           let t = match t' with
                     | _, T_lambda (_t1,t2),_ -> t2
                     | _ -> raise(Bad_Typing "Invalid types on EXEC") in
@@ -341,19 +341,19 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let code = { desc = desc; stack_after = sa; stack_before=s;  } in
           (lc, Adt_typ.I_dip code, ant), sa
       | I_dip_n (n,(i)) ->
-          if Z.(n = zero) then
+          if Bigint.(n = zero) then
             let desc,sa = typer ({stack_size = s.stack_size; stack_type = s.stack_type}) (i) in 
             let code = { desc = desc; stack_after = sa; stack_before = s; } in 
             (lc, Adt_typ.I_dip_n (n, code), ant), sa
-          else if Z.(n = one) then
+          else if Bigint.(n = one) then
             let desc, s' = typer ({ stack_size = s.stack_size - 1; stack_type = List.tl s.stack_type}) i in
             let sa = { stack_size = s'.stack_size + 1; stack_type = (List.hd s.stack_type)::s'.stack_type } in 
             let code = { desc = desc; stack_after = sa; stack_before=s;  } in
             (lc, Adt_typ.I_dip_n (n,code), ant), sa
           else
             let protected_stack,execution_stack = split_n n s.stack_type in
-            let desc, s' = typer ({ stack_size = s.stack_size - Z.(to_int n); stack_type = execution_stack}) i in
-            let sa = { stack_size = s'.stack_size + Z.(to_int n); stack_type = protected_stack@s'.stack_type } in 
+            let desc, s' = typer ({ stack_size = s.stack_size - Bigint.(to_int_exn n); stack_type = execution_stack}) i in
+            let sa = { stack_size = s'.stack_size + Bigint.(to_int_exn n); stack_type = protected_stack@s'.stack_type } in 
             let code = { desc = desc; stack_after = sa; stack_before=s;  } in
             (lc, Adt_typ.I_dip_n (n,code), ant), sa
       (*| I_failwith FIXME: not done yet
@@ -364,7 +364,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           let sa = { stack_size = s.stack_size - 1; stack_type = List.tl s.stack_type } in
           (lc, Adt_typ.I_concat, ant), sa
       | I_slice ->
-          let t, lst = (lc, T_string, ant), drop_n Z.(of_int 3) s.stack_type  in
+          let t, lst = (lc, T_string, ant), drop_n Bigint.(of_int_exn 3) s.stack_type  in
           let sa = { stack_size = s.stack_size - 2; stack_type = t::lst } in
           (lc, Adt_typ.I_slice,  ant),sa
       | I_pack ->

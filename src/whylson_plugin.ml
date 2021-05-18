@@ -32,22 +32,47 @@ open Typer
 open Why3
 open Pmodule
 open Typing
-open Michelson
 open Translator
+
 (* open Ptree *)
 (* open Adt *)
 
-type tz_decl = Loc.position * Ptree.decl 
+type tz_decl = Michelson.Micheline.Loc.t * Ptree.decl 
 
-let read_file file =
-  let tokens = Parser.parse_file file in
-  let adt = Parser.convert file tokens in
-  adt
+
+(* let sp_pre_str = Str.regexp_string "requires"
+let sp_post_str = Str.regexp_string "ensures"
+
+let sp_post_exn_str = Str.regexp_string "raises"
+
+let sp_variant_str = Str.regexp_string "variant"
+
+let sp_invariant_str = Str.regexp_string "invariant" *)
+
+
+let get_spec_comments l = List.filter (fun (c,_loc) -> c.[0] = '@') (List.map (fun (s,loc) -> String.trim s, loc) l)
+
+let parse_comment s = Lexing.from_string s 
+
+(* let get_spec_token s : spec =
+  if Str.string_match sp_pre_str s 0 then Sp_pre,s 
+  else if .string_match sp_post_str s 0 then Sp_post,s
+  else if .string_match sp_post_exn_str s 0 then Sp_post_exn,s
+  else if .string_match sp_variant_str s 0 then Sp_variant,s
+  else if .string_match sp_invariant_str s 0 then Sp_post,s *)
+
+ (* let get_spec_tokens l = List.map (fun (c,loc) -> get_spec_tokens c, loc) l *)
+
+let read_file file  =  
+    match Edo.Parse.parse_program file with
+    | Ok (ast,_spc) -> Edo.Parse.program_parse ast
+    | Error s -> failwith (Base.Error.to_string_hum s)
 
 let read_channel env path file _c =
-  let p = read_file file  in
+  let p,spc = read_file file in  
+  let sp = Why3.Lexer.parse_term (parse_comment (Option.get spc))  in
   let p = to_typed_program p in  
-  let p = translate_typed_program p in   
+  let p = translate_typed_program p sp in   
   List.iter (fun (_l,d) -> Format.eprintf "%a@." Mlw_printer.pp_decl d) p;
   Typing.open_file env path; (* could remove the Typing. *)
   let id = mk_id "Test" in

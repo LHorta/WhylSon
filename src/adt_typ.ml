@@ -29,23 +29,23 @@
 *                                                                                         *
 *  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *)
 
-open Michelson
-open Adt
+open Michelson.Edo
 
-type typ = (Location.t, annot list) Adt.typ
 
-type data = (Location.t, annot list) Adt.data
+type typ = (Michelson.Micheline.Loc.t, string list) Adt.typ
 
-type program = (Location.t, annot list) Adt.program
+type data = (Michelson.Micheline.Loc.t, string list) Adt.data
+
+type program = (Michelson.Micheline.Loc.t, string list) Adt.program
 
 type ('l, 'a) inst_t = 
   | I_seq of ('l, 'a) inst * ('l, 'a) inst
   | I_drop
-  | I_drop_n of Z.t
+  | I_drop_n of Bigint.t
   | I_dup
   | I_swap
-  | I_dig of Z.t
-  | I_dug of Z.t
+  | I_dig of Bigint.t
+  | I_dug of Bigint.t
   | I_push of typ * data
   | I_some
   | I_none of typ
@@ -77,7 +77,7 @@ type ('l, 'a) inst_t =
   | I_lambda of typ * typ * ('l, 'a) inst
   | I_exec
   | I_dip of ('l, 'a) inst
-  | I_dip_n of Z.t * ('l, 'a) inst
+  | I_dip_n of Bigint.t * ('l, 'a) inst
   | I_failwith
   | I_cast of typ
   | I_rename
@@ -129,7 +129,7 @@ type ('l, 'a) inst_t =
   | I_noop
   | I_unpair 
 
-and type_stack_info = { stack_size: int; stack_type: (Location.t, annot list) Adt.typ list }
+and type_stack_info = { stack_size: int; stack_type: (Michelson.Micheline.Loc.t, string list) Adt.typ list }
 
 and ('l, 'a) inst = 
   { desc: 'l * ('l,'a) inst_t * 'a;     
@@ -137,5 +137,13 @@ and ('l, 'a) inst =
     stack_after: type_stack_info }
 
 
-and program_typed = { param : typ; storage : typ; code : (Location.t, annot list) inst }
+and program_typed = { param : typ; storage : typ; code : (Michelson.Micheline.Loc.t, string list) inst }
 
+type spec_t =
+  | Sp_variant
+  | Sp_invariant
+  | Sp_pre
+  | Sp_post
+  | Sp_post_exn
+
+type spec = spec_t * string

@@ -31,7 +31,7 @@
 
 open Why3
 open Michelson
-open Adt
+open Edo.Adt
 open Ptree
 open Number
 
@@ -152,14 +152,15 @@ let use_int = let int_id = mk_id "Int" in
   Duseimport (Loc.dummy_position, false, [q_nat, None]) *)
 
 
-let mk_position (tz_pos: Michelson.Location.t) =
-  Loc.user_position tz_pos.filename tz_pos.s.lin (tz_pos.s.col - 1) (tz_pos.e.col - 1)
+let mk_position (tz_pos: Michelson.Micheline.Loc.t) =
+  let open Michelson.Micheline.Loc in 
+  Loc.user_position tz_pos.filename tz_pos.start_pos.lin (tz_pos.start_pos.col - 1) (tz_pos.end_pos.col - 1)
 
 (* *************************************************************** *)
 (* ************************  List Operations  ******************** *)
 (* *************************************************************** *)
 
-(* let list_iter body list =
+ let list_iter body list =
   let pat_var = mk_expr (Eident (Qident list)) in 
   let lhs_pat_nil  = mk_pat (Papp (Qident (mk_id "D_list"), [mk_pat (Pvar (mk_id "_Nil")); mk_pat Pwild])) in (* List Nil _ *)
   let cons_var = mk_pat (Papp (Qident (mk_id "Cons"), [mk_pat (Pvar (mk_id "hd")); mk_pat (Pvar (mk_id "tl"))])) in (* Cons hd tl *)
@@ -171,7 +172,7 @@ let mk_position (tz_pos: Michelson.Location.t) =
   let t = mk_expr (Eident (Qident (mk_id "t"))) in 
   let fun_id = mk_id "list_iter_fun" in
   let rec_call = mk_expr (Eidapp (Qident (fun_id), [e_stack;t])) in    
-  let lst = mk_expr (Eidapp (Qident (mk_id "D_list"),[tl;t])) in
+  let _lst = mk_expr (Eidapp (Qident (mk_id "D_list"),[tl;t])) in
   (* let wf_hd = mk_expr (Eidapp (Qident (mk_id "mk_wf_data"), [hd])) in *)
   (* let wf_lst = mk_expr (Eidapp (Qident (mk_id "mk_wf_data"), [lst])) in *)
   let stack_cat = mk_expr (Eidapp (Qident (mk_id "infix ::"), [hd;e_stack])) in 
@@ -188,7 +189,7 @@ let mk_position (tz_pos: Michelson.Location.t) =
   let binders = [stack_binder;list_binder] in
   let fun_def = [fun_id,false,kind,binders,pty,pat,mask,empty_spec,mtch] in       
   let main_call = mk_expr (Eidapp (Qident fun_id ,[e_stack;pat_var])) in
-  mk_expr (Erec (fun_def,main_call))             *)
+  mk_expr (Erec (fun_def,main_call))             
 
 (* *************************************************************** *)
 (* ************************     Terms      *********************** *)
@@ -269,12 +270,12 @@ let rec term (lc,t,_) =
         let inner_type = term t in
         mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_ticket"), [inner_type]))
     | T_sapling_transaction n -> 
-        let n = Z.to_string n in
+        let n = Bigint.to_string n in
         let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
         let n = mk_term (Tconst (Constant.ConstInt n)) in
         mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_sapling_transaction"), [n]))
     | T_sapling_state n -> 
-        let n = Z.to_string n in
+        let n = Bigint.to_string n in
         let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
         let n = mk_term (Tconst (Constant.ConstInt n)) in
         mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_sapling_state"), [n]))
@@ -368,12 +369,12 @@ let rec typ loc = function
       let inner_type = typ_annotated t in
       mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_ticket"), [inner_type])) 
   | T_sapling_transaction  n ->
-      let n = Z.to_string n in
+      let n = Bigint.to_string n in
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_expr ~expr_loc:loc (Econst (Constant.ConstInt n)) in
       mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_sapling_transaction"), [n]))
   | T_sapling_state n -> 
-      let n = Z.to_string n in
+      let n = Bigint.to_string n in
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_expr ~expr_loc:loc (Econst (Constant.ConstInt n)) in
       mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_sapling_state"), [n]))
@@ -384,7 +385,7 @@ and typ_annotated (loc, t,_anot) =
 
 and to_expr_typed =
     let c = ref 0 in 
-    fun  (exp: expr) ({  stack_after; _} : (Location.t, annot list) Adt_typ.inst ) ->    (* myabe also add stack before for preconditions *)
+    fun  (exp: expr) ({  stack_after; _} : (Michelson.Micheline.Loc.t, string list) Adt_typ.inst ) ->    (* myabe also add stack before for preconditions *)
     let len_of_stack = mk_tapp eq_symb [len_result;mk_tconst stack_after.stack_size] in
     let post = 
       List.fold_left (fun (acc,i) (t) ->   mk_term (Tbinop (acc,Dterm.DTand,mk_intermediate_typ t i)), i+1) 
@@ -418,7 +419,7 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
       mk_expr ~expr_loc:new_loc (Elet (id_stack, false, Expr.RKnone, inst i1, inst i2))
   | I_drop ->
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "drop"), stack_fuel_args))
-  | I_drop_n n -> let n = Z.to_string n in
+  | I_drop_n n -> let n = Bigint.to_string n in
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_expr (Econst (Constant.ConstInt n)) in
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "drop_n"), stack_fuel_args @ [n]))
@@ -426,11 +427,11 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "dup"), stack_fuel_args)) 
   | I_swap ->
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "swap"), stack_fuel_args))
-  | I_dig n -> let n = Z.to_string n in
+  | I_dig n -> let n = Bigint.to_string n in
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_expr (Econst (Constant.ConstInt n)) in
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "dig_n"), stack_fuel_args @ [n]))
-  | I_dug n -> let n = Z.to_string n in 
+  | I_dug n -> let n = Bigint.to_string n in 
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_expr (Econst (Constant.ConstInt n)) in
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "dug_n"), stack_fuel_args @ [n]))
@@ -703,7 +704,7 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
       let top_id = mk_id "top" in 
 			let top_value = mk_expr (Eident (Qident top_id)) in 
 			let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in (* top = s[0] *)
-			let n = Z.to_string n in			
+			let n = Bigint.to_string n in			
 			let n_lit = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_expr (Econst (Constant.ConstInt n_lit)) in
 			let headless = mk_expr (Eidapp (Qident (mk_id "mixfix [_..]"), [e_stack;n])) in (* s = s[1..] *)			
@@ -825,7 +826,7 @@ and data (lt,t,_) d =
   match d with
     | D_int n ->      
         (* let t = typ (mk_position lt) t in *)
-        let n = Z.to_string n in
+        let n = Bigint.to_string n in
         let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
         let i = mk_expr (Econst (Constant.ConstInt n)) in        
         mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_int"), [i]))        
@@ -921,14 +922,14 @@ and data (lt,t,_) d =
   let decl = Dlet (mk_id "test", false, kind, f_exp) in
   [use_axiomatic; use_data_types; use_seq; use_int; use_nat; decl] *)
  
-let translate_typed_program ({param;storage;code} : Adt_typ.program_typed) = 
+let translate_typed_program ({param;storage;code} : Adt_typ.program_typed) sp = 
   let lcc,_,_ = code.desc in 
   let loc = mk_position lcc in 
   let code = inst code in
   let param = term param in
   let storage = term storage in
   let default_spec = {
-  sp_pre     = [pre_len;pre_fuel;mk_pre_typ param storage];
+  sp_pre     = [sp;pre_fuel;mk_pre_typ param storage];
   sp_post    = [Loc.dummy_position,[mk_pat (Pvar (mk_id "result")),post_len];mk_post_typ storage];
   sp_xpost   = [];
   sp_reads   = [];
