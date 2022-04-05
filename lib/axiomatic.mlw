@@ -834,7 +834,7 @@ module AxiomaticSem
                       let res = 
                         if i >= 0 then D_some (D_nat i) (T_option T_nat)
                         else D_none (T_option T_nat) in
-                      result = res :: s[1 ..] 
+                      result = (SD res) :: s[1 ..] 
                   | _ -> false end }
 
   val int_op (s: stack_t) (fuel: int) : stack_t
@@ -1009,7 +1009,7 @@ module AxiomaticSem
     ensures  { type_of result[0] = T_address }     
     ensures  { result = (D_address some_string) :: s }
 
-  (*val contract_op (s: stack_t) (fuel: int) (t: typ) : stack_t
+  val contract_op (s: stack_t) (fuel: int) (t: typ) : stack_t
     requires { fuel > 0 }    
     requires { length s >= 1 }
     requires { typ_infer s[0].d = Comparable_t Address_t }

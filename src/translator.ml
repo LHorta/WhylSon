@@ -497,15 +497,15 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			let mid_let = mk_expr (Elet (id_stack, false, Expr.RKnone, drop_head, final_cat)) in 
       let btrue_let = mk_expr (Elet (id_stack, false, Expr.RKnone, mid_let, branch_true)) in 
       let bfalse_let = mk_expr (Elet (id_stack, false, Expr.RKnone, mid_let, branch_false)) in 			
-			let branch = [(pat_left,btrue_let);(pat_right,bfalse_let);pat_absurd] in			
-			mk_expr ~expr_loc:new_loc  (Ematch (top,branch,[])) 			
+      let branch = [(pat_left,btrue_let);(pat_right,bfalse_let);pat_absurd] in			
+      mk_expr ~expr_loc:new_loc  (Ematch (top,branch,[])) 			
   | I_if_right (i1, i2) -> 
       inst { r with desc = loc, I_if_left (i2,i1), annot }
   | I_nil t -> 
-			let inner_type = typ_annotated t in
+      let inner_type = typ_annotated t in
       mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "nil_op"), stack_fuel_args @ [inner_type]))
   | I_cons ->
-			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "cons_op"), stack_fuel_args))
+      mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "cons_op"), stack_fuel_args))
   | I_if_cons (i1, i2) -> 
 			let top = mk_expr (Eidapp (Qident (mk_id "peek"), [e_stack])) in      
 			let pat_nil  = mk_pat (Papp (Qident (mk_id "D_list"), [mk_pat (Pvar (mk_id "_Nil"));mk_pat (Pvar (mk_id "_"))])) in
@@ -530,8 +530,8 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
 			let mid_let = mk_expr (Elet (id_stack, false, Expr.RKnone, drop_head, final_cat)) in 
       let btrue_let = mk_expr (Elet (id_stack, false, Expr.RKnone, mid_let, branch_true)) in 
       let bfalse_let = mk_expr (Elet (id_stack, false, Expr.RKnone, drop_head, branch_false)) in 						
-			let branch = [(pat_cons,btrue_let);(pat_nil,bfalse_let);pat_absurd] in			
-			mk_expr ~expr_loc:new_loc  (Ematch (top,branch,[])) 			
+      let branch = [(pat_cons,btrue_let);(pat_nil,bfalse_let);pat_absurd] in			
+      mk_expr ~expr_loc:new_loc  (Ematch (top,branch,[])) 			
   | I_size -> (*FIXME: Implement in WhyML *)
 			mk_expr ~expr_loc:new_loc  (Eidapp (Qident (mk_id "size_op"), stack_fuel_args))
   | I_empty_set ct -> (*FIXME: Implement in WhyML *)
@@ -644,8 +644,8 @@ and inst Adt_typ.({ desc; stack_before; stack_after} as r)  =
       let n_lit = int_literal ILitDec ~neg:false "1" in
       let n = mk_expr (Econst (Constant.ConstInt n_lit)) in
       let drop_head = mk_expr (Eidapp (Qident (mk_id "mixfix [_..]"), [e_stack;n])) in
-			let body = inst i in			
-			let bool_eval = mk_expr (Eident (Qident (mk_id "b"))) in 
+      let body = inst i in			
+      let bool_eval = mk_expr (Eident (Qident (mk_id "b"))) in 
       let kind = Expr.RKnone in               
       let fun_id = mk_id "loop_fun" in
       let branch_true = mk_expr (Elet (id_stack, false, kind, body, e_stack)) in 
