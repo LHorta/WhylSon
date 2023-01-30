@@ -36,33 +36,19 @@ open Ptree
 open Number
 
 let mk_id id_str = { id_str; id_ats = []; id_loc = Loc.dummy_position }
-
 let mk_expr ?(expr_loc = Loc.dummy_position) expr_desc = { expr_desc; expr_loc }
-
 let mk_pat pat_desc = { pat_desc; pat_loc = Loc.dummy_position }
-
 let id_stack = mk_id "__stack__"
-
 let id_fuel = mk_id "__fuel__"
-
 let q_fuel = Qident id_fuel
-
 let q_stack = Qident id_stack
-
 let e_stack = mk_expr (Eident q_stack)
-
 let e_fuel = mk_expr (Eident q_fuel)
-
 let id_stack_t = mk_id "stack_t"
-
 let stack_ty = PTtyapp (Qident id_stack_t, [])
-
 let id_int = mk_id "int"
-
 let int_ty = PTtyapp (Qident id_int, [])
-
 let stack_binder = (Loc.dummy_position, Some id_stack, false, Some stack_ty)
-
 let fuel_binder = (Loc.dummy_position, Some id_fuel, false, Some int_ty)
 
 let empty_spec =
@@ -81,42 +67,29 @@ let empty_spec =
 
 (* added term_loc  as optional parameter *)
 let mk_term ?(term_loc = Loc.dummy_position) term_desc = { term_desc; term_loc }
-
 let mk_const i = Constant.(ConstInt Number.{ il_kind = ILitDec; il_int = i })
-
 let mk_tconst i = mk_term (Tconst (mk_const i))
-
 let mk_tapp f l = mk_term (Tidapp (f, l))
-
 let eq_symb = Qident (mk_id "infix =")
-
 let gt_symb = Qident (mk_id "infix >")
-
 let comma_symb = Qident (mk_id "infix ,")
-
 let t_stack = mk_term (Tident q_stack)
-
 let t_fuel = mk_term (Tident q_fuel)
-
 let t_result = mk_term (Tident (Qident (mk_id "result")))
-
 let len_stack = mk_tapp (Qident (mk_id "length")) [ t_stack ]
-
 let len_result = mk_tapp (Qident (mk_id "length")) [ t_result ]
 
 let top_input_stack =
-  mk_tapp (Qident (mk_id "mixfix []")) [ t_stack; mk_tconst 0 ]
+  mk_tapp (Qident (mk_id "mixfix []")) [ t_stack; mk_tconst BigInt.zero ]
 (* let top_input_stack = mk_tapp (Qident (mk_id "peek")) [t_stack]  *)
 
-let pre_len = mk_tapp eq_symb [ len_stack; mk_tconst 1 ]
-
-let pre_fuel = mk_tapp gt_symb [ t_fuel; mk_tconst 0 ]
-
-let post_len = mk_tapp eq_symb [ len_result; mk_tconst 1 ]
+let pre_len = mk_tapp eq_symb [ len_stack; mk_tconst BigInt.one ]
+let pre_fuel = mk_tapp gt_symb [ t_fuel; mk_tconst BigInt.zero ]
+let post_len = mk_tapp eq_symb [ len_result; mk_tconst BigInt.one ]
 
 let mk_pre_typ t1 t2 =
   let top_input_stack =
-    mk_tapp (Qident (mk_id "mixfix []")) [ t_stack; mk_tconst 0 ]
+    mk_tapp (Qident (mk_id "mixfix []")) [ t_stack; mk_tconst BigInt.zero ]
   in
   let typ_stack = mk_tapp (Qident (mk_id "type_of")) [ top_input_stack ] in
   let p = mk_term (Tidapp (Qident (mk_id "T_pair"), [ t1; t2 ])) in
@@ -124,7 +97,7 @@ let mk_pre_typ t1 t2 =
 
 let mk_post_typ t =
   let top_result_stack =
-    mk_tapp (Qident (mk_id "mixfix []")) [ t_result; mk_tconst 0 ]
+    mk_tapp (Qident (mk_id "mixfix []")) [ t_result; mk_tconst BigInt.zero ]
   in
   let typ_stack = mk_tapp (Qident (mk_id "type_of")) [ top_result_stack ] in
   let opt_t = mk_term (Tidapp (Qident (mk_id "T_operation"), [])) in
@@ -161,10 +134,14 @@ let use_int =
    let q_nat = Qdot (Qident (mk_id "natural"), nat_id) in
    Duseimport (Loc.dummy_position, false, [q_nat, None]) *)
 
-let mk_position (tz_pos : Michelson.Location.t) =
+let mk_position =
   let open Michelson.Location in
-  Loc.user_position tz_pos.filename tz_pos.start_pos.lin
-    (tz_pos.start_pos.col - 1) (tz_pos.end_pos.col - 1)
+  function
+  | Loc tz_pos ->
+      Loc.user_position tz_pos.start_pos.pos_fname tz_pos.start_pos.pos_lnum
+        (tz_pos.start_pos.pos_cnum - 1)
+        (tz_pos.end_pos.pos_cnum - 1)
+  | Unknown -> Loc.dummy_position
 
 (* *************************************************************** *)
 (* ************************  List Operations  ******************** *)
@@ -233,87 +210,87 @@ let list_iter body list =
 (* ************************     Terms      *********************** *)
 (* *************************************************************** *)
 
-let rec term (lc, t, _) =
-  let loc = mk_position lc in
-  match t with
-  | T_int -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_int"), []))
-  | T_nat -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_nat"), []))
-  | T_string -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_string"), []))
-  | T_bytes -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_bytes"), []))
-  | T_mutez -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_mutez"), []))
-  | T_bool -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_bool"), []))
+let rec term t =
+  let term_loc = mk_position t.Location.loc in
+  match t.value with
+  | T_int -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_int"), []))
+  | T_nat -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_nat"), []))
+  | T_string -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_string"), []))
+  | T_bytes -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_bytes"), []))
+  | T_mutez -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_mutez"), []))
+  | T_bool -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_bool"), []))
   | T_key_hash ->
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_key_hash"), []))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_key_hash"), []))
   | T_timestamp ->
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_timestamp"), []))
-  | T_address -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_address"), []))
-  | T_key -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_key"), []))
-  | T_unit -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_unit"), []))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_timestamp"), []))
+  | T_address -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_address"), []))
+  | T_key -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_key"), []))
+  | T_unit -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_unit"), []))
   | T_signature ->
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_signature"), []))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_signature"), []))
   | T_option t ->
       let inner_type = term t in
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_option"), [ inner_type ]))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_option"), [ inner_type ]))
   | T_list t ->
       let inner_type = term t in
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_list"), [ inner_type ]))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_list"), [ inner_type ]))
   | T_set ct ->
       let inner_type = term ct in
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_set"), [ inner_type ]))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_set"), [ inner_type ]))
   | T_operation ->
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_operation"), []))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_operation"), []))
   | T_contract t ->
       let inner_type = term t in
-      mk_term ~term_loc:loc
+      mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_contract"), [ inner_type ]))
   | T_pair (t1, t2) ->
       let car_type = term t1 in
       let cdr_type = term t2 in
-      mk_term ~term_loc:loc
+      mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_pair"), [ car_type; cdr_type ]))
   | T_or (t1, t2) ->
       let left_type = term t1 in
       let right_type = term t2 in
-      mk_term ~term_loc:loc
+      mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_or"), [ left_type; right_type ]))
   | T_lambda (t1, t2) ->
       let parameter_type = term t1 in
       let storage_type = term t2 in
-      mk_term ~term_loc:loc
+      mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_lambda"), [ parameter_type; storage_type ]))
   | T_map (ct1, t2) ->
       let key_type = term ct1 in
       let value_type = term t2 in
-      mk_term ~term_loc:loc
+      mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_map"), [ key_type; value_type ]))
   | T_big_map (ct1, t2) ->
       let key_type = term ct1 in
       let value_type = term t2 in
-      mk_term ~term_loc:loc
+      mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_big_map"), [ key_type; value_type ]))
   | T_chain_id ->
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_chain_id"), []))
-  | T_never -> mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_never"), []))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_chain_id"), []))
+  | T_never -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_never"), []))
   | T_bls12_381_g1 ->
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_bls12_381_g1"), []))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_bls12_381_g1"), []))
   | T_bls12_381_g2 ->
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_bls12_381_g2"), []))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_bls12_381_g2"), []))
   | T_bls12_381_fr ->
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_bls12_381_fr"), []))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_bls12_381_fr"), []))
   | T_ticket t ->
       let inner_type = term t in
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_ticket"), [ inner_type ]))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_ticket"), [ inner_type ]))
   | T_sapling_transaction n ->
       let n = Z.to_string n in
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_term (Tconst (Constant.ConstInt n)) in
-      mk_term ~term_loc:loc
+      mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_sapling_transaction"), [ n ]))
   | T_sapling_state n ->
       let n = Z.to_string n in
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
       let n = mk_term (Tconst (Constant.ConstInt n)) in
-      mk_term ~term_loc:loc (Tidapp (Qident (mk_id "T_sapling_state"), [ n ]))
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_sapling_state"), [ n ]))
 
 (* TODO: deal with annotations *)
 
@@ -330,85 +307,87 @@ let mk_intermediate_typ t i =
 (* ************************     Exprs      *********************** *)
 (* *************************************************************** *)
 
-let rec typ loc = function
-  | T_int -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_int"), []))
-  | T_nat -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_nat"), []))
-  | T_string -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_string"), []))
-  | T_bytes -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_bytes"), []))
-  | T_mutez -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_mutez"), []))
-  | T_bool -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_bool"), []))
+let rec typ t =
+  let expr_loc = mk_position t.Location.loc in
+  match t with
+  | T_int -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_int"), []))
+  | T_nat -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_nat"), []))
+  | T_string -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_string"), []))
+  | T_bytes -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_bytes"), []))
+  | T_mutez -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_mutez"), []))
+  | T_bool -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_bool"), []))
   | T_key_hash ->
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_key_hash"), []))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_key_hash"), []))
   | T_timestamp ->
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_timestamp"), []))
-  | T_address -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_address"), []))
-  | T_key -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_key"), []))
-  | T_unit -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_unit"), []))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_timestamp"), []))
+  | T_address -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_address"), []))
+  | T_key -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_key"), []))
+  | T_unit -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_unit"), []))
   | T_signature ->
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_signature"), []))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_signature"), []))
   | T_option t ->
       let inner_type = typ_annotated t in
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_option"), [ inner_type ]))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_option"), [ inner_type ]))
   | T_list t ->
       let inner_type = typ_annotated t in
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_list"), [ inner_type ]))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_list"), [ inner_type ]))
   | T_set ct ->
       let inner_type = typ_annotated ct in
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_set"), [ inner_type ]))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_set"), [ inner_type ]))
   | T_operation ->
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_operation"), []))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_operation"), []))
   | T_contract t ->
       let inner_type = typ_annotated t in
-      mk_expr ~expr_loc:loc
+      mk_expr ~expr_loc
         (Eidapp (Qident (mk_id "T_contract"), [ inner_type ]))
   | T_pair (t1, t2) ->
       let car_type = typ_annotated t1 in
       let cdr_type = typ_annotated t2 in
-      mk_expr ~expr_loc:loc
+      mk_expr ~expr_loc
         (Eidapp (Qident (mk_id "T_pair"), [ car_type; cdr_type ]))
   | T_or (t1, t2) ->
       let left_type = typ_annotated t1 in
       let right_type = typ_annotated t2 in
-      mk_expr ~expr_loc:loc
+      mk_expr ~expr_loc
         (Eidapp (Qident (mk_id "T_or"), [ left_type; right_type ]))
   | T_lambda (t1, t2) ->
       let parameter_type = typ_annotated t1 in
       let storage_type = typ_annotated t2 in
-      mk_expr ~expr_loc:loc
+      mk_expr ~expr_loc
         (Eidapp (Qident (mk_id "T_lambda"), [ parameter_type; storage_type ]))
   | T_map (ct1, t2) ->
       let key_type = typ_annotated ct1 in
       let value_type = typ_annotated t2 in
-      mk_expr ~expr_loc:loc
+      mk_expr ~expr_loc
         (Eidapp (Qident (mk_id "T_map"), [ key_type; value_type ]))
   | T_big_map (ct1, t2) ->
       let key_type = typ_annotated ct1 in
       let value_type = typ_annotated t2 in
-      mk_expr ~expr_loc:loc
+      mk_expr ~expr_loc
         (Eidapp (Qident (mk_id "T_big_map"), [ key_type; value_type ]))
   | T_chain_id ->
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_chain_id"), []))
-  | T_never -> mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_never"), []))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_chain_id"), []))
+  | T_never -> mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_never"), []))
   | T_bls12_381_g1 ->
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_bls12_381_g1"), []))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_bls12_381_g1"), []))
   | T_bls12_381_g2 ->
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_bls12_381_g2"), []))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_bls12_381_g2"), []))
   | T_bls12_381_fr ->
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_bls12_381_fr"), []))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_bls12_381_fr"), []))
   | T_ticket t ->
       let inner_type = typ_annotated t in
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_ticket"), [ inner_type ]))
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_ticket"), [ inner_type ]))
   | T_sapling_transaction n ->
       let n = Z.to_string n in
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
-      let n = mk_expr ~expr_loc:loc (Econst (Constant.ConstInt n)) in
-      mk_expr ~expr_loc:loc
+      let n = mk_expr ~expr_loc (Econst (Constant.ConstInt n)) in
+      mk_expr ~expr_loc
         (Eidapp (Qident (mk_id "T_sapling_transaction"), [ n ]))
   | T_sapling_state n ->
       let n = Z.to_string n in
       let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
-      let n = mk_expr ~expr_loc:loc (Econst (Constant.ConstInt n)) in
-      mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "T_sapling_state"), [ n ]))
+      let n = mk_expr ~expr_loc (Econst (Constant.ConstInt n)) in
+      mk_expr ~expr_loc (Eidapp (Qident (mk_id "T_sapling_state"), [ n ]))
 
 (* TODO: deal with annotations *)
 and typ_annotated (loc, t, _anot) = typ (mk_position loc) t
@@ -1103,42 +1082,42 @@ and data (lt, t, _) d =
         let n = Z.to_string n in
         let n = int_literal ILitDec ~neg:false (Lexlib.remove_underscores n) in
         let i = mk_expr (Econst (Constant.ConstInt n)) in
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_int"), [ i ]))
+        mk_expr ~expr_loc (Eidapp (Qident (mk_id "D_int"), [ i ]))
     | D_string s ->
         (* let t = typ (mk_position lt) t in FIXME: *)
         let str_const = mk_expr (Econst (Constant.ConstStr s)) in
-        mk_expr ~expr_loc:loc
+        mk_expr ~expr_loc
           (Eidapp (Qident (mk_id "D_string"), [ str_const ]))
     | D_bool b ->
         let t = typ (mk_position lt) t in
         let v_true = mk_expr Etrue in
         let v_false = mk_expr Efalse in
         let arg = if b then v_true else v_false in
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_bool"), [ arg; t ]))
+        mk_expr ~expr_loc (Eidapp (Qident (mk_id "D_bool"), [ arg; t ]))
     | D_pair (d1, d2) ->
         let t = typ (mk_position lt) t in
         let dt1 = aux d1 in
         let dt2 = aux d2 in
-        mk_expr ~expr_loc:loc
+        mk_expr ~expr_loc
           (Eidapp (Qident (mk_id "D_pair"), [ dt1; dt2; t ]))
     | D_left d ->
         let t = typ (mk_position lt) t in
         let dt = aux d in
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_left"), [ dt; t ]))
+        mk_expr ~expr_loc (Eidapp (Qident (mk_id "D_left"), [ dt; t ]))
     | D_right d ->
         let t = typ (mk_position lt) t in
         let dt = aux d in
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_right"), [ dt; t ]))
+        mk_expr ~expr_loc (Eidapp (Qident (mk_id "D_right"), [ dt; t ]))
     | D_some d ->
         let t = typ (mk_position lt) t in
         let dt = aux d in
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_some"), [ dt; t ]))
+        mk_expr ~expr_loc (Eidapp (Qident (mk_id "D_some"), [ dt; t ]))
     | D_none ->
         let t = typ (mk_position lt) t in
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_none"), [ t ]))
+        mk_expr ~expr_loc (Eidapp (Qident (mk_id "D_none"), [ t ]))
     | D_unit ->
         let t = typ (mk_position lt) t in
-        mk_expr ~expr_loc:loc (Eidapp (Qident (mk_id "D_unit"), [ t ]))
+        mk_expr ~expr_loc (Eidapp (Qident (mk_id "D_unit"), [ t ]))
     | _ -> assert false
     (* TODO: implement *)
   in
