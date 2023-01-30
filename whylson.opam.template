@@ -1,3 +1,3 @@
 pin-depends: [
-    "michelson.dev" "git+https://gitlab.com/releaselab/fresco/michelson.git#edo"
+    "michelson.dev" "git+https://gitlab.com/LHorta/michelson.git#lh_plugin_dev"
 ]

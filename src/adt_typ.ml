@@ -1,83 +1,80 @@
 (* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *
-*                                                                                         *
-*   MIT License                                                                           *
-*                                                                                         *
-*   Copyright 2020 Luís Pedro Arrojado Horta                                              *
-*                                                                                         *
-*                                                                                         *
-*   Permission is hereby granted, free of charge, to any person obtaining a copy of       *
-*   this software and associated documentation files (the "Software"), to deal in         *
-*   the Software without restriction, including without limitation the rights to use,     *
-*   copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the       *
-*   Software, and to permit persons to whom the Software is furnished to do so, subject   *
-*   to the following conditions:                                                          *  
-*                                                                                         *
-*   The above copyright notice and this permission notice shall be included in all        *
-*   copies or substantial portions of the Software.                                       *
-*                                                                                         *
-*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
-*   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
-*   PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
-*   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
-*   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
-*   OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
-*                                                                                         *
-*   End of Lincese                                                                        *
-*                                                                                         *
-*   Research Supported by the Tezos Foundation through project:                           *
-*   FRESCO - FoRmal vErification of Smart COntracts.                                      *
-*                                                                                         *
-*  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *)
+   *                                                                                         *
+   *   MIT License                                                                           *
+   *                                                                                         *
+   *   Copyright 2020 Luís Pedro Arrojado Horta                                              *
+   *                                                                                         *
+   *                                                                                         *
+   *   Permission is hereby granted, free of charge, to any person obtaining a copy of       *
+   *   this software and associated documentation files (the "Software"), to deal in         *
+   *   the Software without restriction, including without limitation the rights to use,     *
+   *   copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the       *
+   *   Software, and to permit persons to whom the Software is furnished to do so, subject   *
+   *   to the following conditions:                                                          *
+   *                                                                                         *
+   *   The above copyright notice and this permission notice shall be included in all        *
+   *   copies or substantial portions of the Software.                                       *
+   *                                                                                         *
+   *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
+   *   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
+   *   PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
+   *   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
+   *   CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
+   *   OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
+   *                                                                                         *
+   *   End of Lincese                                                                        *
+   *                                                                                         *
+   *   Research Supported by the Tezos Foundation through project:                           *
+   *   FRESCO - FoRmal vErification of Smart COntracts.                                      *
+   *                                                                                         *
+   *  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ *)
 
-open Michelson.Edo
+open Michelson
 
+type typ = Adt.typ
+type data = Adt.data
+type program = Adt.program
 
-type typ = (Michelson.Micheline.Loc.t, string list) Adt.typ
-
-type data = (Michelson.Micheline.Loc.t, string list) Adt.data
-
-type program = (Michelson.Micheline.Loc.t, string list) Adt.program
-
-type ('l, 'a) inst_t = 
-  | I_seq of ('l, 'a) inst * ('l, 'a) inst
+type inst_t =
+  | I_seq of inst * inst
   | I_drop
-  | I_drop_n of Bigint.t
+  | I_drop_n of Z.t
   | I_dup
   | I_swap
-  | I_dig of Bigint.t
-  | I_dug of Bigint.t
+  | I_dig of Z.t
+  | I_dug of Z.t
   | I_push of typ * data
   | I_some
   | I_none of typ
   | I_unit
-  | I_if_none of ('l, 'a) inst * ('l, 'a) inst
-  | I_if_some of ('l, 'a) inst * ('l, 'a) inst
+  | I_if_none of inst * inst
+  | I_if_some of inst * inst
   | I_pair
   | I_car
   | I_cdr
   | I_left of typ
   | I_right of typ
-  | I_if_left of ('l, 'a) inst * ('l, 'a) inst
-  | I_if_right of ('l, 'a) inst * ('l, 'a) inst
+  | I_if_left of inst * inst
+  | I_if_right of inst * inst
   | I_nil of typ
   | I_cons
-  | I_if_cons of ('l, 'a) inst * ('l, 'a) inst
+  | I_if_cons of inst * inst
   | I_size
   | I_empty_set of typ
   | I_empty_map of typ * typ
   | I_empty_big_map of typ * typ
-  | I_map of ('l, 'a) inst
-  | I_iter of ('l, 'a) inst
+  | I_map of inst
+  | I_iter of inst
   | I_mem
   | I_get
   | I_update
-  | I_if of ('l, 'a) inst * ('l, 'a) inst
-  | I_loop of ('l, 'a) inst
-  | I_loop_left of ('l, 'a) inst
-  | I_lambda of typ * typ * ('l, 'a) inst
+  | I_if of inst * inst
+  | I_loop of inst
+  | I_loop_left of inst
+  | I_lambda of typ * typ * inst
   | I_exec
-  | I_dip of ('l, 'a) inst
-  | I_dip_n of Bigint.t * ('l, 'a) inst
+  | I_dip of inst
+  | I_dip_n of Z.t * inst
   | I_failwith
   | I_cast of typ
   | I_rename
@@ -85,7 +82,7 @@ type ('l, 'a) inst_t =
   | I_slice
   | I_pack
   | I_unpack of typ
-  | I_add 
+  | I_add
   | I_sub
   | I_mul
   | I_ediv
@@ -127,23 +124,17 @@ type ('l, 'a) inst_t =
   | I_address
   | I_chain_id
   | I_noop
-  | I_unpair 
+  | I_unpair
 
-and type_stack_info = { stack_size: int; stack_type: (Michelson.Micheline.Loc.t, string list) Adt.typ list }
+and type_stack_info = { stack_size : int; stack_type : Adt.typ list }
 
-and ('l, 'a) inst = 
-  { desc: 'l * ('l,'a) inst_t * 'a;     
-    stack_before: type_stack_info;
-    stack_after: type_stack_info }
+and inst = {
+  desc : inst_t Location.with_loc;
+  stack_before : type_stack_info;
+  stack_after : type_stack_info;
+}
 
+and program_typed = { param : typ; storage : typ; code : inst }
 
-and program_typed = { param : typ; storage : typ; code : (Michelson.Micheline.Loc.t, string list) inst }
-
-type spec_t =
-  | Sp_variant
-  | Sp_invariant
-  | Sp_pre
-  | Sp_post
-  | Sp_post_exn
-
+type spec_t = Sp_variant | Sp_invariant | Sp_pre | Sp_post | Sp_post_exn
 type spec = spec_t * string
