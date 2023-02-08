@@ -37,5 +37,5 @@ build: [
 ]
 dev-repo: "git+https://gitlab.com/releaselab/fresco/michelson.git"
 pin-depends: [
-    "michelson.dev" "git+https://gitlab.com/LHorta/michelson.git#lh_plugin_dev"
+    "michelson.dev" "git+https://gitlab.com/LHorta/michelson-parser.git#lh_plugin_dev"
 ]
