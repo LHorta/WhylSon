@@ -31,8 +31,8 @@
 
 open Michelson
 
-type typ = Adt.typ
-type data = Adt.data
+type typ = Adt.parser_typ Adt.with_loc
+type data = Adt.parser_data
 type program = Adt.program
 
 type inst_t =
@@ -126,7 +126,7 @@ type inst_t =
   | I_noop
   | I_unpair
 
-and type_stack_info = { stack_size : int; stack_type : Adt.typ list }
+and type_stack_info = { stack_size : int; stack_type : typ list }
 
 and inst = {
   desc : inst_t Location.with_loc;

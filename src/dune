@@ -4,43 +4,7 @@
  (name whylson_plugin)
  (modes plugin)
  (embed_in_plugin_libraries
-  zarith
-  base.base_internalhash_types
-  base.shadow_stdlib
-  base
-  fieldslib
-  ppx_compare.runtime-lib
-  ppx_enumerate.runtime-lib
-  ppx_hash.runtime-lib
-  ppx_here.runtime-lib
-  ppx_assert.runtime-lib
-  ppx_bench.runtime-lib
-  ppx_inline_test.config
-  jane-street-headers
-  time_now
-  ppx_inline_test.runtime-lib
-  splittable_random
-  base_quickcheck
-  base.md5
-  variantslib
-  bin_prot.shape
-  bin_prot
-  ppx_expect.common
-  ppx_expect.config_types
-  ppx_expect.collector
-  ppx_expect.config
-  stdio
-  ppx_module_timer.runtime
-  typerep
-  base_bigstring
-  core_kernel.base_for_tests
-  core_kernel
-  num
-  zarith_stubs_js
-  bignum.bigint
-  bignum
-  cstruct
-  hex
+  zarith  
   michelson))
 
 (install

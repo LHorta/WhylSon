@@ -4,13 +4,13 @@ WhylSon helps you prove your Michelson smart contract
 
 ## System Requirements
 
-[OCaml](https://ocaml.org/docs/install.html) version 4.10.0
+[OCaml](https://ocaml.org/docs/install.html) version 4.14.1
 
 Use the [opam](https://opam.ocaml.org/doc/Install.html) package manager to install the following:
 
 - [Dune](https://github.com/ocaml/dune) version >= 2.7
 
-- [Why3](http://why3.lri.fr/) version 1.3.3
+- [Why3](http://why3.lri.fr/) version 1.5.1
 
 - [GtkSourceView2](https://wiki.gnome.org/Projects/GtkSourceView) version >= 2.0
 

@@ -163,10 +163,7 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
     {
       stack_size = 1;
       stack_type =
-        [
-          Adt.Type_pair
-            (Adt.type_of_parser_type p.param, Adt.type_of_parser_type p.storage);
-        ];
+        [ { value = T_pair (p.param, p.storage); loc = p.param.loc } ];
     }
   in
   let rec typer s i =
@@ -220,29 +217,32 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
         ({ i with value = Adt_typ.I_dug n }, sa)
     | I_push (t, d) ->
         let lst = s.stack_type in
-        let t' = Adt.type_of_parser_type t in
-        let sa = { stack_size = s.stack_size + 1; stack_type = t' :: lst } in
-        ({ i with value = Adt_typ.I_push (t', d) }, sa)
+        let sa = { stack_size = s.stack_size + 1; stack_type = t :: lst } in
+        ({ i with value = Adt_typ.I_push (t, d) }, sa)
     | I_some ->
         let t', lst = (List.hd s.stack_type, List.tl s.stack_type) in
-        let t = Type_option t' in
+        let t = { t' with value = T_option t' } in
         let sa = { stack_size = s.stack_size; stack_type = t :: lst } in
         ({ i with value = Adt_typ.I_some }, sa)
     | I_none t' ->
-        let t' = Adt.type_of_parser_type t' in
-        let t, lst = (Type_option t', s.stack_type) in
-        let sa = { stack_size = s.stack_size + 1; stack_type = t :: lst } in
+        let t, lst = (T_option t', s.stack_type) in
+        let t' = { Location.loc = t'.loc; Location.value = t } in
+        let sa = { stack_size = s.stack_size + 1; stack_type = t' :: lst } in
         ({ i with value = Adt_typ.I_none t' }, sa)
     | I_unit ->
-        let t, lst =
-          (Type_comparable (Type_simple_comparable_type Type_unit), s.stack_type)
+        let lst = s.stack_type in
+        let t' =
+          T_comparable
+            (T_simple_comparable_type
+               { Location.loc = i.loc; Location.value = T_unit })
         in
+        let t = { i with value = t' } in
         let sa = { stack_size = s.stack_size + 1; stack_type = t :: lst } in
         ({ i with value = Adt_typ.I_unit }, sa)
     | I_if_none (i_1, i_2) ->
         let s' =
-          match List.hd s.stack_type with
-          | Type_option t' -> t'
+          match (List.hd s.stack_type).value with
+          | T_option t' -> t'
           | _ -> raise (Bad_Typing "Invalid types on IF_NONE")
         in
         let s_1' =
@@ -268,26 +268,25 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
             List.hd (List.tl s.stack_type),
             List.tl (List.tl s.stack_type) )
         in
-        let t = Type_pair (t1, t2) in
+        let t = { Location.value = T_pair (t1, t2); loc = t1.loc } in
         let sa = { stack_size = s.stack_size - 1; stack_type = t :: lst } in
         ({ i with value = Adt_typ.I_pair }, sa)
     | I_car ->
         let t', lst = (List.hd s.stack_type, List.tl s.stack_type) in
-        let t = match t' with Type_pair (a, _) -> a | _ -> assert false in
+        let t = match t'.value with T_pair (a, _) -> a | _ -> assert false in
         let sa = { stack_size = s.stack_size; stack_type = t :: lst } in
         ({ i with value = Adt_typ.I_car }, sa)
     | I_cdr ->
         let t', lst = (List.hd s.stack_type, List.tl s.stack_type) in
-        let t = match t' with Type_pair (_, b) -> b | _ -> assert false in
+        let t = match t'.value with T_pair (_, b) -> b | _ -> assert false in
         let sa = { stack_size = s.stack_size; stack_type = t :: lst } in
         ({ i with value = Adt_typ.I_cdr }, sa)
     | I_left t' ->
-        let t' = Adt.type_of_parser_type t' in
-        let t, lst =
-          (Type_or (List.hd s.stack_type, t'), List.tl s.stack_type)
-        in
+        (* let t' = Adt.type_of_parser_type t' in *)
+        let t', lst = (T_or (List.hd s.stack_type, t'), List.tl s.stack_type) in
+        let t = { i with value = t' } in
         let sa = { stack_size = s.stack_size; stack_type = t :: lst } in
-        ({ i with value = Adt_typ.I_left t' }, sa)
+        ({ i with value = Adt_typ.I_left t }, sa)
     | I_right t' ->
         (* checked till here *)
         let t' = Adt.type_of_parser_type t' in
