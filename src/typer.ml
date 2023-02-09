@@ -136,9 +136,69 @@ let rec string_of_type =
   | Type_chain_id -> "Type_chain_id"
   | Type_signature -> "Type_signature"
 
-let stack_printer s_name s =
+let string_of_parser_simple_comparable_type t =
+  let open Adt in
+  match t.Location.value with
+  | T_key -> "T_key"
+  | T_int -> "T_int"
+  | T_nat -> "T_nat"
+  | T_string -> "T_string"
+  | T_bytes -> "T_bytes"
+  | T_mutez -> "T_mutez"
+  | T_bool -> "T_bool"
+  | T_key_hash -> "T_key_hash"
+  | T_timestamp -> "T_timestamp"
+  | T_address -> "T_address"
+  | T_unit -> "T_unit"
+
+let rec string_of_parser_comparable_type t =
+  let open Adt in
+  match t.Location.value with
+  | T_simple_comparable_type t -> string_of_parser_simple_comparable_type t
+  | T_comparable_pair (t_1, t_2) ->
+      "T_pair ("
+      ^ string_of_parser_simple_comparable_type t_1
+      ^ ", "
+      ^ string_of_parser_comparable_type t_2
+      ^ ")"
+
+let rec string_of_parser_type t =
+  let open Adt in
+  match t.Location.value with
+  | T_comparable ct -> string_of_parser_comparable_type { t with value = ct }
+  | T_option t' -> "T_option (" ^ string_of_parser_type t ^ ")"
+  | T_list t' -> "T_list (" ^ string_of_parser_type t' ^ ")"
+  | T_set t' -> "T_set (" ^ string_of_parser_comparable_type t' ^ ")"
+  | T_operation -> "T_operation"
+  | T_contract t' -> "T_Contract (" ^ string_of_parser_type t' ^ ")"
+  | T_pair (t1, t2) ->
+      "T_pair (" ^ string_of_parser_type t1 ^ ", " ^ string_of_parser_type t2
+      ^ ")"
+  | T_or (t1, t2) ->
+      "T_or (" ^ string_of_parser_type t1 ^ ", " ^ string_of_parser_type t2
+      ^ ")"
+  | T_lambda (t1, t2) ->
+      "T_lambda (" ^ string_of_parser_type t1 ^ ", " ^ string_of_parser_type t2
+      ^ ")"
+  | T_map (t1, t2) ->
+      "T_map ("
+      ^ string_of_parser_comparable_type t1
+      ^ ", " ^ string_of_parser_type t2 ^ ")"
+  | T_big_map (t1, t2) ->
+      "T_big_map ("
+      ^ string_of_parser_comparable_type t1
+      ^ ", " ^ string_of_parser_type t2 ^ ")"
+  | T_chain_id -> "T_chain_id"
+  | T_signature -> "T_signature"
+
+let stack_type_printer s_name s =
   s_name ^ ": ["
   ^ String.concat "; " (List.map (fun x -> string_of_type x) s @ [ "]\n" ])
+
+let stack_printer s_name s =
+  s_name ^ ": ["
+  ^ String.concat "; "
+      (List.map (fun x -> string_of_parser_type x) s @ [ "]\n" ])
 
 exception Bad_Typing of string
 
@@ -289,16 +349,14 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
         ({ i with value = Adt_typ.I_left t }, sa)
     | I_right t' ->
         (* checked till here *)
-        let t' = Adt.type_of_parser_type t' in
-        let t, lst =
-          (Type_or (t', List.hd s.stack_type), List.tl s.stack_type)
-        in
+        let t', lst = (T_or (t', List.hd s.stack_type), List.tl s.stack_type) in
+        let t = { i with value = t' } in
         let sa = { stack_size = s.stack_size; stack_type = t :: lst } in
-        ({ i with value = Adt_typ.I_right t' }, sa)
+        ({ i with value = Adt_typ.I_right t }, sa)
     | I_if_left (i_1, i_2) ->
         let s' =
-          match List.hd s.stack_type with
-          | Type_or (l, r) -> (l, r)
+          match (List.hd s.stack_type).value with
+          | T_or (l, r) -> (l, r)
           | _ -> raise (Bad_Typing "Invalid types on IF_LEFT")
         in
         let s_1' = { s with stack_type = fst s' :: List.tl s.stack_type } in
@@ -315,10 +373,10 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           ({ i with value = Adt_typ.I_if_left (code_1, code_2) }, s_2)
         else raise (Bad_Typing "Type of IF_LEFT branches do not match")
     | I_nil t' ->
-        let t' = Adt.type_of_parser_type t' in
-        let t, lst = (Type_list t', s.stack_type) in
+        let t', lst = (T_list t', s.stack_type) in
+        let t = { i with value = t' } in
         let sa = { stack_size = s.stack_size + 1; stack_type = t :: lst } in
-        ({ i with value = Adt_typ.I_nil t' }, sa)
+        ({ i with value = Adt_typ.I_nil t }, sa)
     | I_cons ->
         let lst = List.tl s.stack_type in
         (* no need to change type because it is on position 1 *)
@@ -326,8 +384,8 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
         ({ i with value = Adt_typ.I_cons }, sa)
     | I_if_cons (i_1, i_2) ->
         let s' =
-          match List.hd s.stack_type with
-          | Type_list t' -> t'
+          match (List.hd s.stack_type).value with
+          | T_list t' -> t'
           | _ -> raise (Bad_Typing "Invalid types on IF_CONS")
         in
         let s_1' =
@@ -355,10 +413,13 @@ let to_typed_program (p : Adt_typ.program) : Adt_typ.program_typed =
           in
           raise (Bad_Typing "Type of IF_CONS branches do not match")
     | I_size ->
-        let t, lst =
-          ( Type_comparable (Type_simple_comparable_type Type_nat),
+        let t', lst =
+          ( T_comparable
+              (T_simple_comparable_type
+                 { Location.loc = i.loc; Location.value = T_nat }),
             List.tl s.stack_type )
         in
+        let t = { i with value = t' } in
         let sa = { stack_size = s.stack_size; stack_type = t :: lst } in
         ({ i with value = Adt_typ.I_size }, sa)
     | I_empty_set t' ->
