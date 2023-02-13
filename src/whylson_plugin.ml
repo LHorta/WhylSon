@@ -61,14 +61,12 @@ let get_spec_comments l =
    else if .string_match sp_invariant_str s 0 then Sp_post,s *)
 
 (* let get_spec_tokens l = List.map (fun (c,loc) -> get_spec_tokens c, loc) l *)
-
-let read_file file =
-  match Edo.Parse.parse_program file with
-  | Ok ast -> Edo.Parse.program_parse ast
-  | Error s -> failwith (Base.Error.to_string_hum s)
-
 let read_channel env path file _c =
-  let p, spc = read_file file in
+  let ic = open_in file in
+  let ast =
+    Michelson.Parser.start Michelson.Lexer.next_token (Lexing.from_channel ic)
+  in
+  let spc, p = ast in
   (* let () = Printf.printf "-----------------\n%s\n-----------------------\n" spec_comment in *)
   let p = to_typed_program p in
   let p = translate_typed_program p spc in
@@ -91,3 +89,4 @@ let () =
 * register plugin with why3
 * why3 config --install-plugin /home/hollowman/.opam/4.08.1/lib/why3michelson/plugins/plugin_why3michelson.cmxs
 *)
+

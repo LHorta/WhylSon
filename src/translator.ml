@@ -210,91 +210,84 @@ let list_iter body list =
 (* ************************     Terms      *********************** *)
 (* *************************************************************** *)
 
-let rec term_comparable_type t term_loc =
-  match t with
-  | T_simple_comparable_type { value = T_int; _ } ->
+let rec term_comparable_type =
+  let term_loc = Loc.dummy_position in
+  function
+  | Type_simple_comparable_type Type_int ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_int"), []))
-  | T_simple_comparable_type { value = T_nat; _ } ->
+  | Type_simple_comparable_type Type_nat ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_nat"), []))
-  | T_simple_comparable_type { value = T_string; _ } ->
+  | Type_simple_comparable_type Type_string ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_string"), []))
-  | T_simple_comparable_type { value = T_bytes; _ } ->
+  | Type_simple_comparable_type Type_bytes ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_bytes"), []))
-  | T_simple_comparable_type { value = T_mutez; _ } ->
+  | Type_simple_comparable_type Type_mutez ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_mutez"), []))
-  | T_simple_comparable_type { value = T_bool; _ } ->
+  | Type_simple_comparable_type Type_bool ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_bool"), []))
-  | T_simple_comparable_type { value = T_key_hash; _ } ->
+  | Type_simple_comparable_type Type_key_hash ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_key_hash"), []))
-  | T_simple_comparable_type { value = T_timestamp; _ } ->
+  | Type_simple_comparable_type Type_timestamp ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_timestamp"), []))
-  | T_simple_comparable_type { value = T_address; _ } ->
+  | Type_simple_comparable_type Type_address ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_address"), []))
-  | T_simple_comparable_type { value = T_key; _ } ->
+  | Type_simple_comparable_type Type_key ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_key"), []))
-  | T_simple_comparable_type { value = T_unit; _ } ->
+  | Type_simple_comparable_type Type_unit ->
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_unit"), []))
-  | T_comparable_pair (t1, t2) ->
-      let car_type =
-        term_comparable_type (T_simple_comparable_type t1)
-          (mk_position t1.Location.loc)
-      in
-      let cdr_type =
-        term_comparable_type t2.value (mk_position t2.Location.loc)
-      in
+  | Type_comparable_pair (t1, t2) ->
+      let car_type = term_comparable_type (Type_simple_comparable_type t1) in
+      let cdr_type = term_comparable_type t2 in
       mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_pair"), [ car_type; cdr_type ]))
 
-let rec term t =
-  let term_loc = mk_position t.Location.loc in
-  match t.value with
-  | T_comparable t' -> term_comparable_type t' term_loc
-  | T_signature -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_signature"), []))
-  | T_option t ->
+let rec term =
+  let term_loc = Loc.dummy_position in
+  function
+  | Type_comparable t' -> term_comparable_type t'
+  | Type_signature ->
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_signature"), []))
+  | Type_option t ->
       let inner_type = term t in
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_option"), [ inner_type ]))
-  | T_list t ->
+  | Type_list t ->
       let inner_type = term t in
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_list"), [ inner_type ]))
-  | T_set ct ->
-      let inner_type =
-        term_comparable_type ct.value (mk_position ct.Location.loc)
-      in
+  | Type_set ct ->
+      let inner_type = term_comparable_type ct in
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_set"), [ inner_type ]))
-  | T_operation -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_operation"), []))
-  | T_contract t ->
+  | Type_operation ->
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_operation"), []))
+  | Type_contract t ->
       let inner_type = term t in
       mk_term ~term_loc (Tidapp (Qident (mk_id "T_contract"), [ inner_type ]))
-  | T_pair (t1, t2) ->
+  | Type_pair (t1, t2) ->
       let car_type = term t1 in
       let cdr_type = term t2 in
       mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_pair"), [ car_type; cdr_type ]))
-  | T_or (t1, t2) ->
+  | Type_or (t1, t2) ->
       let left_type = term t1 in
       let right_type = term t2 in
       mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_or"), [ left_type; right_type ]))
-  | T_lambda (t1, t2) ->
+  | Type_lambda (t1, t2) ->
       let parameter_type = term t1 in
       let storage_type = term t2 in
       mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_lambda"), [ parameter_type; storage_type ]))
-  | T_map (ct1, t2) ->
-      let key_type =
-        term_comparable_type ct1.value (mk_position ct1.Location.loc)
-      in
+  | Type_map (ct1, t2) ->
+      let key_type = term_comparable_type ct1 in
       let value_type = term t2 in
       mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_map"), [ key_type; value_type ]))
-  | T_big_map (ct1, t2) ->
-      let key_type =
-        term_comparable_type ct1.value (mk_position ct1.Location.loc)
-      in
+  | Type_big_map (ct1, t2) ->
+      let key_type = term_comparable_type ct1 in
       let value_type = term t2 in
       mk_term ~term_loc
         (Tidapp (Qident (mk_id "T_big_map"), [ key_type; value_type ]))
-  | T_chain_id -> mk_term ~term_loc (Tidapp (Qident (mk_id "T_chain_id"), []))
+  | Type_chain_id ->
+      mk_term ~term_loc (Tidapp (Qident (mk_id "T_chain_id"), []))
 
 (* TODO: deal with annotations *)
 
@@ -1204,10 +1197,12 @@ let spec_parser l =
 
 let translate_typed_program ({ param; storage; code } : Adt_typ.program_typed)
     spec =
-  let loc = mk_position (code.desc.loc) in
+  let loc = mk_position code.desc.loc in
   let code = inst code in
-  let param = term param in
-  let storage = term storage in
+  let param = term @@ type_of_parser_type param in  
+
+  let storage = term @@ type_of_parser_type storage in
+
   let spec =
     match spec with
     | [] ->

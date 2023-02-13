@@ -126,7 +126,7 @@ type inst_t =
   | I_noop
   | I_unpair
 
-and type_stack_info = { stack_size : int; stack_type : typ list }
+and type_stack_info = { stack_size : int; stack_type : Adt.typ list }
 
 and inst = {
   desc : inst_t Location.with_loc;
