@@ -70,7 +70,9 @@ let read_channel env path file _c =
   (* let () = Printf.printf "-----------------\n%s\n-----------------------\n" spec_comment in *)
   let p = to_typed_program p in
   let p = translate_typed_program p spc in
-  List.iter (fun (_l, d) -> Format.eprintf "%a@." Mlw_printer.pp_decl d) p;
+  List.iter
+    (fun (_l, d) -> Format.eprintf "%a@." (Mlw_printer.pp_decl ~attr:false) d)
+    p;
   Typing.open_file env path;
   (* could remove the Typing. *)
   let id = mk_id "Test" in
@@ -89,4 +91,3 @@ let () =
 * register plugin with why3
 * why3 config --install-plugin /home/hollowman/.opam/4.08.1/lib/why3michelson/plugins/plugin_why3michelson.cmxs
 *)
-
