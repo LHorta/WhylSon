@@ -1,0 +1,16 @@
+module MyMap
+use option.Option
+use map.Map
+
+type key
+
+clone export fmap.MapApp with type key = key
+
+val find_opt (k: key) (m: t 'd) : option 'd 
+ensures { match result with
+  | None -> not S.mem k m.domain
+  | Some v -> v = m[k] /\ S.mem k m.domain
+  end
+}
+
+end
