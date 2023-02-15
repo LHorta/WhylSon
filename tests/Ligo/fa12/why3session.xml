@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v5//EN"
+"http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="6">
+<prover id="0" name="CVC4" version="1.8" timelimit="1" steplimit="0" memlimit="1000"/>
+<file format="whyml" proved="true">
+<path name=".."/><path name="fa12.mlw"/>
+<theory name="Fa12" proved="true">
+ <goal name="transfer_t&#39;vc" expl="VC for transfer_t" proved="true">
+ <proof prover="0"><result status="valid" time="0.23" steps="130674"/></proof>
+ </goal>
+ <goal name="approve_t&#39;vc" expl="VC for approve_t" proved="true">
+ <proof prover="0"><result status="valid" time="0.29" steps="130727"/></proof>
+ </goal>
+ <goal name="storage_t&#39;vc" expl="VC for storage_t" proved="true">
+ <proof prover="0"><result status="valid" time="0.27" steps="133934"/></proof>
+ </goal>
+ <goal name="transfer&#39;vc" expl="VC for transfer" proved="true">
+ <proof prover="0"><result status="valid" time="0.68" steps="162704"/></proof>
+ </goal>
+ <goal name="approve&#39;vc" expl="VC for approve" proved="true">
+ <proof prover="0"><result status="valid" time="0.52" steps="147775"/></proof>
+ </goal>
+ <goal name="getAllowance&#39;vc" expl="VC for getAllowance" proved="true">
+ <proof prover="0"><result status="valid" time="0.24" steps="135236"/></proof>
+ </goal>
+ <goal name="getBalance&#39;vc" expl="VC for getBalance" proved="true">
+ <proof prover="0"><result status="valid" time="0.24" steps="135236"/></proof>
+ </goal>
+</theory>
+</file>
+</why3session>

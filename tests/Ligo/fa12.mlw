@@ -1,7 +1,7 @@
 module Fa12
 
 use dataTypes.DataTypes
-use string.String
+use string.OCaml
 use int.Int
 use option.Option
 (* use seq.Seq *)
@@ -18,7 +18,7 @@ val failwith (s: string) : 'a
   raises  { Failwith }
   ensures { false }
 
-type transfer =
+type transfer_t =
 {
   address_from : string;
   address_to : string;
@@ -43,7 +43,7 @@ invariant { value_for_approval >=0 }
   spender : address
   address_owner * address_spender
 *)
-type allowance_key =
+type allowance_key_t =
 {
   owner_of_key : string;
   spender_of_key : string;
@@ -54,9 +54,9 @@ type allowance_key =
   callback : nat contract
   (address_owner * address_spender) * (nat contract)
 *)
-type getAllowance =
+type getAllowance_t =
 {
-  request_alw : allowance_key;
+  request_alw : allowance_key_t;
   callback_alw : string;
   (*FIXME: callback : nat contract  *)
 }
@@ -65,7 +65,7 @@ type getAllowance =
   callback : nat contract
   address_owner * (nat contract)
 *)
-type getBalance =
+type getBalance_t =
 {
   owner_of_blc : string;
   callback_blc : string;
@@ -76,7 +76,7 @@ type getBalance =
   callback : nat contract
   address_owner * (nat contract)
 *)
-type getTotalSupply =
+type getTotalSupply_t =
 {
   request_tsp : unit;
   callback_tsp : string;
@@ -85,30 +85,30 @@ type getTotalSupply =
 
 clone import myMap.MyMap as Token_map with type key = string
 
-clone import myMap.MyMap as Allowance_map with type key = allowance_key
+clone import myMap.MyMap as Allowance_map with type key = allowance_key_t
 
-type tokens = Token_map.t int
+type tokens_t = Token_map.t int
 
-type allowances = Allowance_map.t int
+type allowances_t = Allowance_map.t int
 
-type storage = {
-  tokens : tokens;
-  allowances : allowances;
+type storage_t = {
+  tokens : tokens_t;
+  allowances : allowances_t;
   total_supply : int;
 }
 invariant { total_supply >= 0 }
 
-type parameter =
-  | Transfer transfer
+type parameter_t =
+  | Transfer transfer_t
   | Approve approve_t
-  | GetAllowance getAllowance
-  | GetBalance getBalance
-  | GetTotalSupply getTotalSupply
+  | GetAllowance getAllowance_t
+  | GetBalance getBalance_t
+  | GetTotalSupply getTotalSupply_t
 
-type result =
+type result_t =
 {
   op_list: list operation;
-  strg : storage;
+  strg : storage_t;
 }
 
 (* contract functions *)
@@ -116,39 +116,63 @@ type result =
 val tezos_transaction (v: int) (m: int) (c: string) (* ? *) : list operation
 val tezos_get_sender (_: unit) : string
 
-
+val dummy_bool : bool
 
 let is_nat (i: int) : option int =
   if i < 0 then None
   else Some i  
 
 
-val transfer (param : transfer) (storage : storage) : result
-  (* let allowances = storage.allowances in
+let transfer (param : transfer_t) (storage : storage_t) : result_t
+raises { Failwith }
+=
+  let allowances = storage.allowances in
   let tokens = storage.tokens in
   let allowances = (* TODO: check not sure *)
+    (* if tezos_get_sender () = param.address_from then allowances *)
+    (* let s1 = tezos_get_sender () in
+    let s2 = param.address_from in
+    if String.contains s1 s2 && String.contains s2 s1 then allowances *)
     if tezos_get_sender () = param.address_from then allowances
     else 
       let allowance_key = { owner_of_key = param.address_from;
                             spender_of_key = tezos_get_sender () } in
       let authorized_value =
-      match allowances allowance_key with
+      match Allowance_map.find_opt allowance_key allowances  with
       | Some value -> value
       | None -> 0
       end in
       let authorized_value =
         match is_nat (authorized_value - param.value_of_transfer) with
-        | None -> absurd (*(failwith "NotEnoughAllowance" : nat)*)
+        | None -> failwith "NotEnoughAllowance" 
         | Some authorized_value -> authorized_value
         end in
-        (* TODO: change allowance_key (positive_opt authorized_value) allowances *)
-        allowances in
+        Allowance_map.add allowance_key authorized_value allowances in
   let tokens =
     let from_balance =
-      match param *)
+      match Token_map.find_opt param.address_from tokens with
+      | Some value -> value
+      | None -> 0
+      end in 
+    let from_balance =
+      match is_nat (from_balance - param.value_of_transfer) with
+      | None -> failwith "NotEnoughBalance"
+      | Some from_balance -> from_balance 
+      end in
+      Token_map.add param.address_from from_balance tokens in
+  let tokens = 
+    let to_balance =
+    match Token_map.find_opt param.address_to tokens with
+    | Some value -> value
+    | None -> 0 
+    end in
+    let to_balance = to_balance + param.value_of_transfer in
+    Token_map.add param.address_to to_balance tokens in
+    let strg = { storage with tokens = tokens; allowances = allowances} in 
+    {op_list = Nil; strg = strg}
 
 (*FIXME: name approve is already in context *)
-let approve (param : approve_t) (storage : storage) : result
+let approve (param : approve_t) (storage : storage_t) : result_t
   raises { Failwith }
 = let allowances = storage.allowances in
   let allowance_key = { owner_of_key = tezos_get_sender ();
@@ -166,14 +190,14 @@ let approve (param : approve_t) (storage : storage) : result
      { op_list = Nil; strg = { storage with allowances = allowances }} 
   end
 
-let getAllowance (param : getAllowance) (storage : storage) : list operation
+let getAllowance (param : getAllowance_t) (storage : storage_t) : list operation
 = let value =
     match Allowance_map.find_opt param.request_alw storage.allowances with
     | Some value -> value
     | None -> 0 end in
   tezos_transaction value 0 param.callback_alw
 
-let getBalance (param : getBalance) (storage : storage) : list operation
+let getBalance (param : getBalance_t) (storage : storage_t) : list operation
 = let value =
     match Token_map.find_opt param.owner_of_blc storage.tokens with
     | Some value -> value
@@ -181,11 +205,11 @@ let getBalance (param : getBalance) (storage : storage) : list operation
     end in
   tezos_transaction value 0 param.callback_blc
 
-let getTotalSupply (param : getTotalSupply) (storage : storage) : list operation
+let getTotalSupply (param : getTotalSupply_t) (storage : storage_t) : list operation
 = let total = storage.total_supply in
   tezos_transaction total 0 param.callback_tsp
 
-let main (param : parameter) (storage : storage) : result
+let main (param : parameter_t) (storage : storage_t) : result_t
   raises { Failwith }
 =
   match param with
