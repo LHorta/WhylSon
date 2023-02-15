@@ -5,18 +5,18 @@ use string.String
 use int.Int
 use map.Map
 use option.Option
-use seq.Seq
+(* use seq.Seq *)
 (*
   address_from : address
   address_to : address
-  value : nat 
-  address_from * (address_to * value) 
+  value : nat
+  address_from * (address_to * value)
 *)
 type transfer =
 {
   address_from : string;
   address_to : string;
-  value_of_transfer : int; 
+  value_of_transfer : int;
 }
 invariant { value_of_transfer >=0 }
 
@@ -25,17 +25,17 @@ invariant { value_of_transfer >=0 }
   value : nat
   address_sender * value
 *)
-type approve = 
+type approve =
 {
   spender : string;
   value_for_approval : int;
 }
 invariant { value_for_approval >=0 }
 
-(* 
+(*
   owner : address
-  spender : address 
-  address_owner * address_spender 
+  spender : address
+  address_owner * address_spender
 *)
 type allowance_key =
 {
@@ -43,43 +43,43 @@ type allowance_key =
   spender_of_key : string;
 }
 
-(* 
+(*
   request : allowance_key
-  callback : nat contract 
+  callback : nat contract
   (address_owner * address_spender) * (nat contract)
 *)
-type getAllowance = 
+type getAllowance =
 {
   request_alw : allowance_key;
-  callback_alw : string; 
+  callback_alw : string;
   (*FIXME: callback : nat contract  *)
 }
-(* 
+(*
   owner : address
-  callback : nat contract 
+  callback : nat contract
   address_owner * (nat contract)
 *)
-type getBalance = 
+type getBalance =
 {
   owner_of_blc : string;
   callback_blc : string;
-  (*FIXME: callback : nat contract  *) 
+  (*FIXME: callback : nat contract  *)
 }
-(* 
+(*
   request : unit
-  callback : nat contract 
+  callback : nat contract
   address_owner * (nat contract)
 *)
-type getTotalSupply = 
+type getTotalSupply =
 {
   request_tsp : unit;
   callback_tsp : string;
-  (*FIXME: callback : nat contract  *) 
+  (*FIXME: callback : nat contract  *)
 }
 
 type tokens = map string (option int)
 
-type allowances = map allowance_key (option int) 
+type allowances = map allowance_key (option int)
 
 type storage = {
   tokens : tokens;
@@ -95,41 +95,69 @@ type parameter =
   | GetBalance getBalance
   | GetTotalSupply getTotalSupply
 
-type result = 
-{ 
-  op_list: seq operation;
+type result =
+{
+  op_list: list operation;
   strg : storage;
 }
 
 (* contract functions *)
 
-val function transfer (param : transfer) (storage : storage) : result
+val tezos_transaction (v: int) (m: int) (c: string) (* ? *) : list operation
+val tezos_get_sender (_: unit) : string
 
-val function approve (param : approve) (storage : storage) : result
+val transfer (param : transfer) (storage : storage) : result
 
-val function getAllowance (param : getAllowance) (storage : storage) : seq operation
+let approve (param : approve) (storage : storage) : result
+= let allowances = storage.allowances in
+  let allowance_key = { owner_of_key = tezos_get_sender ();
+                        spender_of_key = param.sender } in
+  let previous_value =
+    match allowances allowance_key with
+    | Some value -> value
+    | None -> 0
+    end in
+  begin
+    if previous_value > 0 && param.value_for_approval > 0
+    then absurd
+    else ();
+    let allowances =
+  end
 
-val function getBalance (param : getBalance) (storage : storage) : seq operation 
+let getAllowance (param : getAllowance) (storage : storage) : list operation
+= let value =
+    match storage.allowances param.request_alw with
+    | Some value -> value
+    | None -> 0 end in
+  tezos_transaction value 0 param.callback_alw
 
-val function getTotalSupply (param : getTotalSupply) (storage : storage) : seq operation 
+let getBalance (param : getBalance) (storage : storage) : list operation
+= let value =
+    match storage.tokens param.owner_of_blc with
+    | Some value -> value
+    | None -> 0
+    end in
+  tezos_transaction value 0 param.callback_blc
 
+let getTotalSupply (param : getTotalSupply) (storage : storage) : list operation
+= let total = storage.total_supply in
+  tezos_transaction total 0 param.callback_tsp
 
-let main (param : parameter) (storage : storage) : result 
+let main (param : parameter) (storage : storage) : result
   (* requires { amount <> 0 } *)
 =
   match param with
     | Transfer param -> transfer param storage
     | Approve param -> approve param storage
-    | GetAllowance param -> 
+    | GetAllowance param ->
         let i = getAllowance param storage in
-        { op_list = i; strg = storage} 
-    | GetBalance param -> 
+        { op_list = i; strg = storage}
+    | GetBalance param ->
         let i = getBalance param storage in
-        { op_list = i; strg = storage} 
-    | GetTotalSupply param -> 
+        { op_list = i; strg = storage}
+    | GetTotalSupply param ->
         let i = getTotalSupply param storage in
-        { op_list = i; strg = storage} 
+        { op_list = i; strg = storage}
   end
-
 
 end
