@@ -25,7 +25,8 @@ type transfer_t =
   value_of_transfer : int;
 }
 invariant { value_of_transfer >=0 }
-(* invariant { address_to <> address_from } *)
+invariant { address_to <> address_from }
+by { address_from = "aa"; address_to = "bb"; value_of_transfer = 0 }
 
 (*
   spender : address
@@ -49,6 +50,11 @@ type allowance_key_t =
   owner_of_key : string;
   spender_of_key : string;
 }
+
+let eq_allowance_key_t (k1 k2: allowance_key_t) : bool
+  ensures { result <-> k1 = k2 }
+= k1.owner_of_key = k2.owner_of_key &&
+  k1.spender_of_key = k2.spender_of_key
 
 (*
   request : allowance_key
@@ -84,9 +90,13 @@ type getTotalSupply_t =
   (*FIXME: callback : nat contract  *)
 }
 
-clone import myMap.MyMap as Token_map with type key = string
+clone import myMap.MyMap as Token_map with
+  type key = string,
+  val   eq = OCaml.(=)
 
-clone import myMap.MyMap as Allowance_map with type key = allowance_key_t
+clone import myMap.MyMap as Allowance_map with
+  type key = allowance_key_t,
+  val  eq = eq_allowance_key_t
 
 type tokens_t = Token_map.t int
 
@@ -101,6 +111,9 @@ type storage_t = {
 }
 invariant { total_supply >= 0 }
 invariant { total_supply = sum tokens }
+by { tokens       = Token_map.create ();
+     allowances   = Allowance_map.create ();
+     total_supply = 0 }
 
 type parameter_t =
   | Transfer transfer_t
@@ -127,7 +140,7 @@ let is_nat (i: int) : option int =
   else Some i
 
 let transfer (param : transfer_t) (storage : storage_t) : result_t
-raises { Failwith }
+  raises { Failwith }
 =
   let allowances = storage.allowances in
   let tokens = storage.tokens in
@@ -161,14 +174,14 @@ raises { Failwith }
       Token_map.add param.address_from from_balance tokens in
   let tokens =
     let to_balance =
-    match Token_map.find_opt param.address_to tokens with
-    | Some value -> value
-    | None -> 0
-    end in
+      match Token_map.find_opt param.address_to tokens with
+      | Some value -> value
+      | None -> 0
+      end in
     let to_balance = to_balance + param.value_of_transfer in
     Token_map.add param.address_to to_balance tokens in
-    let strg = { storage with tokens = tokens; allowances = allowances} in
-    {op_list = Nil; strg = strg}
+  let strg = { storage with tokens = tokens; allowances = allowances } in
+  { op_list = Nil; strg = strg }
 
 (*FIXME: name approve is already in context *)
 let approve (param : approve_t) (storage : storage_t) : result_t

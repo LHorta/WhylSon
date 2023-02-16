@@ -10,9 +10,16 @@ module FMapSum
   use int.Int
 
   lemma sum_add_sub: forall m: fmap 'a int, x y: 'a, v: int.
-    x <> y ->
-    mem x m.domain -> mem y m.domain ->
+    x <> y -> mem x m.domain -> mem y m.domain ->
     sum m = sum (Fmap.add x (m[x] + v) (Fmap.add y (m[y] - v) m))
+
+  lemma sum_add_no_domain_sub: forall m: fmap 'a int, x y: 'a, v: int.
+    x <> y -> mem y m.domain -> not mem x m.domain ->
+    sum m = sum (Fmap.add x v (Fmap.add y (m[y] - v) m))
+
+  (* lemma sum_add_sub_no_domain: forall m: fmap 'a int, x y: 'a, v: int. *)
+  (*   x <> y -> not mem y m.domain -> mem x m.domain -> *)
+  (*   sum m = sum (Fmap.add x (m[x] + v) (Fmap.add y (-v) m)) *)
 
 end
 
