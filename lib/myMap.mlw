@@ -7,6 +7,13 @@ module FMapSum
   function sum (m: fmap 'a int) : int =
     FS.sum m.domain (fun e -> m[e])
 
+  use int.Int
+
+  lemma sum_add_sub: forall m: fmap 'a int, x y: 'a, v: int.
+    x <> y ->
+    mem x m.domain -> mem y m.domain ->
+    sum m = sum (Fmap.add x (m[x] + v) (Fmap.add y (m[y] - v) m))
+
 end
 
 module MyMap

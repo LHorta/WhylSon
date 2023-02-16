@@ -25,6 +25,7 @@ type transfer_t =
   value_of_transfer : int;
 }
 invariant { value_of_transfer >=0 }
+(* invariant { address_to <> address_from } *)
 
 (*
   spender : address
@@ -124,7 +125,6 @@ val dummy_bool : bool
 let is_nat (i: int) : option int =
   if i < 0 then None
   else Some i
-
 
 let transfer (param : transfer_t) (storage : storage_t) : result_t
 raises { Failwith }
