@@ -91,12 +91,15 @@ type tokens_t = Token_map.t int
 
 type allowances_t = Allowance_map.t int
 
+use myMap.FMapSum
+
 type storage_t = {
   tokens : tokens_t;
   allowances : allowances_t;
   total_supply : int;
 }
 invariant { total_supply >= 0 }
+invariant { total_supply = sum tokens }
 
 type parameter_t =
   | Transfer transfer_t
@@ -120,7 +123,7 @@ val dummy_bool : bool
 
 let is_nat (i: int) : option int =
   if i < 0 then None
-  else Some i  
+  else Some i
 
 
 let transfer (param : transfer_t) (storage : storage_t) : result_t
@@ -128,13 +131,9 @@ raises { Failwith }
 =
   let allowances = storage.allowances in
   let tokens = storage.tokens in
-  let allowances = (* TODO: check not sure *)
-    (* if tezos_get_sender () = param.address_from then allowances *)
-    (* let s1 = tezos_get_sender () in
-    let s2 = param.address_from in
-    if String.contains s1 s2 && String.contains s2 s1 then allowances *)
+  let allowances =
     if tezos_get_sender () = param.address_from then allowances
-    else 
+    else
       let allowance_key = { owner_of_key = param.address_from;
                             spender_of_key = tezos_get_sender () } in
       let authorized_value =
@@ -144,7 +143,7 @@ raises { Failwith }
       end in
       let authorized_value =
         match is_nat (authorized_value - param.value_of_transfer) with
-        | None -> failwith "NotEnoughAllowance" 
+        | None -> failwith "NotEnoughAllowance"
         | Some authorized_value -> authorized_value
         end in
         Allowance_map.add allowance_key authorized_value allowances in
@@ -153,22 +152,22 @@ raises { Failwith }
       match Token_map.find_opt param.address_from tokens with
       | Some value -> value
       | None -> 0
-      end in 
+      end in
     let from_balance =
       match is_nat (from_balance - param.value_of_transfer) with
       | None -> failwith "NotEnoughBalance"
-      | Some from_balance -> from_balance 
+      | Some from_balance -> from_balance
       end in
       Token_map.add param.address_from from_balance tokens in
-  let tokens = 
+  let tokens =
     let to_balance =
     match Token_map.find_opt param.address_to tokens with
     | Some value -> value
-    | None -> 0 
+    | None -> 0
     end in
     let to_balance = to_balance + param.value_of_transfer in
     Token_map.add param.address_to to_balance tokens in
-    let strg = { storage with tokens = tokens; allowances = allowances} in 
+    let strg = { storage with tokens = tokens; allowances = allowances} in
     {op_list = Nil; strg = strg}
 
 (*FIXME: name approve is already in context *)
@@ -185,9 +184,9 @@ let approve (param : approve_t) (storage : storage_t) : result_t
   begin
     if previous_value > 0 && param.value_for_approval > 0
     then failwith "UnsafeAllowanceChange"
-    else ();    
-    let allowances = Allowance_map.add allowance_key param.value_for_approval allowances in 
-     { op_list = Nil; strg = { storage with allowances = allowances }} 
+    else ();
+    let allowances = Allowance_map.add allowance_key param.value_for_approval allowances in
+     { op_list = Nil; strg = { storage with allowances = allowances }}
   end
 
 let getAllowance (param : getAllowance_t) (storage : storage_t) : list operation

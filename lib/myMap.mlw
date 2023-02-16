@@ -1,3 +1,14 @@
+module FMapSum
+
+  use map.Map
+  use fmap.Fmap, set.Fset
+  use import set.FsetSum as FS
+
+  function sum (m: fmap 'a int) : int =
+    FS.sum m.domain (fun e -> m[e])
+
+end
+
 module MyMap
 use option.Option
 use map.Map
@@ -6,7 +17,7 @@ type key
 
 clone export fmap.MapApp with type key = key
 
-val find_opt (k: key) (m: t 'd) : option 'd 
+val find_opt (k: key) (m: t 'd) : option 'd
 ensures { match result with
   | None -> not S.mem k m.domain
   | Some v -> v = m[k] /\ S.mem k m.domain

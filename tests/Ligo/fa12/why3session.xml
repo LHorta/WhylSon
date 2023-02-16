@@ -3,29 +3,561 @@
 "http://why3.lri.fr/why3session.dtd">
 <why3session shape_version="6">
 <prover id="0" name="CVC4" version="1.8" timelimit="1" steplimit="0" memlimit="1000"/>
-<file format="whyml" proved="true">
+<prover id="1" name="CVC4" version="1.7" timelimit="1" steplimit="0" memlimit="1000"/>
+<prover id="2" name="Z3" version="4.8.6" timelimit="1" steplimit="0" memlimit="1000"/>
+<file format="whyml">
 <path name=".."/><path name="fa12.mlw"/>
-<theory name="Fa12" proved="true">
+<theory name="Fa12">
  <goal name="transfer_t&#39;vc" expl="VC for transfer_t" proved="true">
- <proof prover="0"><result status="valid" time="0.23" steps="130674"/></proof>
+ <proof prover="0" obsolete="true"><result status="valid" time="0.23" steps="130674"/></proof>
+ <proof prover="1"><result status="valid" time="0.20" steps="124703"/></proof>
  </goal>
  <goal name="approve_t&#39;vc" expl="VC for approve_t" proved="true">
- <proof prover="0"><result status="valid" time="0.29" steps="130727"/></proof>
+ <proof prover="0" obsolete="true"><result status="valid" time="0.29" steps="130727"/></proof>
+ <proof prover="1"><result status="valid" time="0.20" steps="124745"/></proof>
  </goal>
- <goal name="storage_t&#39;vc" expl="VC for storage_t" proved="true">
- <proof prover="0"><result status="valid" time="0.27" steps="133934"/></proof>
+ <goal name="storage_t&#39;vc" expl="VC for storage_t">
+ <proof prover="0" obsolete="true"><result status="valid" time="0.27" steps="133934"/></proof>
+ <proof prover="1"><result status="unknown" time="0.78" steps="199390"/></proof>
+ <proof prover="2"><result status="timeout" time="1.00" steps="13262529"/></proof>
  </goal>
- <goal name="transfer&#39;vc" expl="VC for transfer" proved="true">
- <proof prover="0"><result status="valid" time="0.68" steps="162704"/></proof>
+ <goal name="transfer&#39;vc" expl="VC for transfer">
+ <transf name="split_vc" >
+  <goal name="transfer&#39;vc.0" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.0.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.0.0.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="135954"/></proof>
+    </goal>
+    <goal name="transfer&#39;vc.0.0.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="135944"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.0.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.0.1.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.23" steps="135944"/></proof>
+    </goal>
+    <goal name="transfer&#39;vc.0.1.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.20" steps="135204"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.1" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.1.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.1.0.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="135956"/></proof>
+    </goal>
+    <goal name="transfer&#39;vc.1.0.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.22" steps="135946"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.1.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.1.1.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="135946"/></proof>
+    </goal>
+    <goal name="transfer&#39;vc.1.1.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.21" steps="135210"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.2" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.2.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.2.0.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.46" steps="144378"/></proof>
+    </goal>
+    <goal name="transfer&#39;vc.2.0.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.45" steps="144247"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.2.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.2.1.0" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.44" steps="144150"/></proof>
+    </goal>
+    <goal name="transfer&#39;vc.2.1.1" expl="precondition" proved="true">
+    <proof prover="1"><result status="valid" time="0.47" steps="143282"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.3" expl="precondition">
+  <transf name="split_vc" >
+   <goal name="transfer&#39;vc.3.0" expl="precondition">
+   <transf name="split_vc" >
+    <goal name="transfer&#39;vc.3.0.0" expl="precondition">
+    <proof prover="1"><result status="timeout" time="1.00" steps="217321"/></proof>
+    <proof prover="2"><result status="timeout" time="1.00" steps="2992083"/></proof>
+    </goal>
+    <goal name="transfer&#39;vc.3.0.1" expl="precondition">
+    <proof prover="1"><result status="timeout" time="1.00" steps="206236"/></proof>
+    <proof prover="2"><result status="timeout" time="1.00" steps="2667880"/></proof>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.3.1" expl="precondition">
+   <transf name="split_vc" >
+    <goal name="transfer&#39;vc.3.1.0" expl="precondition">
+    <proof prover="1"><result status="timeout" time="1.00" steps="213163"/></proof>
+    <proof prover="2"><result status="timeout" time="1.00" steps="2977245"/></proof>
+    </goal>
+    <goal name="transfer&#39;vc.3.1.1" expl="precondition">
+    <proof prover="1"><result status="timeout" time="1.00" steps="241551"/></proof>
+    <proof prover="2"><result status="timeout" time="1.00" steps="2662190"/></proof>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.4" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.4.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.4.0.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.4.0.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.24" steps="142222"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.4.0.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141596"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.4.0.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.4.0.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142212"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.4.0.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141586"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.4.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.4.1.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.4.1.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142212"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.4.1.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141586"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.4.1.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.4.1.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141586"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.4.1.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.24" steps="140846"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.5" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.5.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.5.0.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.5.0.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.24" steps="142224"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.5.0.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141598"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.5.0.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.5.0.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="142214"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.5.0.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141588"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.5.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.5.1.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.5.1.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="142214"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.5.1.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141588"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.5.1.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.5.1.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141592"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.5.1.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="140852"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.6" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.6.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.6.0.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.6.0.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.24" steps="142227"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.6.0.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141601"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.6.0.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.6.0.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142217"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.6.0.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.25" steps="141591"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.6.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.6.1.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.6.1.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="142217"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.6.1.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141591"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.6.1.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.6.1.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141591"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.6.1.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="140851"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.7" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.7.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.7.0.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.7.0.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142229"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.7.0.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141603"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.7.0.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.7.0.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="142219"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.7.0.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.21" steps="141593"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.7.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.7.1.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.7.1.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="142219"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.7.1.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141593"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.7.1.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.7.1.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141597"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.7.1.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="140857"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.8" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.8.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.8.0.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.8.0.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142227"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.8.0.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141601"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.8.0.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.8.0.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142217"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.8.0.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141591"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.8.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.8.1.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.8.1.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142217"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.8.1.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141591"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.8.1.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.8.1.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="141591"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.8.1.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="140851"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.9" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.9.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.9.0.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.9.0.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142229"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.9.0.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141603"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.9.0.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.9.0.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="142219"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.9.0.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141593"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.9.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.9.1.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.9.1.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.22" steps="142219"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.9.1.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="141593"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.9.1.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.9.1.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.21" steps="141597"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.9.1.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.23" steps="140857"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.10" expl="precondition" proved="true">
+  <transf name="split_vc" proved="true" >
+   <goal name="transfer&#39;vc.10.0" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.10.0.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.10.0.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.47" steps="151944"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.10.0.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.48" steps="151201"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.10.0.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.10.0.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.49" steps="151690"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.10.0.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.48" steps="150891"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.10.1" expl="precondition" proved="true">
+   <transf name="split_vc" proved="true" >
+    <goal name="transfer&#39;vc.10.1.0" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.10.1.0.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.47" steps="151650"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.10.1.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.49" steps="150908"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.10.1.1" expl="precondition" proved="true">
+    <transf name="split_vc" proved="true" >
+     <goal name="transfer&#39;vc.10.1.1.0" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.45" steps="150869"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.10.1.1.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.44" steps="149926"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+  <goal name="transfer&#39;vc.11" expl="precondition">
+  <transf name="split_vc" >
+   <goal name="transfer&#39;vc.11.0" expl="precondition">
+   <transf name="split_vc" >
+    <goal name="transfer&#39;vc.11.0.0" expl="precondition">
+    <transf name="split_vc" >
+     <goal name="transfer&#39;vc.11.0.0.0" expl="precondition">
+     <proof prover="1"><result status="timeout" time="1.00" steps="220886"/></proof>
+     <proof prover="2"><result status="timeout" time="1.00" steps="2715808"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.11.0.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.90" steps="205108"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.11.0.1" expl="precondition">
+    <transf name="split_vc" >
+     <goal name="transfer&#39;vc.11.0.1.0" expl="precondition">
+     <proof prover="1"><result status="timeout" time="1.00" steps="212679"/></proof>
+     <proof prover="2"><result status="timeout" time="1.00" steps="2648261"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.11.0.1.1" expl="precondition">
+     <proof prover="1"><result status="timeout" time="1.00" steps="212055"/></proof>
+     <proof prover="2"><result status="timeout" time="1.00" steps="2701704"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+   <goal name="transfer&#39;vc.11.1" expl="precondition">
+   <transf name="split_vc" >
+    <goal name="transfer&#39;vc.11.1.0" expl="precondition">
+    <transf name="split_vc" >
+     <goal name="transfer&#39;vc.11.1.0.0" expl="precondition">
+     <proof prover="1"><result status="timeout" time="1.00" steps="217651"/></proof>
+     <proof prover="2"><result status="timeout" time="1.00" steps="2942478"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.11.1.0.1" expl="precondition" proved="true">
+     <proof prover="1"><result status="valid" time="0.89" steps="199267"/></proof>
+     </goal>
+    </transf>
+    </goal>
+    <goal name="transfer&#39;vc.11.1.1" expl="precondition">
+    <transf name="split_vc" >
+     <goal name="transfer&#39;vc.11.1.1.0" expl="precondition">
+     <proof prover="1"><result status="timeout" time="1.00" steps="221095"/></proof>
+     <proof prover="2"><result status="timeout" time="1.00" steps="2833747"/></proof>
+     </goal>
+     <goal name="transfer&#39;vc.11.1.1.1" expl="precondition">
+     <proof prover="1"><result status="timeout" time="1.00" steps="259101"/></proof>
+     <proof prover="2"><result status="timeout" time="1.00" steps="2627802"/></proof>
+     </goal>
+    </transf>
+    </goal>
+   </transf>
+   </goal>
+  </transf>
+  </goal>
+ </transf>
  </goal>
  <goal name="approve&#39;vc" expl="VC for approve" proved="true">
- <proof prover="0"><result status="valid" time="0.52" steps="147775"/></proof>
+ <proof prover="0" obsolete="true"><result status="valid" time="0.52" steps="147775"/></proof>
+ <proof prover="1"><result status="valid" time="0.48" steps="180929"/></proof>
  </goal>
  <goal name="getAllowance&#39;vc" expl="VC for getAllowance" proved="true">
- <proof prover="0"><result status="valid" time="0.24" steps="135236"/></proof>
+ <proof prover="0" obsolete="true"><result status="valid" time="0.24" steps="135236"/></proof>
+ <proof prover="1"><result status="valid" time="0.20" steps="130000"/></proof>
  </goal>
  <goal name="getBalance&#39;vc" expl="VC for getBalance" proved="true">
- <proof prover="0"><result status="valid" time="0.24" steps="135236"/></proof>
+ <proof prover="0" obsolete="true"><result status="valid" time="0.24" steps="135236"/></proof>
+ <proof prover="1"><result status="valid" time="0.17" steps="130000"/></proof>
  </goal>
 </theory>
 </file>
